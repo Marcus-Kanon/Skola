@@ -7,20 +7,40 @@ namespace Inlämningsuppgift
         static void Main(string[] args)
         {
             int saldo=500; //Pengar man startar med
-            int antalTarningar = 3;
-            int satsning=0;
-            int tal;
-            Random rnd = new Random();
-            int[] slumpTal = new int[antalTarningar];
+            int antalTarningar = 3; //Välj hur många tärningar det ska vara här
+            int satsning = 0;
+            int tal = 0;
+            int[] slumpTal = new int[antalTarningar]; 
             int antalLika=0;
+            string spelaIgen;
+            bool firstTime=true;
+            Random rnd = new Random();
 
             Console.WriteLine("Välkommer till spelautomaten där du spelar bort dina hårt intjänade pengar! \n\nDu har {0} kr\n", saldo);
 
             while (saldo >= 50)
             {
+                if (!firstTime) //kollar om det är första rundan
+                {
+                    Console.WriteLine("Spela igen? (ja/nej)");
+                    spelaIgen=Console.ReadLine();
+
+                    if (spelaIgen=="nej")
+                    {
+                        break;
+                    }
+                    else if (spelaIgen!="ja")
+                    {
+                        Console.WriteLine("Felaktigt svar.");
+
+                        continue;
+                    }
+
+                }
+
                 if (satsning == 0)
                 {
-                    Console.WriteLine("Hur mycket vill du satsa?");
+                    Console.WriteLine("\nHur mycket vill du satsa?");
                     satsning = int.Parse(Console.ReadLine());
                 }
 
@@ -28,6 +48,7 @@ namespace Inlämningsuppgift
                 {
                     Console.WriteLine("Du kan inte satsa mer än vad du har.\n");
                     satsning = 0;
+                    firstTime = true;
 
                     continue;
                 }
@@ -36,6 +57,7 @@ namespace Inlämningsuppgift
                 {
                     Console.WriteLine("Du får minst satsa 50 kr\n");
                     satsning = 0;
+                    firstTime = true;
 
                     continue;
                 }
@@ -45,7 +67,7 @@ namespace Inlämningsuppgift
 
                 if(tal>6 || tal<1)
                 {
-                    Console.WriteLine("Välj ett tal mellan 1 och 6");
+                    Console.WriteLine("Välj ett tal mellan 1 och 6\n");
 
                     continue;
                 }
@@ -75,13 +97,22 @@ namespace Inlämningsuppgift
                     Console.WriteLine("Du gissade fel!");
                 }
 
-                Console.WriteLine("Saldo: {0}\n", saldo);
+                Console.WriteLine("\n---Saldo: {0}---\n", saldo);
 
                 antalLika = 0;
                 satsning = 0;
+                firstTime = false;
             }
 
-            Console.WriteLine("Du har för lite pengar för att spela. Hejdå! Tack för pengarna.");
+            if (saldo < 50)
+            {
+                Console.WriteLine("Du har för lite pengar för att spela. Hejdå! Tack för pengarna.");
+            }
+            else
+            {
+                Console.WriteLine("Hejdå och välkommen åter.");
+            }
+
 
 
         }
