@@ -63,9 +63,10 @@ namespace Inlämningsuppgift
                 }
 
                 Console.WriteLine("Vilket tal väljer du (1-6)?");
-                tal = int.Parse(Console.ReadLine());
 
-                if(tal>6 || tal<1)
+                int.TryParse(Console.ReadLine(), out tal);
+
+                if (tal>6 || tal<1)
                 {
                     Console.WriteLine("Välj ett tal mellan 1 och 6\n");
 
