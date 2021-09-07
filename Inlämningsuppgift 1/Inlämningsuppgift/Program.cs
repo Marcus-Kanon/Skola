@@ -16,7 +16,7 @@ namespace Inlämningsuppgift
             bool firstTime=true;
             Random rnd = new Random();
 
-            Console.WriteLine("Välkommer till spelautomaten där du spelar bort dina hårt intjänade pengar! \n\nDu har {0} kr", saldo);
+            Console.WriteLine("Välkommen till spelautomaten där du spelar bort dina hårt intjänade pengar! \n\nDu har {0} kr", saldo);
 
             while (saldo >= 50)
             {
