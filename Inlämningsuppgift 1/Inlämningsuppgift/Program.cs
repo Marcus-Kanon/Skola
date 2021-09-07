@@ -48,7 +48,7 @@ namespace Inlämningsuppgift
                 {
                     Console.WriteLine("Du kan inte satsa mer än vad du har.\n");
                     satsning = 0;
-                    firstTime = true; //Låtsas att det är första rundan för att slippa  frågan "Spela igen?"
+                    firstTime = true; //Låtsas att det är första rundan för att slippa frågan "Spela igen?"
 
                     continue;
                 }
