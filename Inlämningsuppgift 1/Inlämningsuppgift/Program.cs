@@ -20,6 +20,9 @@ namespace Inlämningsuppgift
             {
                 Console.WriteLine("Hur mycket vill du satsa?");
                 satsning = int.Parse(Console.ReadLine());
+                saldo -= satsning;
+
+                Console.WriteLine("Vilket tal väljer du?");
                 tal = int.Parse(Console.ReadLine());
 
                 for (int i = 0; i < antalTarningar; ++i)
@@ -35,7 +38,7 @@ namespace Inlämningsuppgift
 
                 if (antalLika > 0)
                 { 
-                    Console.WriteLine("{0} rätt! Du vinner {1}", antalLika + 1, (antalLika + 1) * satsning); //(antalLika+1)*satsning imvandlar antal rätt till vinst i pengar
+                    Console.WriteLine("{0} rätt! Du vinner {1}", antalLika, (antalLika + 1) * satsning); //(antalLika+1)*satsning imvandlar antal rätt till vinst i pengar
                     saldo += (antalLika + 1) * satsning;
                 }
                 else
