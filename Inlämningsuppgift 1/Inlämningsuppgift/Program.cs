@@ -10,7 +10,7 @@ namespace Inlämningsuppgift
             int antalTarningar = 3; //Välj hur många tärningar det ska vara här
             int satsning = 0;
             int tal = 0;
-            int[] slumpTal = new int[antalTarningar]; 
+            int[] slumpTal = new int[antalTarningar]; //Lägger tärningskasten i en array ifall man min vill kommer åt dom efter loopen
             int antalLika=0;
             string spelaIgen;
             bool firstTime=true;
@@ -48,7 +48,7 @@ namespace Inlämningsuppgift
                 {
                     Console.WriteLine("Du kan inte satsa mer än vad du har.\n");
                     satsning = 0;
-                    firstTime = true;
+                    firstTime = true; //Låtsas att det är första rundan för att slippa frågan "Spela igen?"
 
                     continue;
                 }
@@ -57,7 +57,7 @@ namespace Inlämningsuppgift
                 {
                     Console.WriteLine("Du får minst satsa 50 kr\n");
                     satsning = 0;
-                    firstTime = true;
+                    firstTime = true; //Låtsas att det är första rundan för att slippa frågan "Spela igen?"
 
                     continue;
                 }
@@ -89,7 +89,7 @@ namespace Inlämningsuppgift
 
                 if (antalLika > 0)
                 { 
-                    Console.WriteLine("\n{0} rätt! Du vinner {1} kr", antalLika, (antalLika + 1) * satsning); //(antalLika+1)*satsning imvandlar antal rätt till vinst i pengar
+                    Console.WriteLine("\n{0} rätt! Du vinner {1} kr", antalLika, (antalLika + 1) * satsning); //(antalLika+1)*satsning omvandlar antal rätt till vinst i kronor
                     saldo += (antalLika + 1) * satsning;
                 }
                 else
