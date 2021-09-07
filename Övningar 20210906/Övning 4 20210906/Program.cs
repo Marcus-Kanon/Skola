@@ -6,6 +6,7 @@ namespace Övning_4_20210906
     {
         static void Main(string[] args)
         {
+
             Console.WriteLine("Namn: ");
 
             String namn = Console.ReadLine();
