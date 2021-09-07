@@ -8,7 +8,7 @@ namespace Inlämningsuppgift
         {
             int saldo=500; //Pengar man startar med
             int antalTarningar = 3;
-            int satsning;
+            int satsning=0;
             int tal;
             Random rnd = new Random();
             int[] slumpTal = new int[antalTarningar];
@@ -18,12 +18,28 @@ namespace Inlämningsuppgift
 
             while (saldo >= 50)
             {
-                Console.WriteLine("Hur mycket vill du satsa?");
-                satsning = int.Parse(Console.ReadLine());
-                saldo -= satsning;
+                if (satsning == 0)
+                {
+                    Console.WriteLine("Hur mycket vill du satsa?");
+                    satsning = int.Parse(Console.ReadLine());
+                    saldo -= satsning;
+                }
+
+                if (satsning > saldo)
+                {
+                    Console.WriteLine("Du kan inte satsa mer än vad du har.");
+                    continue;
+                }
+
+                if (satsning < 50)
+                {
+                    Console.WriteLine("Du får minst satsa 50 kr");
+                }
 
                 Console.WriteLine("Vilket tal väljer du?");
                 tal = int.Parse(Console.ReadLine());
+
+
 
                 for (int i = 0; i < antalTarningar; ++i)
                 {
@@ -38,7 +54,7 @@ namespace Inlämningsuppgift
 
                 if (antalLika > 0)
                 { 
-                    Console.WriteLine("{0} rätt! Du vinner {1}", antalLika, (antalLika + 1) * satsning); //(antalLika+1)*satsning imvandlar antal rätt till vinst i pengar
+                    Console.WriteLine("\n{0} rätt! Du vinner {1}", antalLika, (antalLika + 1) * satsning); //(antalLika+1)*satsning imvandlar antal rätt till vinst i pengar
                     saldo += (antalLika + 1) * satsning;
                 }
                 else
@@ -46,9 +62,10 @@ namespace Inlämningsuppgift
                     Console.WriteLine("Du gissade fel!");
                 }
 
-                Console.WriteLine("Saldo: {0}", saldo);
+                Console.WriteLine("Saldo: {0}\n", saldo);
 
                 antalLika = 0;
+                satsning = 0;
             }
 
 
