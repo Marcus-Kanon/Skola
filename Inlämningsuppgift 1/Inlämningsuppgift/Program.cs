@@ -7,7 +7,7 @@ namespace Inlämningsuppgift
         static void Main(string[] args)
         {
             int saldo=500; //Pengar man startar med
-            int antalTarningar = 3; //Välj hur många tärningar det ska vara här
+            int antalTarningar = 3; //Välj hur många tärningar det ska vara här (testa ett löjligt högt tal)
             int satsning = 0;
             int tal = 0;
             int[] slumpTal = new int[antalTarningar]; //Lägger tärningskasten i en array ifall man min vill kommer åt dom efter loopen
@@ -16,7 +16,7 @@ namespace Inlämningsuppgift
             bool firstTime=true;
             Random rnd = new Random();
 
-            Console.WriteLine("Välkommer till spelautomaten där du spelar bort dina hårt intjänade pengar! \n\nDu har {0} kr\n", saldo);
+            Console.WriteLine("Välkommer till spelautomaten där du spelar bort dina hårt intjänade pengar! \n\nDu har {0} kr", saldo);
 
             while (saldo >= 50)
             {
@@ -41,7 +41,7 @@ namespace Inlämningsuppgift
                 if (satsning == 0)
                 {
                     Console.WriteLine("\nHur mycket vill du satsa?");
-                    satsning = int.Parse(Console.ReadLine());
+                    int.TryParse(Console.ReadLine(), out satsning);
                 }
 
                 if (satsning > saldo)
@@ -55,7 +55,7 @@ namespace Inlämningsuppgift
 
                 if (satsning < 50)
                 {
-                    Console.WriteLine("Du får minst satsa 50 kr\n");
+                    Console.WriteLine("Du får minst satsa 50 kr {0}\n", satsning);
                     satsning = 0;
                     firstTime = true; //Låtsas att det är första rundan för att slippa frågan "Spela igen?"
 
@@ -110,11 +110,8 @@ namespace Inlämningsuppgift
             }
             else
             {
-                Console.WriteLine("Hejdå och välkommen åter.");
+                Console.WriteLine("\nHejdå och välkommen åter.");
             }
-
-
-
         }
     }
 }
