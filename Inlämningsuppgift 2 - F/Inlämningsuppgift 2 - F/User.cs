@@ -23,7 +23,5 @@ namespace Inlämningsuppgift_2___F
         string favoriteFilmGenre { get; set; } = "";
         bool isBlocked { get; set; } = false;
         bool isGhosted { get; set; } = false;
-
-
     }
 }
