@@ -8,20 +8,19 @@ namespace Inlämningsuppgift_2___F
 {
     class User
     {
-        //public string firstName { get => firstName; set => firstName = value; }
-        public string firstName { get; set; } = "a";
-        public string lastName { get; set; } = "b";
-        public string alias { get; set; } = "c";
-        public string email { get; set; } = "d";
-        public string linkedIn { get; set; } = "e";
-        public string facebook { get; set; } = "f";
-        public string instagram { get; set; } = "g";
-        public string twitter { get; set; } = "h";
-        public string github { get; set; } = "i";
-        public string favoriteFood { get; set; } = "j";
-        public string dislikedFood { get; set; } = "k";
-        public string favoriteAnimal { get; set; } = "l";
-        public string favoriteFilmGenre { get; set; } = "m";
+        public string firstName { get; set; } = "<Name>";
+        public string lastName { get; set; } = "<Last name>";
+        public string alias { get; set; } = "<Alias>";
+        public string email { get; set; } = "<E-mail>";
+        public string linkedIn { get; set; } = "<Linked In>";
+        public string facebook { get; set; } = "<Facebook>";
+        public string instagram { get; set; } = "<Instagram>";
+        public string twitter { get; set; } = "<Twitter>";
+        public string github { get; set; } = "<Github>";
+        public string favoriteFood { get; set; } = "<Favorite Food>";
+        public string dislikedFood { get; set; } = "<Disliked Food>";
+        public string favoriteAnimal { get; set; } = "<Favorite Animal>";
+        public string favoriteMovieGenre { get; set; } = "<Favorite Movie Genre>";
         public bool isBlocked { get; set; } = false;
         public bool isGhosted { get; set; } = false;
     }
