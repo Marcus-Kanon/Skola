@@ -23,11 +23,22 @@ namespace Inlämningsuppgift_2___F
 
             UserList.loadUserList("Users");
 
-            label1.Text = UserList.userList[0].firstName;
-            label2.Text = UserList.userList[0].lastName;
-            label3.Text = UserList.userList[0].alias;
+            dgUsers.DataSource = UserList.userList;
+        }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            UserList.saveUserList("Users");
+        }
 
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            UserList.loadUserList("Users");
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            dgUsers.Update();
         }
     }
 }
