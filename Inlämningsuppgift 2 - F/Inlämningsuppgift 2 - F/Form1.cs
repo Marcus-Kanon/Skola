@@ -21,20 +21,20 @@ namespace Inlämningsuppgift_2___F
         {
             //UserList.saveUserList("Users");
 
-            UserList.loadUserList("Users");
+            userList.loadUserList("Users");
 
-            dgUsers.DataSource = UserList.userList;
+            dgUsers.DataSource = userList.users;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            UserList.saveUserList("Users");
+            userList.saveUserList("Users");
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            UserList.loadUserList("Users");
-            dgUsers.DataSource = UserList.userList;
+            userList.loadUserList("Users");
+            dgUsers.DataSource = userList.users;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -46,20 +46,40 @@ namespace Inlämningsuppgift_2___F
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            UserList.userList.Add(new User());
+            userList.users.Add(new user());
             //dgUsers.DataSource = UserList.userList;
 
         }
 
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
-            UserList.userList.RemoveAt(dgUsers.SelectedRows[0].Index);
+            userList.users.RemoveAt(dgUsers.SelectedRows[0].Index);
 
             
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void dgUsers_SelectionChanged(object sender, EventArgs e)
+        {
+            int currentUser = dgUsers.CurrentRow.Index;
+            var age = DateTime.Today.Year - userList.users[currentUser].birthday.Year;
+
+            if (userList.users[currentUser].birthday.Date > DateTime.Today.AddYears(-age)) age--;
+
+            lblName.Text = userList.users[currentUser].firstName + " " + userList.users[currentUser].lastName + " is: ";
+
+            if(age!=1)
+            {
+                lblYearsOld.Text = age.ToString() + " years old";
+            }
+            else
+            {
+                lblYearsOld.Text = age.ToString() + " year old";
+            }
 
         }
     }

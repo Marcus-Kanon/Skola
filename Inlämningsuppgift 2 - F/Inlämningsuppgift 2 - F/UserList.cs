@@ -9,11 +9,11 @@ using System.ComponentModel;
 
 namespace Inlämningsuppgift_2___F
 {
-    static class UserList
+    static class userList
     {
-        static public BindingList<User> userList = new BindingList<User>();
+        static public BindingList<user> users = new BindingList<user>();
 
-        static UserList()
+        static userList()
         {
             
 
@@ -25,13 +25,13 @@ namespace Inlämningsuppgift_2___F
             using (StreamReader r = new StreamReader(file + ".json"))
             {
                 string json = r.ReadToEnd();
-                userList = JsonConvert.DeserializeObject<BindingList<User>>(json);
+                users = JsonConvert.DeserializeObject<BindingList<user>>(json);
             }
         }
 
         static public void saveUserList(string file)
         {
-            string json = JsonConvert.SerializeObject(userList.ToArray());
+            string json = JsonConvert.SerializeObject(users.ToArray());
 
             System.IO.File.WriteAllText(file + ".json", json);
         }

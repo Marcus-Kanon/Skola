@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Inlämningsuppgift_2___F
 {
-    class User
+    class user
     {
         public string firstName { get; set; } = "<Name>";
         public string lastName { get; set; } = "<Last name>";
@@ -23,5 +23,6 @@ namespace Inlämningsuppgift_2___F
         public string favoriteMovieGenre { get; set; } = "<Favorite Movie Genre>";
         public bool isBlocked { get; set; } = false;
         public bool isGhosted { get; set; } = false;
+        public DateTime birthday { get; set; } = DateTime.Today;
     }
 }

@@ -37,14 +37,16 @@ namespace Inlämningsuppgift_2___F
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.btnDeleteUser = new System.Windows.Forms.Button();
-            this.tabControll = new System.Windows.Forms.TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.tpEditUsers = new System.Windows.Forms.TabPage();
             this.tpUserMonth = new System.Windows.Forms.TabPage();
             this.tpBlockedUsers = new System.Windows.Forms.TabPage();
             this.tpGhostedUsers = new System.Windows.Forms.TabPage();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblYearsOld = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
-            this.tabControll.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.tpEditUsers.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +64,9 @@ namespace Inlämningsuppgift_2___F
             // 
             this.dgUsers.AllowUserToAddRows = false;
             this.dgUsers.AllowUserToDeleteRows = false;
+            this.dgUsers.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dgUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgUsers.GridColor = System.Drawing.Color.Black;
             this.dgUsers.Location = new System.Drawing.Point(6, 57);
             this.dgUsers.MultiSelect = false;
             this.dgUsers.Name = "dgUsers";
@@ -71,73 +75,90 @@ namespace Inlämningsuppgift_2___F
             this.dgUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgUsers.Size = new System.Drawing.Size(1282, 497);
             this.dgUsers.TabIndex = 2;
+            this.dgUsers.SelectionChanged += new System.EventHandler(this.dgUsers_SelectionChanged);
             // 
             // btnSave
             // 
+            this.btnSave.BackColor = System.Drawing.Color.Maroon;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSave.Location = new System.Drawing.Point(118, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(106, 45);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnLoad
             // 
+            this.btnLoad.BackColor = System.Drawing.Color.Maroon;
+            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoad.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnLoad.Location = new System.Drawing.Point(6, 6);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(106, 45);
             this.btnLoad.TabIndex = 3;
             this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // btnRefresh
             // 
+            this.btnRefresh.BackColor = System.Drawing.Color.Maroon;
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnRefresh.Location = new System.Drawing.Point(230, 6);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(106, 45);
             this.btnRefresh.TabIndex = 3;
             this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnAddUser
             // 
+            this.btnAddUser.BackColor = System.Drawing.Color.Maroon;
+            this.btnAddUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddUser.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnAddUser.Location = new System.Drawing.Point(1182, 6);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(106, 45);
             this.btnAddUser.TabIndex = 3;
             this.btnAddUser.Text = "Add User";
             this.btnAddUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnAddUser.UseVisualStyleBackColor = true;
+            this.btnAddUser.UseVisualStyleBackColor = false;
             this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
             // 
             // btnDeleteUser
             // 
-            this.btnDeleteUser.Location = new System.Drawing.Point(1070, 6);
+            this.btnDeleteUser.BackColor = System.Drawing.Color.Maroon;
+            this.btnDeleteUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteUser.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnDeleteUser.Location = new System.Drawing.Point(1027, 6);
             this.btnDeleteUser.Name = "btnDeleteUser";
-            this.btnDeleteUser.Size = new System.Drawing.Size(106, 45);
+            this.btnDeleteUser.Size = new System.Drawing.Size(149, 45);
             this.btnDeleteUser.TabIndex = 3;
             this.btnDeleteUser.Text = "Delete User";
             this.btnDeleteUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDeleteUser.UseVisualStyleBackColor = true;
+            this.btnDeleteUser.UseVisualStyleBackColor = false;
             this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
             // 
-            // tabControll
+            // tabControl
             // 
-            this.tabControll.Controls.Add(this.tpEditUsers);
-            this.tabControll.Controls.Add(this.tpUserMonth);
-            this.tabControll.Controls.Add(this.tpBlockedUsers);
-            this.tabControll.Controls.Add(this.tpGhostedUsers);
-            this.tabControll.Location = new System.Drawing.Point(12, 133);
-            this.tabControll.Name = "tabControll";
-            this.tabControll.SelectedIndex = 0;
-            this.tabControll.Size = new System.Drawing.Size(1302, 593);
-            this.tabControll.TabIndex = 4;
+            this.tabControl.Controls.Add(this.tpEditUsers);
+            this.tabControl.Controls.Add(this.tpUserMonth);
+            this.tabControl.Controls.Add(this.tpBlockedUsers);
+            this.tabControl.Controls.Add(this.tpGhostedUsers);
+            this.tabControl.Location = new System.Drawing.Point(12, 133);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1302, 593);
+            this.tabControl.TabIndex = 4;
             // 
             // tpEditUsers
             // 
+            this.tpEditUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tpEditUsers.Controls.Add(this.dgUsers);
             this.tpEditUsers.Controls.Add(this.btnDeleteUser);
             this.tpEditUsers.Controls.Add(this.btnSave);
@@ -151,7 +172,6 @@ namespace Inlämningsuppgift_2___F
             this.tpEditUsers.Size = new System.Drawing.Size(1294, 560);
             this.tpEditUsers.TabIndex = 0;
             this.tpEditUsers.Text = "Edit Users";
-            this.tpEditUsers.UseVisualStyleBackColor = true;
             this.tpEditUsers.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // tpUserMonth
@@ -184,21 +204,44 @@ namespace Inlämningsuppgift_2___F
             this.tpGhostedUsers.Text = "Ghosted Users";
             this.tpGhostedUsers.UseVisualStyleBackColor = true;
             // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblName.Location = new System.Drawing.Point(22, 24);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(94, 20);
+            this.lblName.TabIndex = 5;
+            this.lblName.Text = "Select a User";
+            // 
+            // lblYearsOld
+            // 
+            this.lblYearsOld.AutoSize = true;
+            this.lblYearsOld.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblYearsOld.Location = new System.Drawing.Point(22, 54);
+            this.lblYearsOld.Name = "lblYearsOld";
+            this.lblYearsOld.Size = new System.Drawing.Size(0, 20);
+            this.lblYearsOld.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1322, 876);
-            this.Controls.Add(this.tabControll);
+            this.Controls.Add(this.lblYearsOld);
+            this.Controls.Add(this.lblName);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).EndInit();
-            this.tabControll.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.tpEditUsers.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -211,11 +254,13 @@ namespace Inlämningsuppgift_2___F
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnAddUser;
         private System.Windows.Forms.Button btnDeleteUser;
-        private System.Windows.Forms.TabControl tabControll;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tpEditUsers;
         private System.Windows.Forms.TabPage tpUserMonth;
         private System.Windows.Forms.TabPage tpBlockedUsers;
         private System.Windows.Forms.TabPage tpGhostedUsers;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblYearsOld;
     }
 }
 
