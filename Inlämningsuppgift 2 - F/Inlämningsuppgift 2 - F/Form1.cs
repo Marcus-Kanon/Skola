@@ -82,5 +82,35 @@ namespace Inlämningsuppgift_2___F
             }
 
         }
+
+        private void btnNextMonth_Click(object sender, EventArgs e)
+        {
+            lblUsersByMonth.Text = "";
+            userList.selectedMonth++;
+            IEnumerable<user> users = userList.filterUsersByMonthBorn();
+
+            foreach (var user in users)
+            {
+                lblUsersByMonth.Text += user.firstName + " " + user.lastName;
+            }
+
+            Enum.TryParse(typeof(months), userList.selectedMonth.ToString(), out object str);
+            lblMonth.Text = str.ToString();
+        }
+
+        private void btnPreviousMonth_Click(object sender, EventArgs e)
+        {
+            lblUsersByMonth.Text = "";
+            userList.selectedMonth--;
+            IEnumerable<user> users = userList.filterUsersByMonthBorn();
+
+            foreach (var user in users)
+            {
+                lblUsersByMonth.Text += user.firstName + " " + user.lastName + "\n";
+            }
+
+            Enum.TryParse(typeof(months), userList.selectedMonth.ToString(), out object str);
+            lblMonth.Text = str.ToString();
+        }
     }
 }

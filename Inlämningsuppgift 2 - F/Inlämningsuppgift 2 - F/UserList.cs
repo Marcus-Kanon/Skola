@@ -11,7 +11,20 @@ namespace Inlämningsuppgift_2___F
 {
     static class userList
     {
+        static private int _selectedMonth = 1;
         static public BindingList<user> users = new BindingList<user>();
+
+        static public int selectedMonth
+        {
+            get { return _selectedMonth; }
+            set {
+                _selectedMonth = value;
+                if (value < 1)
+                    _selectedMonth = 12;
+                if(value>12)
+                    _selectedMonth = 1;
+                }
+        }
 
         static userList()
         {
@@ -35,6 +48,14 @@ namespace Inlämningsuppgift_2___F
 
             System.IO.File.WriteAllText(file + ".json", json);
         }
+
+        static public IEnumerable<user> filterUsersByMonthBorn()
+        {
+            IEnumerable<user> results = users.Where(q => q.birthday.Month == selectedMonth).ToList();
+
+            return results;
+        }
+
 
     }
 }

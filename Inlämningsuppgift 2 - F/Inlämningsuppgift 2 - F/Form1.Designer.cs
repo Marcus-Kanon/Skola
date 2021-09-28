@@ -40,6 +40,10 @@ namespace Inlämningsuppgift_2___F
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tpEditUsers = new System.Windows.Forms.TabPage();
             this.tpUserMonth = new System.Windows.Forms.TabPage();
+            this.lblUsersByMonth = new System.Windows.Forms.Label();
+            this.lblMonth = new System.Windows.Forms.Label();
+            this.btnPreviousMonth = new System.Windows.Forms.Button();
+            this.btnNextMonth = new System.Windows.Forms.Button();
             this.tpBlockedUsers = new System.Windows.Forms.TabPage();
             this.tpGhostedUsers = new System.Windows.Forms.TabPage();
             this.lblName = new System.Windows.Forms.Label();
@@ -48,6 +52,7 @@ namespace Inlämningsuppgift_2___F
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tpEditUsers.SuspendLayout();
+            this.tpUserMonth.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -176,6 +181,10 @@ namespace Inlämningsuppgift_2___F
             // 
             // tpUserMonth
             // 
+            this.tpUserMonth.Controls.Add(this.lblUsersByMonth);
+            this.tpUserMonth.Controls.Add(this.lblMonth);
+            this.tpUserMonth.Controls.Add(this.btnPreviousMonth);
+            this.tpUserMonth.Controls.Add(this.btnNextMonth);
             this.tpUserMonth.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tpUserMonth.Location = new System.Drawing.Point(4, 29);
             this.tpUserMonth.Name = "tpUserMonth";
@@ -184,6 +193,46 @@ namespace Inlämningsuppgift_2___F
             this.tpUserMonth.TabIndex = 1;
             this.tpUserMonth.Text = "Find Users by Birthday Month";
             this.tpUserMonth.UseVisualStyleBackColor = true;
+            // 
+            // lblUsersByMonth
+            // 
+            this.lblUsersByMonth.AutoSize = true;
+            this.lblUsersByMonth.Location = new System.Drawing.Point(453, 219);
+            this.lblUsersByMonth.Name = "lblUsersByMonth";
+            this.lblUsersByMonth.Size = new System.Drawing.Size(51, 22);
+            this.lblUsersByMonth.TabIndex = 2;
+            this.lblUsersByMonth.Text = "Users";
+            // 
+            // lblMonth
+            // 
+            this.lblMonth.AutoSize = true;
+            this.lblMonth.Font = new System.Drawing.Font("Calibri", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblMonth.Location = new System.Drawing.Point(545, 61);
+            this.lblMonth.Name = "lblMonth";
+            this.lblMonth.Size = new System.Drawing.Size(225, 73);
+            this.lblMonth.TabIndex = 1;
+            this.lblMonth.Text = "January";
+            this.lblMonth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnPreviousMonth
+            // 
+            this.btnPreviousMonth.Location = new System.Drawing.Point(308, 61);
+            this.btnPreviousMonth.Name = "btnPreviousMonth";
+            this.btnPreviousMonth.Size = new System.Drawing.Size(65, 61);
+            this.btnPreviousMonth.TabIndex = 0;
+            this.btnPreviousMonth.Text = "<";
+            this.btnPreviousMonth.UseVisualStyleBackColor = true;
+            this.btnPreviousMonth.Click += new System.EventHandler(this.btnPreviousMonth_Click);
+            // 
+            // btnNextMonth
+            // 
+            this.btnNextMonth.Location = new System.Drawing.Point(935, 61);
+            this.btnNextMonth.Name = "btnNextMonth";
+            this.btnNextMonth.Size = new System.Drawing.Size(65, 61);
+            this.btnNextMonth.TabIndex = 0;
+            this.btnNextMonth.Text = ">";
+            this.btnNextMonth.UseVisualStyleBackColor = true;
+            this.btnNextMonth.Click += new System.EventHandler(this.btnNextMonth_Click);
             // 
             // tpBlockedUsers
             // 
@@ -240,6 +289,8 @@ namespace Inlämningsuppgift_2___F
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tpEditUsers.ResumeLayout(false);
+            this.tpUserMonth.ResumeLayout(false);
+            this.tpUserMonth.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -261,6 +312,10 @@ namespace Inlämningsuppgift_2___F
         private System.Windows.Forms.TabPage tpGhostedUsers;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblYearsOld;
+        private System.Windows.Forms.Label lblMonth;
+        private System.Windows.Forms.Button btnPreviousMonth;
+        private System.Windows.Forms.Button btnNextMonth;
+        private System.Windows.Forms.Label lblUsersByMonth;
     }
 }
 
