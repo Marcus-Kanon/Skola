@@ -10,7 +10,14 @@ namespace Inlämningsuppgift_2___F
 {
     static class UserList
     {
-        static List<User> userList = new List<User>();
+        static public List<User> userList = new List<User>();
+
+        static UserList()
+        {
+            userList.Add(new User());
+
+        }
+        
 
         static public void loadUserList(string file)
         {
@@ -23,9 +30,9 @@ namespace Inlämningsuppgift_2___F
 
         static public void saveUserList(string file)
         {
-            string json = JsonConvert.SerializeObject(userList, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(userList.ToArray());
 
-            System.IO.File.WriteAllText(file, json);
+            System.IO.File.WriteAllText(file + ".json", json);
         }
 
     }
