@@ -57,5 +57,10 @@ namespace Inlämningsuppgift_2___F
 
             
         }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

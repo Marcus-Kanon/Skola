@@ -37,8 +37,15 @@ namespace Inlämningsuppgift_2___F
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.btnDeleteUser = new System.Windows.Forms.Button();
+            this.tabControll = new System.Windows.Forms.TabControl();
+            this.tpEditUsers = new System.Windows.Forms.TabPage();
+            this.tpUserMonth = new System.Windows.Forms.TabPage();
+            this.tpBlockedUsers = new System.Windows.Forms.TabPage();
+            this.tpGhostedUsers = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
+            this.tabControll.SuspendLayout();
+            this.tpEditUsers.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -56,18 +63,18 @@ namespace Inlämningsuppgift_2___F
             this.dgUsers.AllowUserToAddRows = false;
             this.dgUsers.AllowUserToDeleteRows = false;
             this.dgUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgUsers.Location = new System.Drawing.Point(31, 177);
+            this.dgUsers.Location = new System.Drawing.Point(6, 57);
             this.dgUsers.MultiSelect = false;
             this.dgUsers.Name = "dgUsers";
             this.dgUsers.RowHeadersWidth = 51;
             this.dgUsers.RowTemplate.Height = 29;
             this.dgUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgUsers.Size = new System.Drawing.Size(1266, 641);
+            this.dgUsers.Size = new System.Drawing.Size(1282, 497);
             this.dgUsers.TabIndex = 2;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(31, 126);
+            this.btnSave.Location = new System.Drawing.Point(118, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(106, 45);
             this.btnSave.TabIndex = 3;
@@ -77,7 +84,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(143, 126);
+            this.btnLoad.Location = new System.Drawing.Point(6, 6);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(106, 45);
             this.btnLoad.TabIndex = 3;
@@ -87,7 +94,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(255, 126);
+            this.btnRefresh.Location = new System.Drawing.Point(230, 6);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(106, 45);
             this.btnRefresh.TabIndex = 3;
@@ -97,7 +104,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnAddUser
             // 
-            this.btnAddUser.Location = new System.Drawing.Point(1191, 126);
+            this.btnAddUser.Location = new System.Drawing.Point(1182, 6);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(106, 45);
             this.btnAddUser.TabIndex = 3;
@@ -108,7 +115,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnDeleteUser
             // 
-            this.btnDeleteUser.Location = new System.Drawing.Point(1079, 126);
+            this.btnDeleteUser.Location = new System.Drawing.Point(1070, 6);
             this.btnDeleteUser.Name = "btnDeleteUser";
             this.btnDeleteUser.Size = new System.Drawing.Size(106, 45);
             this.btnDeleteUser.TabIndex = 3;
@@ -117,23 +124,80 @@ namespace Inlämningsuppgift_2___F
             this.btnDeleteUser.UseVisualStyleBackColor = true;
             this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
             // 
+            // tabControll
+            // 
+            this.tabControll.Controls.Add(this.tpEditUsers);
+            this.tabControll.Controls.Add(this.tpUserMonth);
+            this.tabControll.Controls.Add(this.tpBlockedUsers);
+            this.tabControll.Controls.Add(this.tpGhostedUsers);
+            this.tabControll.Location = new System.Drawing.Point(12, 133);
+            this.tabControll.Name = "tabControll";
+            this.tabControll.SelectedIndex = 0;
+            this.tabControll.Size = new System.Drawing.Size(1302, 593);
+            this.tabControll.TabIndex = 4;
+            // 
+            // tpEditUsers
+            // 
+            this.tpEditUsers.Controls.Add(this.dgUsers);
+            this.tpEditUsers.Controls.Add(this.btnDeleteUser);
+            this.tpEditUsers.Controls.Add(this.btnSave);
+            this.tpEditUsers.Controls.Add(this.btnAddUser);
+            this.tpEditUsers.Controls.Add(this.btnLoad);
+            this.tpEditUsers.Controls.Add(this.btnRefresh);
+            this.tpEditUsers.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpEditUsers.Location = new System.Drawing.Point(4, 29);
+            this.tpEditUsers.Name = "tpEditUsers";
+            this.tpEditUsers.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEditUsers.Size = new System.Drawing.Size(1294, 560);
+            this.tpEditUsers.TabIndex = 0;
+            this.tpEditUsers.Text = "Edit Users";
+            this.tpEditUsers.UseVisualStyleBackColor = true;
+            this.tpEditUsers.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // tpUserMonth
+            // 
+            this.tpUserMonth.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpUserMonth.Location = new System.Drawing.Point(4, 29);
+            this.tpUserMonth.Name = "tpUserMonth";
+            this.tpUserMonth.Padding = new System.Windows.Forms.Padding(3);
+            this.tpUserMonth.Size = new System.Drawing.Size(1294, 560);
+            this.tpUserMonth.TabIndex = 1;
+            this.tpUserMonth.Text = "Find Users by Birthday Month";
+            this.tpUserMonth.UseVisualStyleBackColor = true;
+            // 
+            // tpBlockedUsers
+            // 
+            this.tpBlockedUsers.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpBlockedUsers.Location = new System.Drawing.Point(4, 29);
+            this.tpBlockedUsers.Name = "tpBlockedUsers";
+            this.tpBlockedUsers.Size = new System.Drawing.Size(1294, 560);
+            this.tpBlockedUsers.TabIndex = 2;
+            this.tpBlockedUsers.Text = "Blocked Users";
+            this.tpBlockedUsers.UseVisualStyleBackColor = true;
+            // 
+            // tpGhostedUsers
+            // 
+            this.tpGhostedUsers.Location = new System.Drawing.Point(4, 29);
+            this.tpGhostedUsers.Name = "tpGhostedUsers";
+            this.tpGhostedUsers.Size = new System.Drawing.Size(1294, 560);
+            this.tpGhostedUsers.TabIndex = 3;
+            this.tpGhostedUsers.Text = "Ghosted Users";
+            this.tpGhostedUsers.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1322, 876);
-            this.Controls.Add(this.btnDeleteUser);
-            this.Controls.Add(this.btnAddUser);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.dgUsers);
+            this.Controls.Add(this.tabControll);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).EndInit();
+            this.tabControll.ResumeLayout(false);
+            this.tpEditUsers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -147,6 +211,11 @@ namespace Inlämningsuppgift_2___F
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnAddUser;
         private System.Windows.Forms.Button btnDeleteUser;
+        private System.Windows.Forms.TabControl tabControll;
+        private System.Windows.Forms.TabPage tpEditUsers;
+        private System.Windows.Forms.TabPage tpUserMonth;
+        private System.Windows.Forms.TabPage tpBlockedUsers;
+        private System.Windows.Forms.TabPage tpGhostedUsers;
     }
 }
 
