@@ -34,11 +34,28 @@ namespace Inlämningsuppgift_2___F
         private void btnLoad_Click(object sender, EventArgs e)
         {
             UserList.loadUserList("Users");
+            dgUsers.DataSource = UserList.userList;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            //dgUsers.DataSource = UserList.userList;
             dgUsers.Update();
+
+        }
+
+        private void btnAddUser_Click(object sender, EventArgs e)
+        {
+            UserList.userList.Add(new User());
+            //dgUsers.DataSource = UserList.userList;
+
+        }
+
+        private void btnDeleteUser_Click(object sender, EventArgs e)
+        {
+            UserList.userList.RemoveAt(dgUsers.SelectedRows[0].Index);
+
+            
         }
     }
 }

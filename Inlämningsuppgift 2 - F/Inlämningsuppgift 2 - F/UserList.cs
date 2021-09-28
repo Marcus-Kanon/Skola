@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
 
 namespace Inlämningsuppgift_2___F
 {
     static class UserList
     {
-        static public List<User> userList = new List<User>();
+        static public BindingList<User> userList = new BindingList<User>();
 
         static UserList()
         {
-            userList.Add(new User());
+            
 
         }
         
@@ -24,7 +25,7 @@ namespace Inlämningsuppgift_2___F
             using (StreamReader r = new StreamReader(file + ".json"))
             {
                 string json = r.ReadToEnd();
-                userList = JsonConvert.DeserializeObject<List<User>>(json);
+                userList = JsonConvert.DeserializeObject<BindingList<User>>(json);
             }
         }
 
