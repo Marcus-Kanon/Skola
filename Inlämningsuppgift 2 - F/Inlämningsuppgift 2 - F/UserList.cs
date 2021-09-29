@@ -11,7 +11,7 @@ namespace Inlämningsuppgift_2___F
 {
     static class userList
     {
-        static private int _selectedMonth = 1;
+        static private int _selectedMonth = DateTime.Now.Month;
         static public BindingList<user> users = new BindingList<user>();
 
         static public int selectedMonth
@@ -23,6 +23,7 @@ namespace Inlämningsuppgift_2___F
                     _selectedMonth = 12;
                 if(value>12)
                     _selectedMonth = 1;
+
                 }
         }
 

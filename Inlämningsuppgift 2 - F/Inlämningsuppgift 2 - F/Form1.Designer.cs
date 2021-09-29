@@ -41,18 +41,25 @@ namespace Inlämningsuppgift_2___F
             this.tpEditUsers = new System.Windows.Forms.TabPage();
             this.tpUserMonth = new System.Windows.Forms.TabPage();
             this.lblUsersByMonth = new System.Windows.Forms.Label();
+            this.lblHeaderBirthday = new System.Windows.Forms.Label();
             this.lblMonth = new System.Windows.Forms.Label();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.btnNextMonth = new System.Windows.Forms.Button();
             this.tpBlockedUsers = new System.Windows.Forms.TabPage();
+            this.lblHeaderBlockedUsers = new System.Windows.Forms.Label();
+            this.tbBlockedUsers = new System.Windows.Forms.TextBox();
             this.tpGhostedUsers = new System.Windows.Forms.TabPage();
             this.lblName = new System.Windows.Forms.Label();
             this.lblYearsOld = new System.Windows.Forms.Label();
+            this.tbGhostedUsers = new System.Windows.Forms.TextBox();
+            this.lblHeaderGhostedUsers = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tpEditUsers.SuspendLayout();
             this.tpUserMonth.SuspendLayout();
+            this.tpBlockedUsers.SuspendLayout();
+            this.tpGhostedUsers.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -160,6 +167,7 @@ namespace Inlämningsuppgift_2___F
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1302, 593);
             this.tabControl.TabIndex = 4;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tpEditUsers
             // 
@@ -182,6 +190,7 @@ namespace Inlämningsuppgift_2___F
             // tpUserMonth
             // 
             this.tpUserMonth.Controls.Add(this.lblUsersByMonth);
+            this.tpUserMonth.Controls.Add(this.lblHeaderBirthday);
             this.tpUserMonth.Controls.Add(this.lblMonth);
             this.tpUserMonth.Controls.Add(this.btnPreviousMonth);
             this.tpUserMonth.Controls.Add(this.btnNextMonth);
@@ -197,17 +206,27 @@ namespace Inlämningsuppgift_2___F
             // lblUsersByMonth
             // 
             this.lblUsersByMonth.AutoSize = true;
-            this.lblUsersByMonth.Location = new System.Drawing.Point(453, 219);
+            this.lblUsersByMonth.Location = new System.Drawing.Point(370, 256);
             this.lblUsersByMonth.Name = "lblUsersByMonth";
             this.lblUsersByMonth.Size = new System.Drawing.Size(51, 22);
             this.lblUsersByMonth.TabIndex = 2;
             this.lblUsersByMonth.Text = "Users";
             // 
+            // lblHeaderBirthday
+            // 
+            this.lblHeaderBirthday.AutoSize = true;
+            this.lblHeaderBirthday.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.lblHeaderBirthday.Location = new System.Drawing.Point(301, 3);
+            this.lblHeaderBirthday.Name = "lblHeaderBirthday";
+            this.lblHeaderBirthday.Size = new System.Drawing.Size(737, 97);
+            this.lblHeaderBirthday.TabIndex = 3;
+            this.lblHeaderBirthday.Text = "Birthdays this month";
+            // 
             // lblMonth
             // 
             this.lblMonth.AutoSize = true;
             this.lblMonth.Font = new System.Drawing.Font("Calibri", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblMonth.Location = new System.Drawing.Point(545, 61);
+            this.lblMonth.Location = new System.Drawing.Point(537, 129);
             this.lblMonth.Name = "lblMonth";
             this.lblMonth.Size = new System.Drawing.Size(225, 73);
             this.lblMonth.TabIndex = 1;
@@ -216,7 +235,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnPreviousMonth
             // 
-            this.btnPreviousMonth.Location = new System.Drawing.Point(308, 61);
+            this.btnPreviousMonth.Location = new System.Drawing.Point(301, 141);
             this.btnPreviousMonth.Name = "btnPreviousMonth";
             this.btnPreviousMonth.Size = new System.Drawing.Size(65, 61);
             this.btnPreviousMonth.TabIndex = 0;
@@ -226,7 +245,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnNextMonth
             // 
-            this.btnNextMonth.Location = new System.Drawing.Point(935, 61);
+            this.btnNextMonth.Location = new System.Drawing.Point(928, 141);
             this.btnNextMonth.Name = "btnNextMonth";
             this.btnNextMonth.Size = new System.Drawing.Size(65, 61);
             this.btnNextMonth.TabIndex = 0;
@@ -236,6 +255,8 @@ namespace Inlämningsuppgift_2___F
             // 
             // tpBlockedUsers
             // 
+            this.tpBlockedUsers.Controls.Add(this.lblHeaderBlockedUsers);
+            this.tpBlockedUsers.Controls.Add(this.tbBlockedUsers);
             this.tpBlockedUsers.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tpBlockedUsers.Location = new System.Drawing.Point(4, 29);
             this.tpBlockedUsers.Name = "tpBlockedUsers";
@@ -244,8 +265,30 @@ namespace Inlämningsuppgift_2___F
             this.tpBlockedUsers.Text = "Blocked Users";
             this.tpBlockedUsers.UseVisualStyleBackColor = true;
             // 
+            // lblHeaderBlockedUsers
+            // 
+            this.lblHeaderBlockedUsers.AutoSize = true;
+            this.lblHeaderBlockedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.lblHeaderBlockedUsers.Location = new System.Drawing.Point(286, 19);
+            this.lblHeaderBlockedUsers.Name = "lblHeaderBlockedUsers";
+            this.lblHeaderBlockedUsers.Size = new System.Drawing.Size(720, 97);
+            this.lblHeaderBlockedUsers.TabIndex = 4;
+            this.lblHeaderBlockedUsers.Text = "List of Blocked Users";
+            // 
+            // tbBlockedUsers
+            // 
+            this.tbBlockedUsers.Location = new System.Drawing.Point(368, 141);
+            this.tbBlockedUsers.Multiline = true;
+            this.tbBlockedUsers.Name = "tbBlockedUsers";
+            this.tbBlockedUsers.ReadOnly = true;
+            this.tbBlockedUsers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbBlockedUsers.Size = new System.Drawing.Size(590, 228);
+            this.tbBlockedUsers.TabIndex = 0;
+            // 
             // tpGhostedUsers
             // 
+            this.tpGhostedUsers.Controls.Add(this.lblHeaderGhostedUsers);
+            this.tpGhostedUsers.Controls.Add(this.tbGhostedUsers);
             this.tpGhostedUsers.Location = new System.Drawing.Point(4, 29);
             this.tpGhostedUsers.Name = "tpGhostedUsers";
             this.tpGhostedUsers.Size = new System.Drawing.Size(1294, 560);
@@ -272,6 +315,26 @@ namespace Inlämningsuppgift_2___F
             this.lblYearsOld.Size = new System.Drawing.Size(0, 20);
             this.lblYearsOld.TabIndex = 6;
             // 
+            // tbGhostedUsers
+            // 
+            this.tbGhostedUsers.Location = new System.Drawing.Point(352, 166);
+            this.tbGhostedUsers.Multiline = true;
+            this.tbGhostedUsers.Name = "tbGhostedUsers";
+            this.tbGhostedUsers.ReadOnly = true;
+            this.tbGhostedUsers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbGhostedUsers.Size = new System.Drawing.Size(590, 228);
+            this.tbGhostedUsers.TabIndex = 1;
+            // 
+            // lblHeaderGhostedUsers
+            // 
+            this.lblHeaderGhostedUsers.AutoSize = true;
+            this.lblHeaderGhostedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.lblHeaderGhostedUsers.Location = new System.Drawing.Point(280, 22);
+            this.lblHeaderGhostedUsers.Name = "lblHeaderGhostedUsers";
+            this.lblHeaderGhostedUsers.Size = new System.Drawing.Size(738, 97);
+            this.lblHeaderGhostedUsers.TabIndex = 5;
+            this.lblHeaderGhostedUsers.Text = "List of Ghosted Users";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -291,6 +354,10 @@ namespace Inlämningsuppgift_2___F
             this.tpEditUsers.ResumeLayout(false);
             this.tpUserMonth.ResumeLayout(false);
             this.tpUserMonth.PerformLayout();
+            this.tpBlockedUsers.ResumeLayout(false);
+            this.tpBlockedUsers.PerformLayout();
+            this.tpGhostedUsers.ResumeLayout(false);
+            this.tpGhostedUsers.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -316,6 +383,11 @@ namespace Inlämningsuppgift_2___F
         private System.Windows.Forms.Button btnPreviousMonth;
         private System.Windows.Forms.Button btnNextMonth;
         private System.Windows.Forms.Label lblUsersByMonth;
+        private System.Windows.Forms.Label lblHeaderBirthday;
+        private System.Windows.Forms.TextBox tbBlockedUsers;
+        private System.Windows.Forms.Label lblHeaderBlockedUsers;
+        private System.Windows.Forms.Label lblHeaderGhostedUsers;
+        private System.Windows.Forms.TextBox tbGhostedUsers;
     }
 }
 
