@@ -40,7 +40,6 @@ namespace Inlämningsuppgift_2___F
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tpEditUsers = new System.Windows.Forms.TabPage();
             this.tpUserMonth = new System.Windows.Forms.TabPage();
-            this.lblUsersByMonth = new System.Windows.Forms.Label();
             this.lblHeaderBirthday = new System.Windows.Forms.Label();
             this.lblMonth = new System.Windows.Forms.Label();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
@@ -49,10 +48,11 @@ namespace Inlämningsuppgift_2___F
             this.lblHeaderBlockedUsers = new System.Windows.Forms.Label();
             this.tbBlockedUsers = new System.Windows.Forms.TextBox();
             this.tpGhostedUsers = new System.Windows.Forms.TabPage();
+            this.lblHeaderGhostedUsers = new System.Windows.Forms.Label();
+            this.tbGhostedUsers = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblYearsOld = new System.Windows.Forms.Label();
-            this.tbGhostedUsers = new System.Windows.Forms.TextBox();
-            this.lblHeaderGhostedUsers = new System.Windows.Forms.Label();
+            this.tbUsersByMonth = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -189,7 +189,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // tpUserMonth
             // 
-            this.tpUserMonth.Controls.Add(this.lblUsersByMonth);
+            this.tpUserMonth.Controls.Add(this.tbUsersByMonth);
             this.tpUserMonth.Controls.Add(this.lblHeaderBirthday);
             this.tpUserMonth.Controls.Add(this.lblMonth);
             this.tpUserMonth.Controls.Add(this.btnPreviousMonth);
@@ -202,15 +202,6 @@ namespace Inlämningsuppgift_2___F
             this.tpUserMonth.TabIndex = 1;
             this.tpUserMonth.Text = "Find Users by Birthday Month";
             this.tpUserMonth.UseVisualStyleBackColor = true;
-            // 
-            // lblUsersByMonth
-            // 
-            this.lblUsersByMonth.AutoSize = true;
-            this.lblUsersByMonth.Location = new System.Drawing.Point(370, 256);
-            this.lblUsersByMonth.Name = "lblUsersByMonth";
-            this.lblUsersByMonth.Size = new System.Drawing.Size(51, 22);
-            this.lblUsersByMonth.TabIndex = 2;
-            this.lblUsersByMonth.Text = "Users";
             // 
             // lblHeaderBirthday
             // 
@@ -296,6 +287,26 @@ namespace Inlämningsuppgift_2___F
             this.tpGhostedUsers.Text = "Ghosted Users";
             this.tpGhostedUsers.UseVisualStyleBackColor = true;
             // 
+            // lblHeaderGhostedUsers
+            // 
+            this.lblHeaderGhostedUsers.AutoSize = true;
+            this.lblHeaderGhostedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
+            this.lblHeaderGhostedUsers.Location = new System.Drawing.Point(280, 22);
+            this.lblHeaderGhostedUsers.Name = "lblHeaderGhostedUsers";
+            this.lblHeaderGhostedUsers.Size = new System.Drawing.Size(738, 97);
+            this.lblHeaderGhostedUsers.TabIndex = 5;
+            this.lblHeaderGhostedUsers.Text = "List of Ghosted Users";
+            // 
+            // tbGhostedUsers
+            // 
+            this.tbGhostedUsers.Location = new System.Drawing.Point(352, 166);
+            this.tbGhostedUsers.Multiline = true;
+            this.tbGhostedUsers.Name = "tbGhostedUsers";
+            this.tbGhostedUsers.ReadOnly = true;
+            this.tbGhostedUsers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbGhostedUsers.Size = new System.Drawing.Size(590, 228);
+            this.tbGhostedUsers.TabIndex = 1;
+            // 
             // lblName
             // 
             this.lblName.AutoSize = true;
@@ -315,25 +326,15 @@ namespace Inlämningsuppgift_2___F
             this.lblYearsOld.Size = new System.Drawing.Size(0, 20);
             this.lblYearsOld.TabIndex = 6;
             // 
-            // tbGhostedUsers
+            // tbUsersByMonth
             // 
-            this.tbGhostedUsers.Location = new System.Drawing.Point(352, 166);
-            this.tbGhostedUsers.Multiline = true;
-            this.tbGhostedUsers.Name = "tbGhostedUsers";
-            this.tbGhostedUsers.ReadOnly = true;
-            this.tbGhostedUsers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbGhostedUsers.Size = new System.Drawing.Size(590, 228);
-            this.tbGhostedUsers.TabIndex = 1;
-            // 
-            // lblHeaderGhostedUsers
-            // 
-            this.lblHeaderGhostedUsers.AutoSize = true;
-            this.lblHeaderGhostedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
-            this.lblHeaderGhostedUsers.Location = new System.Drawing.Point(280, 22);
-            this.lblHeaderGhostedUsers.Name = "lblHeaderGhostedUsers";
-            this.lblHeaderGhostedUsers.Size = new System.Drawing.Size(738, 97);
-            this.lblHeaderGhostedUsers.TabIndex = 5;
-            this.lblHeaderGhostedUsers.Text = "List of Ghosted Users";
+            this.tbUsersByMonth.Location = new System.Drawing.Point(346, 263);
+            this.tbUsersByMonth.Multiline = true;
+            this.tbUsersByMonth.Name = "tbUsersByMonth";
+            this.tbUsersByMonth.ReadOnly = true;
+            this.tbUsersByMonth.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbUsersByMonth.Size = new System.Drawing.Size(590, 228);
+            this.tbUsersByMonth.TabIndex = 4;
             // 
             // Form1
             // 
@@ -382,12 +383,12 @@ namespace Inlämningsuppgift_2___F
         private System.Windows.Forms.Label lblMonth;
         private System.Windows.Forms.Button btnPreviousMonth;
         private System.Windows.Forms.Button btnNextMonth;
-        private System.Windows.Forms.Label lblUsersByMonth;
         private System.Windows.Forms.Label lblHeaderBirthday;
         private System.Windows.Forms.TextBox tbBlockedUsers;
         private System.Windows.Forms.Label lblHeaderBlockedUsers;
         private System.Windows.Forms.Label lblHeaderGhostedUsers;
         private System.Windows.Forms.TextBox tbGhostedUsers;
+        private System.Windows.Forms.TextBox tbUsersByMonth;
     }
 }
 

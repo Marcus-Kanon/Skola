@@ -25,7 +25,7 @@ namespace Inlämningsuppgift_2___F
 
             dgUsers.DataSource = userList.users;
 
-            lblUsersByMonth.Text = getBirthdayUsers();
+            tbUsersByMonth.Text = getBirthdayUsers();
             lblMonth.Text = getSelectedMonth();
 
             displayBlockedUsers();
@@ -86,7 +86,7 @@ namespace Inlämningsuppgift_2___F
         {
             userList.selectedMonth++;
 
-            lblUsersByMonth.Text = getBirthdayUsers();
+            tbUsersByMonth.Text = getBirthdayUsers();
             lblMonth.Text = getSelectedMonth();
         }
 
@@ -94,7 +94,7 @@ namespace Inlämningsuppgift_2___F
         {
             userList.selectedMonth--;
 
-            lblUsersByMonth.Text = getBirthdayUsers();
+            tbUsersByMonth.Text = getBirthdayUsers();
             lblMonth.Text = getSelectedMonth();
         }
 
@@ -140,7 +140,7 @@ namespace Inlämningsuppgift_2___F
 
             foreach (var user in users)
             {
-                str += user.firstName + " " + user.lastName + "\n";
+                str += user.firstName + " " + user.lastName + "\r\n";
             }
 
             return str;
