@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.IO;
 using System.ComponentModel;
+using System.Text;
 
 namespace Inlämningsuppgift_2___F
 {
@@ -35,20 +37,36 @@ namespace Inlämningsuppgift_2___F
         }
         
 
-        static public void loadUserList(string file)
+        static public bool loadUserList(string file)
         {
-
-            using (StreamReader r = new StreamReader(file + ".json"))
+            if (File.Exists(file + ".json"))
             {
-                string json = r.ReadToEnd();
-                users = JsonConvert.DeserializeObject<BindingList<user>>(json);
+                using (StreamReader r = new StreamReader(file + ".json"))
+                {
+                    string json = r.ReadToEnd();
+                    users = JsonConvert.DeserializeObject<BindingList<user>>(json);
+                    
+                }
+
+                return true;
+            }
+            else
+            {
+                users = new BindingList<user>();
+
+                MessageBox.Show("Couldn't find " + file + ".json");
+
+                return false;
             }
         }
 
-        static public void saveUserList(string file)
+        static public void saveUserList(ref Stream stream)
         {
             string json = JsonConvert.SerializeObject(users.ToArray());
-            System.IO.File.WriteAllText(file + ".json", json);
+            //System.IO.File.WriteAllText(stream. + ".json", json);
+            //File.WriteAllBytes(stream)
+            stream.Write(Encoding.ASCII.GetBytes(json));
+
         }
 
         static public IEnumerable<user> filterUsers(Func<user, bool> q)

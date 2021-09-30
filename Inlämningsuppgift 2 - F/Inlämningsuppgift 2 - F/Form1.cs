@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,13 +30,47 @@ namespace Inlämningsuppgift_2___F
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            userList.saveUserList("Users");
+            Stream stream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "json files (*.json)|*.json";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((stream = saveFileDialog.OpenFile()) != null)
+                {
+                    userList.saveUserList(ref stream);
+
+                    stream.Close();
+                }
+            }
+
+            
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            userList.loadUserList("Users");
-            dgUsers.DataSource = userList.users;
+            string filePath;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory(); ;
+                openFileDialog.Filter = "json files (*.json)|*.json";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+                    filePath=filePath.Substring(0, filePath.LastIndexOf("."));
+
+                    userList.loadUserList(filePath);
+                    dgUsers.DataSource = userList.users;
+                }
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
