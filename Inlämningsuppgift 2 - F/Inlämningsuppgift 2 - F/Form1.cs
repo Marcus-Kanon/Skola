@@ -19,16 +19,12 @@ namespace Inlämningsuppgift_2___F
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //UserList.saveUserList("Users");
-
             userList.loadUserList("Users");
 
             dgUsers.DataSource = userList.users;
+            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
+            lblMonth.Text = userList.selectedMonth.ToMonth();
 
-            tbUsersByMonth.Text = getBirthdayUsers();
-            lblMonth.Text = getSelectedMonth();
-
-            displayBlockedUsers();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -65,9 +61,7 @@ namespace Inlämningsuppgift_2___F
         private void dgUsers_SelectionChanged(object sender, EventArgs e)
         {
             int currentUser = dgUsers.CurrentRow.Index;
-            var age = DateTime.Today.Year - userList.users[currentUser].birthday.Year;
-
-            if (userList.users[currentUser].birthday.Date > DateTime.Today.AddYears(-age)) age--;
+            int age = userList.users[currentUser].CalculateAge();
 
             lblName.Text = userList.users[currentUser].firstName + " " + userList.users[currentUser].lastName + " is: ";
 
@@ -85,65 +79,30 @@ namespace Inlämningsuppgift_2___F
         private void btnNextMonth_Click(object sender, EventArgs e)
         {
             userList.selectedMonth++;
-
-            tbUsersByMonth.Text = getBirthdayUsers();
-            lblMonth.Text = getSelectedMonth();
+            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
+            lblMonth.Text = userList.selectedMonth.ToMonth();
         }
 
         private void btnPreviousMonth_Click(object sender, EventArgs e)
         {
             userList.selectedMonth--;
-
-            tbUsersByMonth.Text = getBirthdayUsers();
-            lblMonth.Text = getSelectedMonth();
+            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
+            lblMonth.Text = userList.selectedMonth.ToMonth();
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayBlockedUsers();
-            displayGhostedUsers();
-        }
-
-
-        //***************************************************
-        //Temp methods
-        public void displayBlockedUsers()
-        {
             tbBlockedUsers.Text = "";
-
-            foreach (var user in userList.users.Where(q => q.isBlocked).ToList())
-            {
-                tbBlockedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
-            }
-        }
-
-        public void displayGhostedUsers()
-        {
             tbGhostedUsers.Text = "";
 
-            foreach (var user in userList.users.Where(q => q.isGhosted).ToList())
+            foreach (var user in userList.users)
             {
-                tbGhostedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
-            }
-        }
+                if(user.isBlocked)
+                    tbBlockedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
 
-        public string getSelectedMonth()
-        {
-            Enum.TryParse(typeof(months), userList.selectedMonth.ToString(), out object str);
-            return str.ToString();
-        }
-
-        public string getBirthdayUsers()
-        {
-            IEnumerable<user> users = userList.filterUsersByMonthBorn();
-            string str="";
-
-            foreach (var user in users)
-            {
-                str += user.firstName + " " + user.lastName + "\r\n";
-            }
-
-            return str;
+                if(user.isGhosted)
+                    tbGhostedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
+            }       
         }
     }
 }

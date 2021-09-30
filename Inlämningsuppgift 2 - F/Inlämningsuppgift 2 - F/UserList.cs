@@ -19,6 +19,7 @@ namespace Inlämningsuppgift_2___F
             get { return _selectedMonth; }
             set {
                 _selectedMonth = value;
+
                 if (value < 1)
                     _selectedMonth = 12;
                 if(value>12)
@@ -36,6 +37,7 @@ namespace Inlämningsuppgift_2___F
 
         static public void loadUserList(string file)
         {
+
             using (StreamReader r = new StreamReader(file + ".json"))
             {
                 string json = r.ReadToEnd();
@@ -46,15 +48,27 @@ namespace Inlämningsuppgift_2___F
         static public void saveUserList(string file)
         {
             string json = JsonConvert.SerializeObject(users.ToArray());
-
             System.IO.File.WriteAllText(file + ".json", json);
         }
 
-        static public IEnumerable<user> filterUsersByMonthBorn()
+        static public IEnumerable<user> filterUsers(Func<user, bool> q)
         {
-            IEnumerable<user> results = users.Where(q => q.birthday.Month == selectedMonth).ToList();
+            IEnumerable<user> results = users.Where(q).ToList();
 
             return results;
+        }
+
+        static public string getBirthdaysString(int month)
+        {
+            IEnumerable<user> users = filterUsers(q => q.birthday.Month == selectedMonth);
+            string str = "";
+
+            foreach (var user in users)
+            {
+                str += user.firstName + " " + user.lastName + "\t\t\t" + user.birthday.ToShortDateString() + "\r\n";
+            }
+
+            return str;
         }
 
 
