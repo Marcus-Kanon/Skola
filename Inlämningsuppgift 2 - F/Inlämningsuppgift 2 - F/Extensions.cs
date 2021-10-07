@@ -8,17 +8,17 @@ namespace Inlämningsuppgift_2___F
 {
     static class Extensions
     {
-        public static string ToMonth(this int month)
+        public static string ToString(this int month)
         {
-            Enum.TryParse(typeof(months), month.ToString(), out object str);
+            Enum.TryParse(typeof(Months), month.ToString(), out object str);
             return str.ToString();
         }
 
-        public static int CalculateAge(this user user)
+        public static int CalculateAge(this User user)
         {
-                var age = DateTime.Today.Year - user.birthday.Year;
+                var age = DateTime.Today.Year - user.Birthday.Year;
 
-                if (user.birthday.Date > DateTime.Today.AddYears(-age)) age--;
+                if (user.Birthday.Date > DateTime.Today.AddYears(-age)) age--;
 
                 return age;
         }

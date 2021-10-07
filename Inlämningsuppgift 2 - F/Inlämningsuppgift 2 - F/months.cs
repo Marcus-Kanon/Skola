@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Inlämningsuppgift_2___F
+﻿namespace Inlämningsuppgift_2___F
 {
-    enum months
+    enum Months
     {
         January = 1,
         February,

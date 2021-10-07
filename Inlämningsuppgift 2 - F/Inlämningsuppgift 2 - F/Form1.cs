@@ -20,11 +20,11 @@ namespace Inlämningsuppgift_2___F
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            userList.loadUserList("Users");
+            UserList.LoadUserList("Users");
 
-            dgUsers.DataSource = userList.users;
-            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
-            lblMonth.Text = userList.selectedMonth.ToMonth();
+            dgUsers.DataSource = UserList.Users;
+            tbUsersByMonth.Text = UserList.GetBirthdaysString(UserList.selectedMonth);
+            lblMonth.Text = Extensions.ToString(UserList.selectedMonth);
 
         }
 
@@ -34,14 +34,12 @@ namespace Inlämningsuppgift_2___F
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Filter = "json files (*.json)|*.json";
-            saveFileDialog.FilterIndex = 1;
-            saveFileDialog.RestoreDirectory = true;
-
+            
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
-                    userList.saveUserList(ref stream);
+                    UserList.SaveUserList(ref stream);
 
                     stream.Close();
                 }
@@ -58,17 +56,14 @@ namespace Inlämningsuppgift_2___F
             {
                 openFileDialog.InitialDirectory = Directory.GetCurrentDirectory(); ;
                 openFileDialog.Filter = "json files (*.json)|*.json";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //Get the path of specified file
                     filePath = openFileDialog.FileName;
                     filePath=filePath.Substring(0, filePath.LastIndexOf("."));
 
-                    userList.loadUserList(filePath);
-                    dgUsers.DataSource = userList.users;
+                    UserList.LoadUserList(filePath);
+                    dgUsers.DataSource = UserList.Users;
                 }
             }
         }
@@ -80,12 +75,12 @@ namespace Inlämningsuppgift_2___F
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            userList.users.Add(new user());
+            UserList.Users.Add(new User());
         }
 
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
-            userList.users.RemoveAt(dgUsers.SelectedRows[0].Index);
+            UserList.Users.RemoveAt(dgUsers.SelectedRows[0].Index);
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
@@ -96,9 +91,9 @@ namespace Inlämningsuppgift_2___F
         private void dgUsers_SelectionChanged(object sender, EventArgs e)
         {
             int currentUser = dgUsers.CurrentRow.Index;
-            int age = userList.users[currentUser].CalculateAge();
+            int age = UserList.Users[currentUser].CalculateAge();
 
-            lblName.Text = userList.users[currentUser].firstName + " " + userList.users[currentUser].lastName + " is: ";
+            lblName.Text = UserList.Users[currentUser].FirstName + " " + UserList.Users[currentUser].LastName + " is: ";
 
             if(age!=1)
             {
@@ -113,16 +108,16 @@ namespace Inlämningsuppgift_2___F
 
         private void btnNextMonth_Click(object sender, EventArgs e)
         {
-            userList.selectedMonth++;
-            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
-            lblMonth.Text = userList.selectedMonth.ToMonth();
+            UserList.selectedMonth++;
+            tbUsersByMonth.Text = UserList.GetBirthdaysString(UserList.selectedMonth);
+            lblMonth.Text = Extensions.ToString(UserList.selectedMonth);
         }
 
         private void btnPreviousMonth_Click(object sender, EventArgs e)
         {
-            userList.selectedMonth--;
-            tbUsersByMonth.Text = userList.getBirthdaysString(userList.selectedMonth);
-            lblMonth.Text = userList.selectedMonth.ToMonth();
+            UserList.selectedMonth--;
+            tbUsersByMonth.Text = UserList.GetBirthdaysString(UserList.selectedMonth);
+            lblMonth.Text = Extensions.ToString(UserList.selectedMonth);
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -130,13 +125,13 @@ namespace Inlämningsuppgift_2___F
             tbBlockedUsers.Text = "";
             tbGhostedUsers.Text = "";
 
-            foreach (var user in userList.users)
+            foreach (var user in UserList.Users)
             {
-                if(user.isBlocked)
-                    tbBlockedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
+                if(user.IsBlocked)
+                    tbBlockedUsers.Text += user.FirstName + " " + user.LastName + "\r\n";
 
-                if(user.isGhosted)
-                    tbGhostedUsers.Text += user.firstName + " " + user.lastName + "\r\n";
+                if(user.IsGhosted)
+                    tbGhostedUsers.Text += user.FirstName + " " + user.LastName + "\r\n";
             }       
         }
     }

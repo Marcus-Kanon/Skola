@@ -40,6 +40,7 @@ namespace Inlämningsuppgift_2___F
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tpEditUsers = new System.Windows.Forms.TabPage();
             this.tpUserMonth = new System.Windows.Forms.TabPage();
+            this.tbUsersByMonth = new System.Windows.Forms.TextBox();
             this.lblHeaderBirthday = new System.Windows.Forms.Label();
             this.lblMonth = new System.Windows.Forms.Label();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
@@ -52,7 +53,6 @@ namespace Inlämningsuppgift_2___F
             this.tbGhostedUsers = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblYearsOld = new System.Windows.Forms.Label();
-            this.tbUsersByMonth = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -76,7 +76,7 @@ namespace Inlämningsuppgift_2___F
             // 
             this.dgUsers.AllowUserToAddRows = false;
             this.dgUsers.AllowUserToDeleteRows = false;
-            this.dgUsers.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dgUsers.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgUsers.GridColor = System.Drawing.Color.Black;
             this.dgUsers.Location = new System.Drawing.Point(6, 57);
@@ -91,7 +91,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.Maroon;
+            this.btnSave.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSave.Location = new System.Drawing.Point(118, 6);
@@ -104,7 +104,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnLoad
             // 
-            this.btnLoad.BackColor = System.Drawing.Color.Maroon;
+            this.btnLoad.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnLoad.Location = new System.Drawing.Point(6, 6);
@@ -117,7 +117,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnRefresh
             // 
-            this.btnRefresh.BackColor = System.Drawing.Color.Maroon;
+            this.btnRefresh.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnRefresh.Location = new System.Drawing.Point(230, 6);
@@ -130,7 +130,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnAddUser
             // 
-            this.btnAddUser.BackColor = System.Drawing.Color.Maroon;
+            this.btnAddUser.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnAddUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddUser.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnAddUser.Location = new System.Drawing.Point(1182, 6);
@@ -144,7 +144,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // btnDeleteUser
             // 
-            this.btnDeleteUser.BackColor = System.Drawing.Color.Maroon;
+            this.btnDeleteUser.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDeleteUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeleteUser.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnDeleteUser.Location = new System.Drawing.Point(1027, 6);
@@ -171,7 +171,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // tpEditUsers
             // 
-            this.tpEditUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tpEditUsers.BackColor = System.Drawing.SystemColors.MenuBar;
             this.tpEditUsers.Controls.Add(this.dgUsers);
             this.tpEditUsers.Controls.Add(this.btnDeleteUser);
             this.tpEditUsers.Controls.Add(this.btnSave);
@@ -179,6 +179,7 @@ namespace Inlämningsuppgift_2___F
             this.tpEditUsers.Controls.Add(this.btnLoad);
             this.tpEditUsers.Controls.Add(this.btnRefresh);
             this.tpEditUsers.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tpEditUsers.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tpEditUsers.Location = new System.Drawing.Point(4, 29);
             this.tpEditUsers.Name = "tpEditUsers";
             this.tpEditUsers.Padding = new System.Windows.Forms.Padding(3);
@@ -202,6 +203,16 @@ namespace Inlämningsuppgift_2___F
             this.tpUserMonth.TabIndex = 1;
             this.tpUserMonth.Text = "Find Users by Birthday Month";
             this.tpUserMonth.UseVisualStyleBackColor = true;
+            // 
+            // tbUsersByMonth
+            // 
+            this.tbUsersByMonth.Location = new System.Drawing.Point(346, 263);
+            this.tbUsersByMonth.Multiline = true;
+            this.tbUsersByMonth.Name = "tbUsersByMonth";
+            this.tbUsersByMonth.ReadOnly = true;
+            this.tbUsersByMonth.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbUsersByMonth.Size = new System.Drawing.Size(590, 228);
+            this.tbUsersByMonth.TabIndex = 4;
             // 
             // lblHeaderBirthday
             // 
@@ -326,21 +337,11 @@ namespace Inlämningsuppgift_2___F
             this.lblYearsOld.Size = new System.Drawing.Size(0, 20);
             this.lblYearsOld.TabIndex = 6;
             // 
-            // tbUsersByMonth
-            // 
-            this.tbUsersByMonth.Location = new System.Drawing.Point(346, 263);
-            this.tbUsersByMonth.Multiline = true;
-            this.tbUsersByMonth.Name = "tbUsersByMonth";
-            this.tbUsersByMonth.ReadOnly = true;
-            this.tbUsersByMonth.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbUsersByMonth.Size = new System.Drawing.Size(590, 228);
-            this.tbUsersByMonth.TabIndex = 4;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1322, 876);
             this.Controls.Add(this.lblYearsOld);
             this.Controls.Add(this.lblName);

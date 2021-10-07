@@ -11,10 +11,10 @@ using System.Text;
 
 namespace Inlämningsuppgift_2___F
 {
-    static class userList
+    static class UserList
     {
+        static public BindingList<User> Users = new BindingList<User>();
         static private int _selectedMonth = DateTime.Now.Month;
-        static public BindingList<user> users = new BindingList<user>();
 
         static public int selectedMonth
         {
@@ -24,27 +24,20 @@ namespace Inlämningsuppgift_2___F
 
                 if (value < 1)
                     _selectedMonth = 12;
-                if(value>12)
+                if(value > 12)
                     _selectedMonth = 1;
 
                 }
         }
 
-        static userList()
-        {
-            
-
-        }
-        
-
-        static public bool loadUserList(string file)
+        static public bool LoadUserList(string file)
         {
             if (File.Exists(file + ".json"))
             {
                 using (StreamReader r = new StreamReader(file + ".json"))
                 {
                     string json = r.ReadToEnd();
-                    users = JsonConvert.DeserializeObject<BindingList<user>>(json);
+                    Users = JsonConvert.DeserializeObject<BindingList<User>>(json);
                     
                 }
 
@@ -52,7 +45,7 @@ namespace Inlämningsuppgift_2___F
             }
             else
             {
-                users = new BindingList<user>();
+                Users = new BindingList<User>();
 
                 MessageBox.Show("Couldn't find " + file + ".json");
 
@@ -60,30 +53,48 @@ namespace Inlämningsuppgift_2___F
             }
         }
 
-        static public void saveUserList(ref Stream stream)
+        static public void SaveUserList(ref Stream stream)
         {
-            string json = JsonConvert.SerializeObject(users.ToArray());
-            //System.IO.File.WriteAllText(stream. + ".json", json);
-            //File.WriteAllBytes(stream)
-            stream.Write(Encoding.ASCII.GetBytes(json));
+            try
+            {
+                string json = JsonConvert.SerializeObject(Users.ToArray());
+
+                stream.Write(Encoding.ASCII.GetBytes(json));
+            }
+            catch (JsonException jEx)
+            {
+                MessageBox.Show(jEx.Message);
+            }
+            catch (IOException IOEx)
+            {
+                MessageBox.Show(IOEx.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                stream.Close();
+            }
 
         }
 
-        static public IEnumerable<user> filterUsers(Func<user, bool> q)
+        static public IEnumerable<User> filterUsers(Func<User, bool> q)
         {
-            IEnumerable<user> results = users.Where(q).ToList();
+            IEnumerable<User> results = Users.Where(q).ToList();
 
             return results;
         }
 
-        static public string getBirthdaysString(int month)
+        static public string GetBirthdaysString(int month)
         {
-            IEnumerable<user> users = filterUsers(q => q.birthday.Month == selectedMonth);
+            IEnumerable<User> users = filterUsers(q => q.Birthday.Month == selectedMonth);
             string str = "";
 
             foreach (var user in users)
             {
-                str += user.firstName + " " + user.lastName + "\t\t\t" + user.birthday.ToShortDateString() + "\r\n";
+                str += user.FirstName + " " + user.LastName + "\t\t\t" + user.Birthday.ToShortDateString() + "\r\n";
             }
 
             return str;
