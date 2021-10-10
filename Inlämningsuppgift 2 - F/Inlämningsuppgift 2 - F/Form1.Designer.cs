@@ -186,7 +186,6 @@ namespace Inlämningsuppgift_2___F
             this.tpEditUsers.Size = new System.Drawing.Size(1294, 560);
             this.tpEditUsers.TabIndex = 0;
             this.tpEditUsers.Text = "Edit Users";
-            this.tpEditUsers.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // tpUserMonth
             // 
@@ -206,7 +205,7 @@ namespace Inlämningsuppgift_2___F
             // 
             // tbUsersByMonth
             // 
-            this.tbUsersByMonth.Location = new System.Drawing.Point(346, 263);
+            this.tbUsersByMonth.Location = new System.Drawing.Point(355, 259);
             this.tbUsersByMonth.Multiline = true;
             this.tbUsersByMonth.Name = "tbUsersByMonth";
             this.tbUsersByMonth.ReadOnly = true;
@@ -269,13 +268,15 @@ namespace Inlämningsuppgift_2___F
             // 
             // lblHeaderBlockedUsers
             // 
+            this.lblHeaderBlockedUsers.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblHeaderBlockedUsers.AutoSize = true;
             this.lblHeaderBlockedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
-            this.lblHeaderBlockedUsers.Location = new System.Drawing.Point(286, 19);
+            this.lblHeaderBlockedUsers.Location = new System.Drawing.Point(300, 20);
             this.lblHeaderBlockedUsers.Name = "lblHeaderBlockedUsers";
             this.lblHeaderBlockedUsers.Size = new System.Drawing.Size(720, 97);
             this.lblHeaderBlockedUsers.TabIndex = 4;
             this.lblHeaderBlockedUsers.Text = "List of Blocked Users";
+            this.lblHeaderBlockedUsers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tbBlockedUsers
             // 
@@ -300,17 +301,19 @@ namespace Inlämningsuppgift_2___F
             // 
             // lblHeaderGhostedUsers
             // 
+            this.lblHeaderGhostedUsers.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblHeaderGhostedUsers.AutoSize = true;
             this.lblHeaderGhostedUsers.Font = new System.Drawing.Font("Calibri", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point);
-            this.lblHeaderGhostedUsers.Location = new System.Drawing.Point(280, 22);
+            this.lblHeaderGhostedUsers.Location = new System.Drawing.Point(290, 20);
             this.lblHeaderGhostedUsers.Name = "lblHeaderGhostedUsers";
             this.lblHeaderGhostedUsers.Size = new System.Drawing.Size(738, 97);
             this.lblHeaderGhostedUsers.TabIndex = 5;
             this.lblHeaderGhostedUsers.Text = "List of Ghosted Users";
+            this.lblHeaderGhostedUsers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tbGhostedUsers
             // 
-            this.tbGhostedUsers.Location = new System.Drawing.Point(352, 166);
+            this.tbGhostedUsers.Location = new System.Drawing.Point(368, 141);
             this.tbGhostedUsers.Multiline = true;
             this.tbGhostedUsers.Name = "tbGhostedUsers";
             this.tbGhostedUsers.ReadOnly = true;
@@ -321,7 +324,8 @@ namespace Inlämningsuppgift_2___F
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblName.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.lblName.ForeColor = System.Drawing.SystemColors.ControlText;
             this.lblName.Location = new System.Drawing.Point(22, 24);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(94, 20);
@@ -331,7 +335,7 @@ namespace Inlämningsuppgift_2___F
             // lblYearsOld
             // 
             this.lblYearsOld.AutoSize = true;
-            this.lblYearsOld.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblYearsOld.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblYearsOld.Location = new System.Drawing.Point(22, 54);
             this.lblYearsOld.Name = "lblYearsOld";
             this.lblYearsOld.Size = new System.Drawing.Size(0, 20);
@@ -348,7 +352,7 @@ namespace Inlämningsuppgift_2___F
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "F CHAT ADMINISTRATION TOOL";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgUsers)).EndInit();

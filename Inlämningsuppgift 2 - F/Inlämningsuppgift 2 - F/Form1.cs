@@ -40,8 +40,6 @@ namespace Inlämningsuppgift_2___F
                 if ((stream = saveFileDialog.OpenFile()) != null)
                 {
                     UserList.SaveUserList(ref stream);
-
-                    stream.Close();
                 }
             }
 
@@ -62,8 +60,15 @@ namespace Inlämningsuppgift_2___F
                     filePath = openFileDialog.FileName;
                     filePath=filePath.Substring(0, filePath.LastIndexOf("."));
 
-                    UserList.LoadUserList(filePath);
-                    dgUsers.DataSource = UserList.Users;
+                    if(UserList.LoadUserList(filePath))
+                    {
+                        dgUsers.DataSource = UserList.Users;
+                    }
+                    else
+                    {
+                        UserList.Users = new BindingList<User>();
+                    }
+                    
                 }
             }
         }
@@ -81,11 +86,6 @@ namespace Inlämningsuppgift_2___F
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
             UserList.Users.RemoveAt(dgUsers.SelectedRows[0].Index);
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void dgUsers_SelectionChanged(object sender, EventArgs e)
@@ -124,6 +124,7 @@ namespace Inlämningsuppgift_2___F
         {
             tbBlockedUsers.Text = "";
             tbGhostedUsers.Text = "";
+            tbUsersByMonth.Text = UserList.GetBirthdaysString(UserList.selectedMonth);
 
             foreach (var user in UserList.Users)
             {

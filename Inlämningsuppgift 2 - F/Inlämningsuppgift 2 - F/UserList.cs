@@ -34,19 +34,42 @@ namespace Inlämningsuppgift_2___F
         {
             if (File.Exists(file + ".json"))
             {
-                using (StreamReader r = new StreamReader(file + ".json"))
+                StreamReader stream=null;
+
+                try
                 {
-                    string json = r.ReadToEnd();
+                    stream = new StreamReader(file + ".json");
+
+                    string json = stream.ReadToEnd();
                     Users = JsonConvert.DeserializeObject<BindingList<User>>(json);
-                    
+                }
+                catch (JsonException jEx)
+                {
+                    MessageBox.Show(jEx.Message);
+
+                    return false;
+                }
+                catch (IOException IOEx)
+                {
+                    MessageBox.Show(IOEx.Message);
+
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+
+                    return false;
+                }
+                finally
+                {
+                    stream.Close();
                 }
 
                 return true;
             }
             else
             {
-                Users = new BindingList<User>();
-
                 MessageBox.Show("Couldn't find " + file + ".json");
 
                 return false;
@@ -59,7 +82,7 @@ namespace Inlämningsuppgift_2___F
             {
                 string json = JsonConvert.SerializeObject(Users.ToArray());
 
-                stream.Write(Encoding.ASCII.GetBytes(json));
+                stream.Write(Encoding.UTF8.GetBytes(json));
             }
             catch (JsonException jEx)
             {
