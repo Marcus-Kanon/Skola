@@ -8,8 +8,8 @@ namespace RPG2
 {
     public static class Game
     {
-        static int choice=0;
-        public static int choiceLimit=0;
+        static int choice = 0;
+        public static int ChoiceLimit = 0;
         public static int Choice
         {
             get
@@ -18,35 +18,48 @@ namespace RPG2
             }
             set
             {
-                if (value >= choiceLimit)
+                if (value >= ChoiceLimit)
                     value = 0;
                 if (value < 0)
-                    value = choiceLimit;
+                    value = ChoiceLimit;
                 choice = value;
             }
         }
 
+        static Game()
+        {
+            InputHandler.OnUpKeyHandler += OnUpKey;
+            InputHandler.OnDownKeyHandler += OnDownKey;
+            InputHandler.OnLeftKeyHandler += OnLeftKey;
+            InputHandler.OnRightKeyHandler += OnRightKey;
+
+        }
+
         public static void Start()
         {
-            choiceLimit = 3;
-            if ((Console.ReadKey().Key != ConsoleKey.UpArrow))
-            {
-                choice--;
-                Scenes.Update = true;
-            }
-            if ((Console.ReadKey().Key != ConsoleKey.DownArrow))
-            {
-                choice++;
-                Scenes.Update = true;
-            }
+            ChoiceLimit = 3;
 
-                Scenes.MenuMain(Choice);
+            InputHandler.Start();
+            Scenes.MenuMain(Choice);
 
-            }
-
-            
         }
-    }
 
+        public static void OnUpKey(object? obj, EventArgs args)
+        {
+            Choice--;
+            Console.WriteLine("Test up");
+        }
+        public static void OnDownKey(object? obj, EventArgs args)
+        {
+            Choice++;
+        }
+        public static void OnLeftKey(object? obj, EventArgs args)
+        {
+        }
+        public static void OnRightKey(object? obj, EventArgs args)
+        {
+        }
+
+    }
 
 }
