@@ -32,6 +32,7 @@ namespace RPG2
 
         static ConsoleColor textColor = ConsoleColor.White;
         static ConsoleColor textColorSelected = ConsoleColor.DarkGreen;
+        static Action MainAction;
 
         static Scenes()
         {
@@ -41,27 +42,26 @@ namespace RPG2
             InputHandler.OnRightKeyHandler += OnRightKey;
             InputHandler.OnEnterKeyHandler += OnEnterKey;
 
+            MainAction = new Action(MenuMain);
+
         }
 
-        public static void SceneStarter(Action method, int limit)
+        public static void SceneStarter(Action method)
         {
-            ChoiceLimit = limit;
-            method();
+            MainAction=method;
+            MainAction();
 
             while (ContinueLoop)
             {
-                if (choice != OldChoice)
-                {
-                    method();
-                    OldChoice = Choice;
-                }
+                
 
             }
         }
 
         public static void MenuMain()
         {
-            
+            ChoiceLimit = 3;
+
             Console.Clear();
 
             if (Choice == 0)
@@ -86,33 +86,43 @@ namespace RPG2
 
         public static void SceneWorld()
         {
-            int x=0;
             Console.Clear();
-            MapWriter.Draw(x);
+            MapWriter.Draw(Game.playerPos);
         }
 
         public static void OnUpKey(object? obj, EventArgs args)
         {
-            Scenes.Choice--;
+            if (MainAction == MenuMain)
+            {
+                Scenes.Choice--;
+                
+            }
+
+            MainAction();
         }
         public static void OnDownKey(object? obj, EventArgs args)
         {
-            Scenes.Choice++;
+            if (MainAction == MenuMain)
+            {
+                Scenes.Choice++;
+            }
+
+            MainAction();
         }
         public static void OnLeftKey(object? obj, EventArgs args)
         {
+            MainAction();
         }
         public static void OnRightKey(object? obj, EventArgs args)
         {
+            MainAction();
         }
         public static void OnEnterKey(object? obj, EventArgs args)
         {
-            if(Choice == 0)
+            if(Choice == 0 && MainAction==MenuMain)
             {
-                ContinueLoop = false;
-                MapWriter.Draw(0);
-
-                Choice = 1;
+                MapWriter.Draw(25);
+                MainAction = SceneWorld;
             }
         }
     }

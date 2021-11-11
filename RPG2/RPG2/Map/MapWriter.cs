@@ -22,7 +22,8 @@ namespace RPG2
 
         public static void Draw(int x)
         {
-            x = 25;
+            Console.Clear();
+
             for (int row = 0; row < 17; row++)
             {
                 

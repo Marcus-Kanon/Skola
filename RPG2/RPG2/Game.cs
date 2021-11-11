@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace RPG2
 {
     public static class Game
     {
-        
+        static public int playerPos = 25;
 
         static Game()
         {
@@ -23,7 +24,7 @@ namespace RPG2
         public static void Start()
         {
             InputHandler.Start();
-            Scenes.SceneStarter(Scenes.MenuMain, 3);
+            Scenes.SceneStarter(Scenes.MenuMain);
 
         }
 
@@ -35,9 +36,11 @@ namespace RPG2
         }
         public static void OnLeftKey(object? obj, EventArgs args)
         {
+            playerPos--;
         }
         public static void OnRightKey(object? obj, EventArgs args)
         {
+            playerPos++;
         }
         public static void OnEnterKey(object? obj, EventArgs args)
         {
