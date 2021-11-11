@@ -24,26 +24,32 @@ namespace RPG2
 
         static public Task InputLoop()
         {
-            while (!tokenSource.Token.IsCancellationRequested)
+            ConsoleKey key = new();
+            while (true)
             {
-                if (Console.ReadKey().Key == ConsoleKey.UpArrow)
+                if (!Console.IsInputRedirected && Console.KeyAvailable)
                 {
-                    OnUpKey();
-                }
+                    key = Console.ReadKey(true).Key;
+                    if (key == ConsoleKey.UpArrow)
+                    {
+                        OnUpKey();
+                    }
 
-                if ((Console.ReadKey().Key == ConsoleKey.DownArrow))
-                {
-                    OnDownKey();
-                }
+                    if (key == ConsoleKey.DownArrow)
+                    {
+                        OnDownKey();
+                    }
 
-                if ((Console.ReadKey().Key == ConsoleKey.LeftArrow))
-                {
-                    OnLeftKey();
-                }
+                    if (key == ConsoleKey.LeftArrow)
+                    {
+                        OnLeftKey();
+                    }
 
-                if ((Console.ReadKey().Key == ConsoleKey.RightArrow))
-                {
-                    OnRightKey();
+                    if (key == ConsoleKey.RightArrow)
+                    {
+                        OnRightKey();
+                    }
+
                 }
             }
 

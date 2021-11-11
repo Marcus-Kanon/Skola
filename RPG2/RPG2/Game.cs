@@ -21,10 +21,11 @@ namespace RPG2
                 if (value >= ChoiceLimit)
                     value = 0;
                 if (value < 0)
-                    value = ChoiceLimit;
+                    value = ChoiceLimit-1;
                 choice = value;
             }
         }
+        static int oldChoice = 0;
 
         static Game()
         {
@@ -38,16 +39,26 @@ namespace RPG2
         public static void Start()
         {
             ChoiceLimit = 3;
+            Scenes.MenuMain(Choice);
 
             InputHandler.Start();
-            Scenes.MenuMain(Choice);
+            while(true)
+            {
+                if(choice!=oldChoice)
+                {
+                    //Scenes.Update = true;
+                    Scenes.MenuMain(Choice);
+                    oldChoice = Choice;
+                }
+                    
+            }
+
 
         }
 
         public static void OnUpKey(object? obj, EventArgs args)
         {
             Choice--;
-            Console.WriteLine("Test up");
         }
         public static void OnDownKey(object? obj, EventArgs args)
         {

@@ -12,9 +12,10 @@ namespace RPG2
 
         public static void MenuMain(int frame)
         {
+            Console.Clear();
             ConsoleColor color = ConsoleColor.White;
-            if(Update)
-            {
+            //if(Update)
+            //{
                 if (frame == 0)
                 {
                     "> Start Game <\n".Print(color, 0, 0);
@@ -33,7 +34,7 @@ namespace RPG2
                     "Highscore (... Like you have any)\n".Print(color, 0, 0);
                     "> End Game <\n".Print(color, 0, 0);
                 }
-            } 
+            //} 
 
             Update = false;
         }
