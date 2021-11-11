@@ -16,13 +16,14 @@ namespace RPG2
             InputHandler.OnDownKeyHandler += OnDownKey;
             InputHandler.OnLeftKeyHandler += OnLeftKey;
             InputHandler.OnRightKeyHandler += OnRightKey;
+            InputHandler.OnEnterKeyHandler += OnEnterKey;
 
         }
 
         public static void Start()
         {
             InputHandler.Start();
-            Scenes.MenuStarter(Scenes.MenuMain, 3);
+            Scenes.SceneStarter(Scenes.MenuMain, 3);
 
         }
 
@@ -36,6 +37,9 @@ namespace RPG2
         {
         }
         public static void OnRightKey(object? obj, EventArgs args)
+        {
+        }
+        public static void OnEnterKey(object? obj, EventArgs args)
         {
         }
 

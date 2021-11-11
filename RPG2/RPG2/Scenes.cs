@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,10 @@ namespace RPG2
     public static class Scenes
     {
         static int choice = 0;
-        public static int ChoiceLimit = 0;
-        static int OldChoice = 0;
+        public static int ChoiceLimit { get; set; } = 0;
+        static int OldChoice { get; set; } = 0;
+        static bool Update { get; set; } = false;
+        static bool ContinueLoop = true;
         public static int Choice
         {
             get
@@ -27,6 +30,8 @@ namespace RPG2
             }
         }
 
+        static ConsoleColor textColor = ConsoleColor.White;
+        static ConsoleColor textColorSelected = ConsoleColor.DarkGreen;
 
         static Scenes()
         {
@@ -34,15 +39,16 @@ namespace RPG2
             InputHandler.OnDownKeyHandler += OnDownKey;
             InputHandler.OnLeftKeyHandler += OnLeftKey;
             InputHandler.OnRightKeyHandler += OnRightKey;
+            InputHandler.OnEnterKeyHandler += OnEnterKey;
 
         }
 
-        public static void MenuStarter(Action method, int limit)
+        public static void SceneStarter(Action method, int limit)
         {
             ChoiceLimit = limit;
             method();
 
-            while (true)
+            while (ContinueLoop)
             {
                 if (choice != OldChoice)
                 {
@@ -57,26 +63,32 @@ namespace RPG2
         {
             
             Console.Clear();
-            ConsoleColor color = ConsoleColor.White;
 
-                if (Choice == 0)
-                {
-                    "> Start Game <\n".Print(ConsoleColor.DarkGreen, 0, 0);
-                    "Highscores (... Like you have any)\n".Print(color, 0, 0);
-                    "End Game\n".Print(color, 0, 0);
-                }
-                else if (Choice == 1)
-                {
-                    "Start Game\n".Print(color, 0, 0);
-                    "> Highscores (... Like you have any) <\n".Print(ConsoleColor.DarkGreen, 0, 0);
-                    "End Game\n".Print(color, 0, 0);
-                }
-                else if (Choice == 2)
-                {
-                    "Start Game\n".Print(color, 0, 0);
-                    "Highscores (... Like you have any)\n".Print(color, 0, 0);
-                    "> End Game <\n".Print(ConsoleColor.DarkGreen, 0, 0);
-                }
+            if (Choice == 0)
+            {
+                "> Start Game <\n".Print(textColorSelected, 0, 0);
+                "Highscores (... Like you have any)\n".Print(textColor, 0, 0);
+                "End Game\n".Print(textColor, 0, 0);
+            }
+            else if (Choice == 1)
+            {
+                "Start Game\n".Print(textColor, 0, 0);
+                "> Highscores (... Like you have any) <\n".Print(textColorSelected, 0, 0);
+                "End Game\n".Print(textColor, 0, 0);
+            }
+            else if (Choice == 2)
+            {
+                "Start Game\n".Print(textColor, 0, 0);
+                "Highscores (... Like you have any)\n".Print(textColor, 0, 0);
+                "> End Game <\n".Print(textColorSelected, 0, 0);
+            }
+        }
+
+        public static void SceneWorld()
+        {
+            int x=0;
+            Console.Clear();
+            MapWriter.Draw(x);
         }
 
         public static void OnUpKey(object? obj, EventArgs args)
@@ -93,6 +105,15 @@ namespace RPG2
         public static void OnRightKey(object? obj, EventArgs args)
         {
         }
+        public static void OnEnterKey(object? obj, EventArgs args)
+        {
+            if(Choice == 0)
+            {
+                ContinueLoop = false;
+                MapWriter.Draw(0);
 
+                Choice = 1;
+            }
+        }
     }
 }

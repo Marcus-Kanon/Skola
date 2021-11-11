@@ -13,6 +13,7 @@ namespace RPG2
         static public event EventHandler? OnUpKeyHandler;
         static public event EventHandler? OnLeftKeyHandler;
         static public event EventHandler? OnRightKeyHandler;
+        static public event EventHandler? OnEnterKeyHandler;
 
         static public void Start()
         {
@@ -25,7 +26,7 @@ namespace RPG2
         static public Task InputLoop()
         {
             ConsoleKey key = new();
-            while (true)
+            while (!tokenSource.Token.IsCancellationRequested)
             {
                 if (!Console.IsInputRedirected && Console.KeyAvailable)
                 {
@@ -48,6 +49,11 @@ namespace RPG2
                     if (key == ConsoleKey.RightArrow)
                     {
                         OnRightKey();
+                    }
+
+                    if (key == ConsoleKey.Enter)
+                    {
+                        OnEnterKey();
                     }
 
                 }
@@ -78,6 +84,12 @@ namespace RPG2
         {
             if (OnRightKeyHandler != null)
                 OnRightKeyHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        static public void OnEnterKey()
+        {
+            if (OnEnterKeyHandler != null)
+                OnEnterKeyHandler?.Invoke(null, EventArgs.Empty);
         }
     }
 
