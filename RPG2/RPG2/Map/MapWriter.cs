@@ -9,12 +9,29 @@ namespace RPG2
 {
     static public class MapWriter
     {
-        static int[] map = new int[100];
+        static public int mapSize { get; set; } = 20;
+
+        static int[] map = new int[mapSize];
+        static int col = 0;
+        static int Col
+        {
+            get
+            {
+                return col;
+            }
+            set
+            {
+                if (value < 0)
+                    value = 0;
+                col = value;
+            }
+        }
+            
         
         static MapWriter()
         {
             Random rnd = new();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < mapSize; i++)
             {
                 map[i] = rnd.Next(0,7);
             }
@@ -27,29 +44,17 @@ namespace RPG2
             for (int row = 0; row < 17; row++)
             {
                 
-                for (int col = Player.X-10; col < Player.X+10; col++)
+                for (Col = Player.X-10; (Col < Player.X+10 || Col < 20) && Col < mapSize; Col++)
                 {
                     for (int i = 0; i < 5; i++)
                     {
                         int written = row * 5;
-                        var currentBit = MapBits.mapBits[map[col]];
-                        int playerRow = 13;
-                        int playerHeight = 3;
-                        int playerWidth = 3;
+                        var currentBit = MapBits.mapBits[map[Col]];
 
-                        if(col == Player.X && row >= playerRow-1 && row < playerRow+playerHeight && i < playerWidth)
+                        if(checkToDrawPlayer(Col, row, i))
                         {
-                            if(row >= playerRow)
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                                Console.Write(Player.Drawing[(row - playerRow) * playerWidth + i].ToString());
-                            }
-                            else if(i==0)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.Write($"HP: {Player.Hp}");
-                            }
-                            
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.Write(Player.Drawing[(row - Player.DrawRow) * Player.DrawWidth + i].ToString());
                         }
                         else
                         {
@@ -65,6 +70,16 @@ namespace RPG2
                 Console.WriteLine();
             }
             
+        }
+
+        static bool checkToDrawPlayer(int col, int row, int i)
+        {
+            if (col == Player.X && row >= Player.DrawRow && row < Player.DrawRow + Player.DrawHeight && i < Player.DrawWidth)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

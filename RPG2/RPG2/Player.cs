@@ -14,16 +14,23 @@ namespace RPG2
         static public int Hp { get; set; }
         static public string Drawing { get; set; } = "";
         static public int X { get; set; }
+        static public int DrawRow { get; set; }
+        static public int DrawHeight { get; set; }
+        static public int DrawWidth { get; set; }
 
         static Player()
         {
             Hp = 100;
             Level = 1;
             Exp = 0;
-            X = 25;
+            X = 5;
             Drawing =   " O " +
                         "/|\\" +
                         "/ \\";
+
+            DrawRow = 13;
+            DrawHeight = 3;
+            DrawWidth = 3;
         }
     }
 }
