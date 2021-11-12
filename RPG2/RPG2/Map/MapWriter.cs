@@ -27,17 +27,39 @@ namespace RPG2
             for (int row = 0; row < 17; row++)
             {
                 
-                for (int col = x-10; col < x+10; col++)
+                for (int col = Player.X-10; col < Player.X+10; col++)
                 {
                     for (int i = 0; i < 5; i++)
                     {
                         int written = row * 5;
                         var currentBit = MapBits.mapBits[map[col]];
+                        int playerRow = 13;
+                        int playerHeight = 3;
+                        int playerWidth = 3;
 
-                        string str = currentBit.Drawing[written + i].ToString();
+                        if(col == Player.X && row >= playerRow-1 && row < playerRow+playerHeight && i < playerWidth)
+                        {
+                            if(row >= playerRow)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                                Console.Write(Player.Drawing[(row - playerRow) * playerWidth + i].ToString());
+                            }
+                            else if(i==0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write($"HP: {Player.Hp}");
+                            }
+                            
+                        }
+                        else
+                        {
+                            string str = currentBit.Drawing[written + i].ToString();
 
-                        Console.ForegroundColor = currentBit.Color;
-                        Console.Write(str);
+                            Console.ForegroundColor = currentBit.Color;
+                            Console.Write(str);
+                        }
+
+                        
                     }
                 }
                 Console.WriteLine();

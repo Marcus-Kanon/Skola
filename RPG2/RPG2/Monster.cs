@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace RPG2
 {
-    internal abstract class Monster
+    internal class Monster
     {
         public int Hp { get; set; }
-    }   
+        public int X { get; set; }
+        public virtual string Drawing { get; set; } =   " O  " +
+                                                        "/()\\" +
+                                                        "/ \\ ";
+        }   
 }

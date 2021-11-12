@@ -94,7 +94,18 @@ namespace RPG2
             }
         }
 
-        public static void SceneWorld()
+        public static void MenuGraphicsSetting()
+        {
+            ChoiceLimit = 0;
+            Choice = 0;
+
+            Console.Clear();
+            "\nThis is a console app. Do you really think there are any \ngraphics settings, Mr. IonlyPLayGamesWithPhotoRealisticGraphics. \nThis is all you get. Go and play Crysis or something \n\nDo you want me to exit the console for you so \nyou can go and play Crysis?\n\n".Print(textColor, 0, 0);
+
+            "> Exit Game <\n".Print(textColorSelected, 0, 0);
+        }
+
+            public static void SceneWorld()
         {
             Console.Clear();
             MapWriter.Draw(Game.playerPos);
@@ -134,6 +145,23 @@ namespace RPG2
                 MapWriter.Draw(25);
                 MainAction = SceneWorld;
             }
+
+            if (MainAction == MenuGraphicsSetting && Choice == 0)
+            {
+                Environment.Exit(0);
+            }
+
+            if (Choice == 3 && MainAction == MenuMain)
+            {
+                Environment.Exit(0);
+            }
+
+            if (Choice == 2 && MainAction == MenuMain)
+            {
+                MainAction = MenuGraphicsSetting;
+                MainAction();
+            }
+
         }
     }
 }

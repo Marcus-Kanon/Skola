@@ -36,11 +36,11 @@ namespace RPG2
         }
         public static void OnLeftKey(object? obj, EventArgs args)
         {
-            playerPos--;
+            Player.X--;
         }
         public static void OnRightKey(object? obj, EventArgs args)
         {
-            playerPos++;
+            Player.X++;
         }
         public static void OnEnterKey(object? obj, EventArgs args)
         {
