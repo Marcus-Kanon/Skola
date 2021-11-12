@@ -16,7 +16,7 @@ namespace RPG2
             Random rnd = new();
             for (int i = 0; i < 100; i++)
             {
-                map[i] = rnd.Next(0,2);
+                map[i] = rnd.Next(0,7);
             }
         }
 
@@ -32,8 +32,11 @@ namespace RPG2
                     for (int i = 0; i < 5; i++)
                     {
                         int written = row * 5;
-                        string str = MapBits.mapBits[map[col]][written + i].ToString();
+                        var currentBit = MapBits.mapBits[map[col]];
 
+                        string str = currentBit.Drawing[written + i].ToString();
+
+                        Console.ForegroundColor = currentBit.Color;
                         Console.Write(str);
                     }
                 }

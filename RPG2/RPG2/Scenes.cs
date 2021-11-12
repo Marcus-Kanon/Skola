@@ -60,7 +60,7 @@ namespace RPG2
 
         public static void MenuMain()
         {
-            ChoiceLimit = 3;
+            ChoiceLimit = 4;
 
             Console.Clear();
 
@@ -68,18 +68,28 @@ namespace RPG2
             {
                 "> Start Game <\n".Print(textColorSelected, 0, 0);
                 "Highscores (... Like you have any)\n".Print(textColor, 0, 0);
+                "Graphics Settings\n".Print(textColor, 0, 0);
                 "End Game\n".Print(textColor, 0, 0);
             }
             else if (Choice == 1)
             {
                 "Start Game\n".Print(textColor, 0, 0);
                 "> Highscores (... Like you have any) <\n".Print(textColorSelected, 0, 0);
+                "Graphics Settings\n".Print(textColor, 0, 0);
                 "End Game\n".Print(textColor, 0, 0);
             }
             else if (Choice == 2)
             {
                 "Start Game\n".Print(textColor, 0, 0);
+                "> Highscores (... Like you have any) <\n".Print(textColor, 0, 0);
+                "> Graphics Settings <\n".Print(textColorSelected, 0, 0);
+                "End Game\n".Print(textColor, 0, 0);
+            }
+            else if (Choice == 3)
+            {
+                "Start Game\n".Print(textColor, 0, 0);
                 "Highscores (... Like you have any)\n".Print(textColor, 0, 0);
+                "Graphics Settings\n".Print(textColor, 0, 0);
                 "> End Game <\n".Print(textColorSelected, 0, 0);
             }
         }
