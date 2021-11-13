@@ -17,7 +17,13 @@ namespace RPG2.GameLogic
 
             for (int i = 0; i < 5; i++)
             {
-                int attribute = rnd.Next(-20, 20);
+                int attribute=0;
+
+                while (attribute == 0)
+                {
+                    attribute = rnd.Next(-20, 20);
+                }
+
                 amuletList.Add(new Amulet() { Name = GetAmuletName(), Value = attribute , Cost = Math.Abs(attribute)*100});
             }
         }

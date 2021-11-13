@@ -10,7 +10,7 @@ namespace RPG2.Entities
     public class Monster : IDrawable
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public int Hp { get; set; }
         public int X { get; set; }
         public int Exp { get; set; }

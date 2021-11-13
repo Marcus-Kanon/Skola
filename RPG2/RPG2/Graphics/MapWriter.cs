@@ -23,7 +23,7 @@ namespace RPG2.Graphics
                 col = value;
             }
         }
-        public static int MapSize = 50;
+        public static int MapSize = 10000;
         public static int NumberOfBits { get; set; } = 7;
         public static int CameraWidth { get; set; } = 20;
         static public int CameraHeight { get; set; } = 17;

@@ -13,21 +13,9 @@ namespace RPG2.GameLogic
 {
     public static class Game
     {
-        static Player player;
-        public static Player Player
-        {
-            get
-            {
-                return player;
-            }
-            set
-            {
-                Scenes.Player = value;
-                player = value;
-            }
-        }
-        public static List<Monster> Monsters;
-        public static int entCounter { get; set; } = 0;
+        public static Player Player { get; set; }
+        public static List<Monster> Monsters { get; set; }
+        public static int EntCounter { get; set; }
 
         static Game()
         {
@@ -39,18 +27,29 @@ namespace RPG2.GameLogic
             InputHandler.OnIKeyHandler += OnIKey;
             InputHandler.OnSKeyHandler += OnSKey;
 
+            Init();
+        }
+
+        public static void Init()
+        {
+            EntCounter = 0;
             Player = new Player();
-            Player.ID = entCounter;
-            entCounter++;
+            Player.ID = EntCounter;
+            EntCounter++;
             MapWriter.AddDrawable(Player);
 
 
             Monsters = new List<Monster>();
-            Monsters.Add(new Monster_TreeOfDeception());
-            Monsters.Add(new Monster_TreeOfDeception());
-            Monsters.Add(new Monster_WeirdThing());
-            Monsters.Add(new Monster_WeirdThing());
-            Monsters.Add(new Monster_WeirdThing());
+
+            for (int i = 0; i < 100; i++)
+            {
+                Monsters.Add(new Monster_TreeOfDeception());
+                Monsters.Add(new Monster_TreeOfDeception());
+                Monsters.Add(new Monster_WeirdThing());
+                Monsters.Add(new Monster_WeirdThing());
+                Monsters.Add(new Monster_WeirdThing());
+                Monsters.Add(new Monster_Zombie());
+            }
 
             Random rnd = new();
 
@@ -59,12 +58,11 @@ namespace RPG2.GameLogic
                 Monsters[i].X = rnd.Next(0, MapWriter.MapSize);
                 Monsters[i].Text.Add("HP: " + Monsters[i].Hp);
                 Monsters[i].Text.Add(Monsters[i].Name);
-                Monsters[i].ID = entCounter;
-                entCounter++;
+                Monsters[i].ID = EntCounter;
+                EntCounter++;
 
                 MapWriter.AddDrawable(Monsters[i]);
             }
-
         }
 
         public static void Start()
@@ -79,7 +77,6 @@ namespace RPG2.GameLogic
             {
                 Player.Name,
                 "HP: " + Player.Hp.ToString(),
-                //"Exp: " + Player.Exp
             };
 
             for (int i = 0; i < Monsters.Count; i++)
@@ -118,35 +115,69 @@ namespace RPG2.GameLogic
 
         public static void Attack(Monster monster)
         {
-            monster.Hp -= player.Strength;
-
-            if (Player.Equipped.Value > 0)
-                monster.Hp -= Player.Equipped.Value;
-
-            if(Player.Equipped.Value < 0)
+            if (monster != null)
             {
-                if (monster.Damage - player.Touchness - Player.Equipped.Value > 0)
-                    player.Hp -= (monster.Damage - player.Touchness - Player.Equipped.Value);
-            }
-            else
-            {
-                if (monster.Damage - player.Touchness> 0)
-                    player.Hp -= (monster.Damage - player.Touchness);
-            }
+                int tempMonsterHp = 0;
+                int tempPlayerHp = 0;
 
-            if (monster.Hp <= 0)
-            {
-                MonsterDied(monster);
+                //Adds player damage of amulet
+                if (Player.Equipped.Value > 0)
+                    tempMonsterHp -= Player.Equipped.Value;
+
+                //Adds player damage from strenth
+                tempMonsterHp -= Player.Strength;
+
+                //Adds monster damage to player
+                tempPlayerHp -= monster.Damage;
+
+                //Adds temp hp to player based on toughness
+                tempPlayerHp += Player.Toughness;
+
+                //Adds amulet toughness
+                if (Player.Equipped.Value < 0)
+                    tempPlayerHp += Player.Equipped.Value;
+
+                //Adjusting
+                if (tempPlayerHp > 0)
+                    tempPlayerHp = 0;
+
+                //Adjusting
+                if (tempMonsterHp > 0)
+                    tempMonsterHp = 0;
+
+
+                Player.Hp += tempPlayerHp;
+                monster.Hp += tempMonsterHp;
+
+                if (monster.Hp <= 0)
+                {
+                    MonsterDied(monster);
+                }
+
+                if (Player.Hp <= 0)
+                {
+                    PlayerDied();
+                }
             }
         }
+
+
+        public static void PlayerDied()
+        {
+            Scenes.ScenePlayerDied();
+
+            Highscore.Highscores.Add(Player.Name + ": " + (-1000000 + Player.Exp));
+            Init();
+        }
+
 
         public static void MonsterDied(Monster monster)
         {
             Random rnd = new();
             int goldDrop = rnd.Next(1, 100);
 
-            player.Exp += monster.Exp;
-            player.Gold += goldDrop;
+            Player.Exp += monster.Exp;
+            Player.Gold += goldDrop;
 
             MapWriter.EntityList.Remove(monster);
             Monsters.Remove(monster);
@@ -156,7 +187,7 @@ namespace RPG2.GameLogic
 
         public static IDrawable AnyMonsterRight()
         {
-            var monster = MapWriter.EntityList.FirstOrDefault(q => q.X == Player.X+1 && q.ID!=player.ID);
+            var monster = MapWriter.EntityList.FirstOrDefault(q => q.X == Player.X+1 && q.ID!=Player.ID);
             if (monster != default)
             {
                 return monster;
@@ -167,7 +198,7 @@ namespace RPG2.GameLogic
 
         public static IDrawable AnyMonsterLeft()
         {
-            var monster = MapWriter.EntityList.FirstOrDefault(q => q.X == Player.X - 1 && q.ID != player.ID);
+            var monster = MapWriter.EntityList.FirstOrDefault(q => q.X == Player.X - 1 && q.ID != Player.ID);
             if (monster != default)
             {
                 return monster;

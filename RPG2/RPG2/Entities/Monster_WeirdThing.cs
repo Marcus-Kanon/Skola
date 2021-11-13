@@ -12,7 +12,7 @@ namespace RPG2.Entities
         public Monster_WeirdThing()
         {
             Hp = 10;
-            Damage = 7;
+            Damage = 4;
             Drawing =   "<  3" +
                         "<  3" +
                         "< | ";

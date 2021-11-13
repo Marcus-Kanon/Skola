@@ -24,12 +24,18 @@ namespace RPG2.Entities
             {
                 exp = value;
                 if (exp > Math.Pow(Level, 1.2) * 100)
+                {
                     Level++;
+                    Hp += 100;
+
+                    if (Hp > 200)
+                        Hp = 200;
+                }
             }
         }
         public int Hp { get; set; }
         public int Strength { get; set; }
-        public int Touchness { get; set; }
+        public int Toughness { get; set; }
         public int Gold { get; set; }
         public Amulet Equipped { get; set; }
         public string Drawing { get; set; } = "";
@@ -39,15 +45,14 @@ namespace RPG2.Entities
         public int DrawWidth { get; set; }
         public List<string> Text { get; set; } = new List<string>();
         public List<Amulet> Inventory { get; set; } = new List<Amulet>();
-
         public Player()
         {
             Hp = 100;
             Level = 1;
             Exp = 0;
-            X = 5;
+            X = 1000;
             Strength = 1;
-            Touchness = 1;
+            Toughness = 0;
             Equipped = new Amulet() { Name = "", Cost=0, Value=0 };
             Inventory = new List<Amulet>();
 

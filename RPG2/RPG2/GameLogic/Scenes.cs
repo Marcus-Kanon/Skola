@@ -16,7 +16,6 @@ namespace RPG2.GameLogic
         static int choice = 0;
         public static int ChoiceLimit { get; set; } = 0;
         static bool ContinueLoop { get; set; } = true;
-        static public Player Player { get; set; }
         public static int Choice
         {
             get
@@ -47,7 +46,6 @@ namespace RPG2.GameLogic
             InputHandler.OnIKeyHandler += OnIKey;
             InputHandler.OnSKeyHandler += OnSKey;
 
-            Player = new Player();
             MainAction = new Action(MenuMain);
         }
 
@@ -86,7 +84,7 @@ namespace RPG2.GameLogic
             else if (Choice == 2)
             {
                 "Start Game\n".Print(TextColor, 0, 0);
-                "> Highscores (... Like you have any) <\n".Print(TextColor, 0, 0);
+                "Highscores (... Like you have any)\n".Print(TextColor, 0, 0);
                 "> Graphics Settings <\n".Print(TextColorSelected, 0, 0);
                 "End Game\n".Print(TextColor, 0, 0);
             }
@@ -120,16 +118,31 @@ namespace RPG2.GameLogic
 
             for (int i = 0; i < Game.Player.Inventory.Count; i++)
             {
-                var amulet = Player.Inventory[i];
-                string amuleteValue = 0 > amulet.Value ? Math.Abs(amulet.Value).ToString() + " to touchness" : amulet.Value.ToString() + " to strength";
+                var amulet = Game.Player.Inventory[i];
+                string amuleteValue = 0 > amulet.Value ? Math.Abs(amulet.Value).ToString() + " to toughness" : amulet.Value.ToString() + " to strength";
 
                 if(i==Choice)
                 {
-                    Printer.Print("> " + amulet.Name + ": " + amuleteValue, ConsoleColor.Green, 30, 2 + i);
+                    if (Game.Player.Equipped == Game.Player.Inventory[i])
+                    {
+                        Printer.Print("> " +  amulet.Name + ": " + amuleteValue + " [Equipped]", ConsoleColor.DarkGray, 30, 2 + i);
+                    }
+                    else
+                    {
+                        Printer.Print("> " + amulet.Name + ": " + amuleteValue, ConsoleColor.Green, 30, 2 + i);
+                    }
+
                 }
                 else
                 {
-                    Printer.Print(amulet.Name + ": " + amuleteValue, ConsoleColor.White, 30, 2 + i);
+                    if (Game.Player.Equipped == Game.Player.Inventory[i])
+                    {
+                        Printer.Print(amulet.Name + ": " + amuleteValue + " [Equipped]", ConsoleColor.DarkGray, 30, 2 + i);
+                    }
+                    else
+                    {
+                        Printer.Print(amulet.Name + ": " + amuleteValue, ConsoleColor.White, 30, 2 + i);
+                    }
                 }
                 
             }
@@ -243,6 +256,16 @@ namespace RPG2.GameLogic
                 Choice++;
             }
         }
+        public static void ScenePlayerDied()
+        {
+            Console.Clear();
+
+            Printer.Print("You Died", ConsoleColor.Red, 55, 3);
+            Printer.Print("[Press enter to continue]", ConsoleColor.White, 48, 6);
+
+            Choice++;
+            MainAction = ScenePlayerDied;
+        }
 
         public static void SceneWorld()
         {
@@ -252,56 +275,79 @@ namespace RPG2.GameLogic
             Game.PostRound();
         }
 
+        public static void MenuHighScores()
+        {
+            Console.Clear();
+            int i;
+
+            List<string> sortedList = Highscore.Highscores.OrderByDescending(q => q).ToList();
+
+            for (i = 0; i < sortedList.Count; i++)
+            {
+                Printer.Print(sortedList[i], ConsoleColor.White, 48, 2+i);
+            }
+                
+            Printer.Print("[Press enter to continue]", ConsoleColor.White, 48, i+1);
+        }
+
         public static void OnUpKey(object? obj, EventArgs args)
         {
             if (MainAction == MenuMain)
             {
                 Scenes.Choice--;
-                
+                MainAction();
+
             }
 
             //Inventory
             if (MainAction == MenuInventory)
             {
                 Choice--;
+                MainAction();
             }
 
             //Shop
             if (MainAction == MenuShop)
             {
                 Choice--;
+                MainAction();
             }
-
-            MainAction();
         }
         public static void OnDownKey(object? obj, EventArgs args)
         {
             if (MainAction == MenuMain)
             {
                 Choice++;
+                MainAction();
             }
 
             //Inventory
             if (MainAction == MenuInventory)
             {
                 Choice++;
+                MainAction();
             }
 
             //Shop
             if (MainAction == MenuShop)
             {
                 Choice++;
+                MainAction();
             }
-
-            MainAction();
         }
         public static void OnLeftKey(object? obj, EventArgs args)
         {
-            MainAction();
+            if(MainAction == SceneWorld)
+            {
+                MainAction();
+            }
         }
         public static void OnRightKey(object? obj, EventArgs args)
         {
-            MainAction();
+            if(MainAction==SceneWorld)
+            {
+                MainAction();
+            }
         }
         public static void OnEnterKey(object? obj, EventArgs args)
         {
@@ -320,6 +366,7 @@ namespace RPG2.GameLogic
             if (MainAction == MenuInventory && Choice < ChoiceLimit - 1)
             {
                 Game.Player.Equipped = Game.Player.Inventory[Choice];
+                MainAction();
             }
             else if (MainAction == MenuInventory && Choice == ChoiceLimit - 1)
             {
@@ -331,10 +378,10 @@ namespace RPG2.GameLogic
             //Shop
             if (MainAction == MenuShop && Choice < ChoiceLimit-1)
             {
-                if(Player.Gold >= Shop.amuletList[Choice].Cost)
+                if(Game.Player.Gold >= Shop.amuletList[Choice].Cost)
                 {
-                    Player.Inventory.Add(Shop.amuletList[Choice]);
-                    Player.Gold -= Shop.amuletList[Choice].Cost;
+                    Game.Player.Inventory.Add(Shop.amuletList[Choice]);
+                    Game.Player.Gold -= Shop.amuletList[Choice].Cost;
 
                     MainAction = SceneWorld;
                     MainAction();
@@ -351,21 +398,33 @@ namespace RPG2.GameLogic
                 MainAction();
             }
 
+            Debug.Write(MainAction.Method);
+            //Main Menu
 
-            if (Choice == 0 && MainAction==MenuMain)
+            //Player Died
+            if (MainAction == ScenePlayerDied)
+            {
+                Console.Clear();
+                MainAction = MenuMain;
+                MainAction();
+            }
+            else if (Choice == 0 && MainAction==MenuMain)
             {
                 MainAction = SceneEnterWorld;
                 MainAction();
             }
 
-            if (MainAction == MenuGraphicsSetting && Choice == 0)
+            //Highscores
+            if (MainAction == MenuHighScores)
             {
-                Environment.Exit(0);
+                MainAction = MenuMain;
+                MainAction();
             }
-
-            if (Choice == 3 && MainAction == MenuMain)
+            else if (Choice == 1 && MainAction == MenuMain)
             {
-                Environment.Exit(0);
+                Choice = 0;
+                MainAction = MenuHighScores;
+                MainAction();
             }
 
             if (Choice == 2 && MainAction == MenuMain)
@@ -374,21 +433,37 @@ namespace RPG2.GameLogic
                 MainAction();
             }
 
+            if (Choice == 3 && MainAction == MenuMain)
+            {
+                Environment.Exit(0);
+            }
+
+            //Graphics Settings
+            if (MainAction == MenuGraphicsSetting && Choice == 0)
+            {
+                Environment.Exit(0);
+            }
         }
         public static void OnIKey(object? obj, EventArgs args)
         {
-            Choice = 0;
+            if(MainAction==SceneWorld)
+            {
+                Choice = 0;
 
-            MainAction = MenuInventory;
-            MainAction();
+                MainAction = MenuInventory;
+                MainAction();
+            }
         }
         public static void OnSKey(object? obj, EventArgs args)
         {
-            Shop.FillShop();
-            Choice = 0;
+            if (MainAction == SceneWorld)
+            {
+                Shop.FillShop();
+                Choice = 0;
 
-            MainAction = MenuShop;
-            MainAction();
+                MainAction = MenuShop;
+                MainAction();
+            }
         }
     }
 }
