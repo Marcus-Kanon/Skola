@@ -38,8 +38,7 @@ namespace RPG2.GameLogic
             player.Text.Add("HP: " + player.Hp);
             player.Text.Add(player.Name);
 
-            Scenes.player = player;
-            Scenes.monster = monster;
+            Scenes.Player = player;
 
             MapWriter.AddDrawable(player);
             MapWriter.AddDrawable(monster);

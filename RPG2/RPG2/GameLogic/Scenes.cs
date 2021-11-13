@@ -16,8 +16,7 @@ namespace RPG2.GameLogic
         static int choice = 0;
         public static int ChoiceLimit { get; set; } = 0;
         static bool ContinueLoop { get; set; } = true;
-        static public Player player { get; set; }
-        static public Monster monster { get; set; }
+        static public Player Player { get; set; }
         public static int Choice
         {
             get
@@ -46,11 +45,8 @@ namespace RPG2.GameLogic
             InputHandler.OnRightKeyHandler += OnRightKey;
             InputHandler.OnEnterKeyHandler += OnEnterKey;
 
+            Player = new Player();
             MainAction = new Action(MenuMain);
-
-            player = new Player();
-            monster = new Monster();
-
         }
 
         public static void SceneStarter(Action method)
@@ -112,12 +108,13 @@ namespace RPG2.GameLogic
             "> Exit Game <\n".Print(TextColorSelected, 0, 0);
         }
 
-        public static void SceneWorld()
+        public static void SceneEnterWorld()
         {
             Console.Clear();
-            //MapWriter.Draw(Player);
 
-            MapWriter.DrawDrawables(player);
+            MapWriter.DrawDrawables(Player);
+
+            Printer.Print("Noob", ConsoleColor.White, 15, 15);
         }
 
         public static void OnUpKey(object? obj, EventArgs args)
@@ -151,8 +148,8 @@ namespace RPG2.GameLogic
         {
             if(Choice == 0 && MainAction==MenuMain)
             {
-                //MapWriter.Draw(25);
-                MainAction = SceneWorld;
+                MainAction = SceneEnterWorld;
+                MainAction();
             }
 
             if (MainAction == MenuGraphicsSetting && Choice == 0)

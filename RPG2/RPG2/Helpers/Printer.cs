@@ -12,6 +12,8 @@ namespace RPG2.Helpers
     {
         public static void Print(this string msg, ConsoleColor color, int x=0, int y=0, ConsoleColor backgroundColor=ConsoleColor.Black)
         {
+            Console.CursorVisible = false;
+
             if(x != 0 && y != 0)
             {
                 Console.CursorLeft = x;
