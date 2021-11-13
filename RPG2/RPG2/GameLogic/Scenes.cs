@@ -70,28 +70,28 @@ namespace RPG2.GameLogic
             if (Choice == 0)
             {
                 "> Start Game <\n".Print(TextColorSelected, 0, 0);
-                "Highscores (... Like you have any)\n".Print(TextColor, 0, 0);
+                "Highscores (... as if you had any)\n".Print(TextColor, 0, 0);
                 "Graphics Settings\n".Print(TextColor, 0, 0);
                 "End Game\n".Print(TextColor, 0, 0);
             }
             else if (Choice == 1)
             {
                 "Start Game\n".Print(TextColor, 0, 0);
-                "> Highscores (... Like you have any) <\n".Print(TextColorSelected, 0, 0);
+                "> Highscores (... as if you had any) <\n".Print(TextColorSelected, 0, 0);
                 "Graphics Settings\n".Print(TextColor, 0, 0);
                 "End Game\n".Print(TextColor, 0, 0);
             }
             else if (Choice == 2)
             {
                 "Start Game\n".Print(TextColor, 0, 0);
-                "Highscores (... Like you have any)\n".Print(TextColor, 0, 0);
+                "Highscores (... as if you had any)\n".Print(TextColor, 0, 0);
                 "> Graphics Settings <\n".Print(TextColorSelected, 0, 0);
                 "End Game\n".Print(TextColor, 0, 0);
             }
             else if (Choice == 3)
             {
                 "Start Game\n".Print(TextColor, 0, 0);
-                "Highscores (... Like you have any)\n".Print(TextColor, 0, 0);
+                "Highscores (... as if you had any)\n".Print(TextColor, 0, 0);
                 "Graphics Settings\n".Print(TextColor, 0, 0);
                 "> End Game <\n".Print(TextColorSelected, 0, 0);
             }

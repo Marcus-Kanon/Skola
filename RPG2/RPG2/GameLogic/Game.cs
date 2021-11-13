@@ -164,10 +164,9 @@ namespace RPG2.GameLogic
 
         public static void PlayerDied()
         {
-            Scenes.ScenePlayerDied();
-
-            Highscore.Highscores.Add(Player.Name + ": " + (-1000000 + Player.Exp));
+            Highscore.Highscores.Add(Player.Name + ": " + (-1000000 + Player.Exp).ToString());
             Init();
+            Scenes.ScenePlayerDied();
         }
 
 

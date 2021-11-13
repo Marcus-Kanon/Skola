@@ -8,6 +8,11 @@ namespace RPG2.GameLogic
 {
     public static  class Highscore
     {
-        public static List<string> Highscores = new ();
+        public static List<string> Highscores { get; set; }
+
+        static Highscore()
+        {
+            Highscores = new List<string>();    
+        }
     }
 }
