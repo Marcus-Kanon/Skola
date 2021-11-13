@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG2.Map
+namespace RPG2.Graphics
 {
     static public class MapBits
     {
-        static public MapBit[] mapBits = new MapBit[10];
+        public static int Width { get; set; }
+        internal static MapBit[] mapBits = new MapBit[10];
 
-        static MapBits()
+        static MapBits()    
         {
-            mapBits[0] = new MapBit();
+            Width = 5;
+
+            mapBits[0] = new();
             mapBits[0].Color = ConsoleColor.Green;
             mapBits[0].Drawing =    "     " +
                                     "     " +
@@ -32,7 +35,7 @@ namespace RPG2.Map
                                     ",,,,," +
                                     "^^^^^";
 
-            mapBits[1] = new MapBit();
+            mapBits[1] = new();
             mapBits[1].Color = ConsoleColor.Green;
             mapBits[1].Drawing =    "     " +
                                     "     " +
@@ -52,7 +55,7 @@ namespace RPG2.Map
                                     "     " +
                                     "^^^^^";
 
-            mapBits[2] = new MapBit();
+            mapBits[2] = new();
             mapBits[2].Color = ConsoleColor.DarkGreen;
             mapBits[2].Drawing =    "     " +
                                     "     " +
@@ -72,7 +75,7 @@ namespace RPG2.Map
                                     "/ ..\\" +
                                     "^^^^^";
 
-            mapBits[3] = new MapBit();
+            mapBits[3] = new();
             mapBits[3].Color = ConsoleColor.DarkGreen;
             mapBits[3].Drawing =    "     " +
                                     "     " +
@@ -92,7 +95,7 @@ namespace RPG2.Map
                                     " \\\\/ " +
                                     "^^^^^";
 
-            mapBits[4] = new MapBit();
+            mapBits[4] = new();
             mapBits[4].Color = ConsoleColor.Green;
             mapBits[4].Drawing =    "     " +
                                     "     " +
@@ -112,7 +115,7 @@ namespace RPG2.Map
                                     "     " +
                                     "^^^^^";
 
-            mapBits[5] = new MapBit();
+            mapBits[5] = new();
             mapBits[5].Color = ConsoleColor.Green;
             mapBits[5].Drawing =    "     " +
                                     "     " +
@@ -132,7 +135,7 @@ namespace RPG2.Map
                                     "     " +
                                     "^^^^^";
 
-            mapBits[6] = new MapBit();
+            mapBits[6] = new();
             mapBits[6].Color = ConsoleColor.Green;
             mapBits[6].Drawing =    "     " +
                                     "     " +

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG2
+namespace RPG2.Input
 {
     static public class InputHandler
     {
-        static public CancellationTokenSource tokenSource = new();
+        static public CancellationTokenSource TokenSource = new();
         static public event EventHandler? OnDownKeyHandler;
         static public event EventHandler? OnUpKeyHandler;
         static public event EventHandler? OnLeftKeyHandler;
@@ -17,7 +17,7 @@ namespace RPG2
 
         static public void Start()
         {
-            TaskFactory taskFactory = new TaskFactory(tokenSource.Token,
+            TaskFactory taskFactory = new(TokenSource.Token,
                 TaskCreationOptions.LongRunning, TaskContinuationOptions.LongRunning, null);
             taskFactory.StartNew(() => InputLoop());
         }
@@ -25,8 +25,9 @@ namespace RPG2
 
         static public Task InputLoop()
         {
-            ConsoleKey key = new();
-            while (!tokenSource.Token.IsCancellationRequested)
+            ConsoleKey key;
+
+            while (!TokenSource.Token.IsCancellationRequested)
             {
                 if (!Console.IsInputRedirected && Console.KeyAvailable)
                 {

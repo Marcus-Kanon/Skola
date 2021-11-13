@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG2
+namespace RPG2.Entities
 {
-    internal class Monster_TreeOfDeception : Monster
+    public class Monster_TreeOfDeception : Monster
     {
 
-        Monster_TreeOfDeception()
+        public Monster_TreeOfDeception()
         {
             Hp = 500;
             Drawing =   " ( 3" +
                         " ( 3" +
                         "  | ";
+            DrawWidth = 4;
+            DrawHeight = 3;
+            DrawRow = 13;
+            Name = "Tree of Deception";
         }
     }
 }

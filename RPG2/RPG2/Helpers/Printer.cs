@@ -6,12 +6,18 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPG2
+namespace RPG2.Helpers
 {
     public static class Printer
     {
-        public static void Print(this string msg, ConsoleColor color, int x, int y, ConsoleColor backgroundColor=ConsoleColor.Black)
+        public static void Print(this string msg, ConsoleColor color, int x=0, int y=0, ConsoleColor backgroundColor=ConsoleColor.Black)
         {
+            if(x != 0 && y != 0)
+            {
+                Console.CursorLeft = x;
+                Console.CursorTop = y;
+            }
+
             Console.BackgroundColor = backgroundColor;
             Console.ForegroundColor = color;
             Console.Write(msg);

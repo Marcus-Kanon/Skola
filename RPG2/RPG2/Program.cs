@@ -1,8 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
-using RPG2;
+﻿using RPG2.GameLogic;
+namespace RPG2
+{
+    class Program
+    {
+        public static void Main()
+        {
+            Game.Start();
 
-Game.Start();
+            Console.Read();
+        }
+    }
 
-
-
-Console.Read();
+}
