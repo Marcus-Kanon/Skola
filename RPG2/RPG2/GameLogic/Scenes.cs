@@ -44,6 +44,8 @@ namespace RPG2.GameLogic
             InputHandler.OnLeftKeyHandler += OnLeftKey;
             InputHandler.OnRightKeyHandler += OnRightKey;
             InputHandler.OnEnterKeyHandler += OnEnterKey;
+            InputHandler.OnIKeyHandler += OnIKey;
+            InputHandler.OnSKeyHandler += OnSKey;
 
             Player = new Player();
             MainAction = new Action(MenuMain);
@@ -106,6 +108,75 @@ namespace RPG2.GameLogic
             "\nThis is a console app. Do you really think there are any \ngraphics settings, Mr. IonlyPLayGamesWithPhotoRealisticGraphics. \nThis is all you get. Go and play Crysis or something \n\nDo you want me to exit the console for you so \nyou can go and play Crysis?\n\n".Print(TextColor, 0, 0);
 
             "> Exit Game <\n".Print(TextColorSelected, 0, 0);
+        }
+
+        public static void MenuInventory()
+        {
+            Console.Clear();
+            MapWriter.DrawDrawables(Game.Player);
+            ChoiceLimit = Game.Player.Inventory.Count+1;
+
+            Printer.Print("[Inventory]", ConsoleColor.White, 30, 1);
+
+            for (int i = 0; i < Game.Player.Inventory.Count; i++)
+            {
+                var amulet = Player.Inventory[i];
+                string amuleteValue = 0 > amulet.Value ? Math.Abs(amulet.Value).ToString() + " to touchness" : amulet.Value.ToString() + " to strength";
+
+                if(i==Choice)
+                {
+                    Printer.Print("> " + amulet.Name + ": " + amuleteValue, ConsoleColor.Green, 30, 2 + i);
+                }
+                else
+                {
+                    Printer.Print(amulet.Name + ": " + amuleteValue, ConsoleColor.White, 30, 2 + i);
+                }
+                
+            }
+
+
+            if (Choice == ChoiceLimit - 1)
+            {
+                Printer.Print("> Close", ConsoleColor.Green, 30, 2 + ChoiceLimit);
+            }
+            else
+            {
+                Printer.Print("Close", ConsoleColor.White, 30, 2 + ChoiceLimit);
+            }
+        }
+
+        public static void MenuShop()
+        {
+            Console.Clear();
+            MapWriter.DrawDrawables(Game.Player);
+            ChoiceLimit = Shop.amuletList.Count+1;
+
+            Printer.Print("[Shop]", ConsoleColor.White, 30, 1);
+
+            for (int i = 0; i < Shop.amuletList.Count; i++)
+            {
+                var amulet = Shop.amuletList[i];
+                Debug.Write(Choice);
+                if (i == Choice)
+                {
+                    Printer.Print("> Name: " + amulet.Name + "| Cost: " + amulet.Cost, ConsoleColor.Green, 30, 2 + i);
+                }
+                else
+                {
+                    Printer.Print("Name: " + amulet.Name + "| Cost: " + amulet.Cost, ConsoleColor.White, 30, 2 + i);
+                }
+
+            }
+
+            if(Choice == ChoiceLimit-1)
+            {
+                Printer.Print("> Close", ConsoleColor.Green, 30, 2 + ChoiceLimit);
+            }
+            else
+            {
+                Printer.Print("Close", ConsoleColor.White, 30, 2 + ChoiceLimit);
+            }
+            
         }
 
         public static void SceneEnterWorld()
@@ -189,13 +260,37 @@ namespace RPG2.GameLogic
                 
             }
 
+            //Inventory
+            if (MainAction == MenuInventory)
+            {
+                Choice--;
+            }
+
+            //Shop
+            if (MainAction == MenuShop)
+            {
+                Choice--;
+            }
+
             MainAction();
         }
         public static void OnDownKey(object? obj, EventArgs args)
         {
             if (MainAction == MenuMain)
             {
-                Scenes.Choice++;
+                Choice++;
+            }
+
+            //Inventory
+            if (MainAction == MenuInventory)
+            {
+                Choice++;
+            }
+
+            //Shop
+            if (MainAction == MenuShop)
+            {
+                Choice++;
             }
 
             MainAction();
@@ -216,6 +311,41 @@ namespace RPG2.GameLogic
                 MainAction();
             }
             else if(MainAction == SceneEnterWorld && Choice == 4)
+            {
+                MainAction = SceneWorld;
+                MainAction();
+            }
+
+            //Inventory
+            if (MainAction == MenuInventory && Choice < ChoiceLimit - 1)
+            {
+                Game.Player.Equipped = Game.Player.Inventory[Choice];
+            }
+            else if (MainAction == MenuInventory && Choice == ChoiceLimit - 1)
+            {
+                MainAction = SceneWorld;
+                MainAction();
+            }
+
+
+            //Shop
+            if (MainAction == MenuShop && Choice < ChoiceLimit-1)
+            {
+                if(Player.Gold >= Shop.amuletList[Choice].Cost)
+                {
+                    Player.Inventory.Add(Shop.amuletList[Choice]);
+                    Player.Gold -= Shop.amuletList[Choice].Cost;
+
+                    MainAction = SceneWorld;
+                    MainAction();
+                }
+                else
+                {
+                    Printer.Print("You can't afford that", ConsoleColor.Red, 30, 20);
+                }
+
+            }
+            else if (MainAction == MenuShop && Choice == ChoiceLimit - 1)
             {
                 MainAction = SceneWorld;
                 MainAction();
@@ -244,6 +374,21 @@ namespace RPG2.GameLogic
                 MainAction();
             }
 
+        }
+        public static void OnIKey(object? obj, EventArgs args)
+        {
+            Choice = 0;
+
+            MainAction = MenuInventory;
+            MainAction();
+        }
+        public static void OnSKey(object? obj, EventArgs args)
+        {
+            Shop.FillShop();
+            Choice = 0;
+
+            MainAction = MenuShop;
+            MainAction();
         }
     }
 }

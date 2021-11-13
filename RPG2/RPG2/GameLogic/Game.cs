@@ -27,7 +27,7 @@ namespace RPG2.GameLogic
             }
         }
         public static List<Monster> Monsters;
-        public static int entCounter = 0;
+        public static int entCounter { get; set; } = 0;
 
         static Game()
         {
@@ -36,29 +36,34 @@ namespace RPG2.GameLogic
             InputHandler.OnLeftKeyHandler += OnLeftKey;
             InputHandler.OnRightKeyHandler += OnRightKey;
             InputHandler.OnEnterKeyHandler += OnEnterKey;
+            InputHandler.OnIKeyHandler += OnIKey;
+            InputHandler.OnSKeyHandler += OnSKey;
 
             Player = new Player();
-            Player.ID = entCounter; entCounter++;
+            Player.ID = entCounter;
+            entCounter++;
+            MapWriter.AddDrawable(Player);
+
 
             Monsters = new List<Monster>();
             Monsters.Add(new Monster_TreeOfDeception());
             Monsters.Add(new Monster_TreeOfDeception());
+            Monsters.Add(new Monster_WeirdThing());
+            Monsters.Add(new Monster_WeirdThing());
+            Monsters.Add(new Monster_WeirdThing());
 
-            Monsters[0].X = 20;
-            Monsters[0].Text.Add("HP: " + Monsters[0].Hp);
-            Monsters[0].Text.Add(Monsters[0].Name);
-            Monsters[0].ID = entCounter; entCounter++;
+            Random rnd = new();
 
-            Monsters[1].X = 15;
-            Monsters[1].ID = entCounter; entCounter++;
-            Monsters[1].Text.Add("HP: " + Monsters[1].Hp);
-            Monsters[1].Text.Add(Monsters[1].Name);
+            for (int i = 0; i < Monsters.Count; i++)
+            {
+                Monsters[i].X = rnd.Next(0, MapWriter.MapSize);
+                Monsters[i].Text.Add("HP: " + Monsters[i].Hp);
+                Monsters[i].Text.Add(Monsters[i].Name);
+                Monsters[i].ID = entCounter;
+                entCounter++;
 
-            Scenes.Player = Player;
-
-            MapWriter.AddDrawable(Player);
-            MapWriter.AddDrawable(Monsters[0]);
-            MapWriter.AddDrawable(Monsters[1]);
+                MapWriter.AddDrawable(Monsters[i]);
+            }
 
         }
 
@@ -113,10 +118,21 @@ namespace RPG2.GameLogic
 
         public static void Attack(Monster monster)
         {
-            monster.Hp -= (player.Strength);
+            monster.Hp -= player.Strength;
 
-            if (monster.Damage - player.Touchness > 0)
-                player.Hp -= (monster.Damage - player.Touchness);
+            if (Player.Equipped.Value > 0)
+                monster.Hp -= Player.Equipped.Value;
+
+            if(Player.Equipped.Value < 0)
+            {
+                if (monster.Damage - player.Touchness - Player.Equipped.Value > 0)
+                    player.Hp -= (monster.Damage - player.Touchness - Player.Equipped.Value);
+            }
+            else
+            {
+                if (monster.Damage - player.Touchness> 0)
+                    player.Hp -= (monster.Damage - player.Touchness);
+            }
 
             if (monster.Hp <= 0)
             {
@@ -195,6 +211,13 @@ namespace RPG2.GameLogic
 
         }
         public static void OnEnterKey(object? obj, EventArgs args)
+        {
+        }
+
+        public static void OnIKey(object? obj, EventArgs args)
+        {
+        }
+        public static void OnSKey(object? obj, EventArgs args)
         {
         }
 

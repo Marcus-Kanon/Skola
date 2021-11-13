@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace RPG2.Input
         static public event EventHandler? OnLeftKeyHandler;
         static public event EventHandler? OnRightKeyHandler;
         static public event EventHandler? OnEnterKeyHandler;
+        static public event EventHandler? OnIKeyHandler;
+        static public event EventHandler? OnSKeyHandler;
 
         static public void Start()
         {
@@ -57,6 +60,16 @@ namespace RPG2.Input
                         OnEnterKey();
                     }
 
+                    if (key == ConsoleKey.I)
+                    {
+                        OnIKey();
+                    }
+
+                    if (key == ConsoleKey.S)
+                    {
+                        OnSKey();
+                    }
+
                 }
             }
 
@@ -91,6 +104,18 @@ namespace RPG2.Input
         {
             if (OnEnterKeyHandler != null)
                 OnEnterKeyHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        static public void OnIKey()
+        {
+            if (OnIKeyHandler != null)
+                OnIKeyHandler?.Invoke(null, EventArgs.Empty);
+        }
+
+        static public void OnSKey()
+        {
+            if (OnSKeyHandler != null)
+                OnSKeyHandler?.Invoke(null, EventArgs.Empty);
         }
     }
 

@@ -31,6 +31,7 @@ namespace RPG2.Entities
         public int Strength { get; set; }
         public int Touchness { get; set; }
         public int Gold { get; set; }
+        public Amulet Equipped { get; set; }
         public string Drawing { get; set; } = "";
         public int X { get; set; }
         public int DrawRow { get; set; }
@@ -47,6 +48,8 @@ namespace RPG2.Entities
             X = 5;
             Strength = 1;
             Touchness = 1;
+            Equipped = new Amulet() { Name = "", Cost=0, Value=0 };
+            Inventory = new List<Amulet>();
 
             Drawing =   " O " +
                         "/|\\" +

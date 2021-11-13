@@ -13,12 +13,11 @@ namespace RPG2.GameLogic
         public static void FillShop()
         {
             Random rnd = new();
-            int attribute = rnd.Next(-20, 20);
             amuletList = new();
 
             for (int i = 0; i < 5; i++)
             {
-
+                int attribute = rnd.Next(-20, 20);
                 amuletList.Add(new Amulet() { Name = GetAmuletName(), Value = attribute , Cost = Math.Abs(attribute)*100});
             }
         }
