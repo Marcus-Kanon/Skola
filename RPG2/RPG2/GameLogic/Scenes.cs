@@ -110,11 +110,75 @@ namespace RPG2.GameLogic
 
         public static void SceneEnterWorld()
         {
-            Console.Clear();
+            ChoiceLimit = 5;
 
-            MapWriter.DrawDrawables(Player);
+            if (Choice == 0)
+            {
+                Console.Clear();
 
-            Printer.Print("Noob", ConsoleColor.White, 15, 15);
+                Printer.Print("In this game you walk around and slay", ConsoleColor.Red, 42, 3);
+                Printer.Print("monsters in order to become less of a loser", ConsoleColor.Red, 40, 4);
+                Printer.Print("[Press enter to continue]", ConsoleColor.White, 48, 6);
+
+                Choice++;
+            }
+            else if (Choice==1)
+            {
+                Console.Clear();
+
+                MapWriter.DrawDrawables(Game.Player);
+
+                Printer.Print("This is your Loser: ", ConsoleColor.White, 25, 8);
+                Printer.Print("Name your Loser: ", ConsoleColor.White, 25, 9);
+
+                //Ask for name
+                Console.CursorVisible = true;
+                Game.Player.Name = Console.ReadLine();
+                Console.CursorVisible = false;
+                
+                Game.Player.Text = new List<string> { Game.Player.Name };  
+
+                Choice++;
+
+                MainAction();
+            }
+            else if (Choice == 2)
+            {
+                Console.Clear();
+                MapWriter.DrawDrawables(Game.Player);
+                Printer.Print($"Welcome {Game.Player.Name}. It's quite simple. You can walk to the left or to the right. ", ConsoleColor.Green, 20, 3);
+                Printer.Print("You can check your inventory by pressing \"i\". To go to the shop, just press \"s\"", ConsoleColor.Green, 20, 4);
+                Printer.Print("[Press enter to continue]", ConsoleColor.White, 50, 7);
+
+                Choice++;
+            }
+            else if (Choice == 3)
+            {
+                Console.Clear();
+                MapWriter.DrawDrawables(Game.Player);
+                Printer.Print($"Your highscore obviously starts at negative one million", ConsoleColor.Green, 35, 3);
+                Printer.Print($"and you work your way up from there.", ConsoleColor.Green, 45, 4);
+                Printer.Print("[Press enter to continue]", ConsoleColor.White, 48, 6);
+
+                Choice++;
+            }
+            else if(Choice==4)
+            {
+                Console.Clear();
+                MapWriter.DrawDrawables(Game.Player);
+                Printer.Print("Let's Start", ConsoleColor.Green, 48, 3);
+                Printer.Print("[Press enter to continue]", ConsoleColor.White, 48, 6);
+
+                Choice++;
+            }
+        }
+
+        public static void SceneWorld()
+        {
+
+            Game.PreRound();
+            MapWriter.DrawDrawables(Game.Player);
+            Game.PostRound();
         }
 
         public static void OnUpKey(object? obj, EventArgs args)
@@ -146,7 +210,19 @@ namespace RPG2.GameLogic
         }
         public static void OnEnterKey(object? obj, EventArgs args)
         {
-            if(Choice == 0 && MainAction==MenuMain)
+            //StartScene
+            if (MainAction == SceneEnterWorld && Choice < 4)
+            {
+                MainAction();
+            }
+            else if(MainAction == SceneEnterWorld && Choice == 4)
+            {
+                MainAction = SceneWorld;
+                MainAction();
+            }
+
+
+            if (Choice == 0 && MainAction==MenuMain)
             {
                 MainAction = SceneEnterWorld;
                 MainAction();

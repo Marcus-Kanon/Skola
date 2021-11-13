@@ -8,6 +8,7 @@ namespace RPG2.Graphics
 {
     public interface IDrawable
     {
+        public int ID { get; set; }
         public int X { get; set; }
         public int DrawRow { get; set; }
         public int DrawHeight { get; set; }

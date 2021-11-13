@@ -9,6 +9,7 @@ namespace RPG2.Entities
 {
     public class Player : IDrawable
     {
+        public int ID { get; set; }
         public string Name { get; set; } = "Macke";
         public int Level { get; set; }
         public int Exp { get; set; }
