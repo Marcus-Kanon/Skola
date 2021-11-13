@@ -47,10 +47,13 @@ namespace RPG2.Graphics
         {
             foreach (var entity in EntityList)
             {
-                if (Col == entity.X && row >= entity.DrawRow && row < entity.DrawRow + entity.DrawHeight && i < entity.DrawWidth)
+                if (entity != null)
                 {
-                    ent = entity;
-                    return true;
+                    if (Col == entity.X && row >= entity.DrawRow && row < entity.DrawRow + entity.DrawHeight && i < entity.DrawWidth)
+                    {
+                        ent = entity;
+                        return true;
+                    }
                 }
             }
 
@@ -61,10 +64,13 @@ namespace RPG2.Graphics
         {
             foreach (var entity in EntityList)
             {
-                if (Col == entity.X && row >= entity.DrawRow-entity.Text.Count && row < entity.DrawRow && i == 0 && entity.Text.Count>0)
+                if (entity != null)
                 {
-                    ent = entity;
-                    return true;
+                    if (Col == entity.X && row >= entity.DrawRow - entity.Text.Count && row < entity.DrawRow && i == 0 && entity.Text.Count > 0)
+                    {
+                        ent = entity;
+                        return true;
+                    }
                 }
             }
 

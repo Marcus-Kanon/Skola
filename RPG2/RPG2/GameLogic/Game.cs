@@ -61,11 +61,30 @@ namespace RPG2.GameLogic
             MapWriter.AddDrawable(Monsters[1]);
 
         }
+
+        public static void Start()
+        {
+            InputHandler.Start();
+            Scenes.SceneStarter(Scenes.MenuMain);
+        }
+
         public static void PreRound()
         {
-            Player.Text = new List<string> { Player.Name, "HP: " + Player.Hp.ToString() };
-            Monsters[0].Text = new List<string> { Monsters[0].Name, "HP: " + Monsters[0].Hp.ToString() };
-            Monsters[1].Text = new List<string> { Monsters[1].Name, "HP: " + Monsters[1].Hp.ToString() };
+            Player.Text = new List<string>
+            {
+                Player.Name,
+                "HP: " + Player.Hp.ToString(),
+                //"Exp: " + Player.Exp
+            };
+
+            for (int i = 0; i < Monsters.Count; i++)
+            {
+                if(Monsters[i] != null)
+                {
+                    Monsters[i].Text = new List<string> { Monsters[i].Name, "HP: " + Monsters[i].Hp.ToString() };
+                }
+            }
+            
         }
 
         public static void PostRound()
@@ -88,16 +107,37 @@ namespace RPG2.GameLogic
                 Printer.Print("<-- [Attack!]", ConsoleColor.Red, 2, 3);
             }
 
-            
+            Printer.Print($"Level: {Player.Level} | Exp: {Player.Exp}", ConsoleColor.Blue, 2, 1);
+            Printer.Print($" | Gold: {Player.Gold}", ConsoleColor.Yellow);
         }
 
-        public static void Start()
+        public static void Attack(Monster monster)
         {
-            InputHandler.Start();
-            Scenes.SceneStarter(Scenes.MenuMain);
+            monster.Hp -= (player.Strength);
+
+            if (monster.Damage - player.Touchness > 0)
+                player.Hp -= (monster.Damage - player.Touchness);
+
+            if (monster.Hp <= 0)
+            {
+                MonsterDied(monster);
+            }
         }
 
-        
+        public static void MonsterDied(Monster monster)
+        {
+            Random rnd = new();
+            int goldDrop = rnd.Next(1, 100);
+
+            player.Exp += monster.Exp;
+            player.Gold += goldDrop;
+
+            MapWriter.EntityList.Remove(monster);
+            Monsters.Remove(monster);
+
+
+        }
+
         public static IDrawable AnyMonsterRight()
         {
             var monster = MapWriter.EntityList.FirstOrDefault(q => q.X == Player.X+1 && q.ID!=player.ID);
@@ -132,6 +172,12 @@ namespace RPG2.GameLogic
             {
                 Player.X--;
             }
+            else
+            {
+                var monster = Monsters.FirstOrDefault(q => q.ID == AnyMonsterLeft().ID);
+
+                Attack(monster);
+            }
 
         }
         public static void OnRightKey(object? obj, EventArgs args)
@@ -143,8 +189,8 @@ namespace RPG2.GameLogic
             else
             {
                 var monster = Monsters.FirstOrDefault(q => q.ID==AnyMonsterRight().ID);
-                monster.Hp -= 5;
-                player.Hp -= 1;
+
+                Attack(monster);
             }
 
         }

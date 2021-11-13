@@ -11,13 +11,15 @@ namespace RPG2.Entities
 
         public Monster_TreeOfDeception()
         {
-            Hp = 500;
+            Hp = 50;
+            Damage = 0;
             Drawing =   " ( 3" +
                         " ( 3" +
                         "  | ";
             DrawWidth = 4;
             DrawHeight = 3;
             DrawRow = 13;
+            Exp = 100;
             Name = "Tree of Deception";
         }
     }

@@ -13,6 +13,8 @@ namespace RPG2.Entities
         public string Name { get; set; }
         public int Hp { get; set; }
         public int X { get; set; }
+        public int Exp { get; set; }
+        public int Damage { get; set; }
         public int DrawRow { get; set; }
         public int DrawHeight { get; set; }
         public int DrawWidth { get; set; }
