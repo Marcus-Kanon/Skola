@@ -7,22 +7,22 @@ using System.Xml.Serialization;
 
 namespace SQL___Inlämning_1
 {
-    internal class XmlReader
+    internal class LoginXMLReader
     {
-        public SqlLoginDetails? Read()
+        public LoginDetails? Read()
         {
-            SqlLoginDetails? login = new();
-            XmlSerializer xmls = new XmlSerializer(typeof(SqlLoginDetails));
+            LoginDetails? login = new();
+            XmlSerializer xmls = new XmlSerializer(typeof(LoginDetails));
 
             using (var sr = new StreamReader("login.xml"))
             {
-                login = xmls.Deserialize(sr) as SqlLoginDetails;
+                login = xmls.Deserialize(sr) as LoginDetails;
             }
 
             return login;
         }
         
-        public bool IsNull(SqlLoginDetails details)
+        public bool IsNull(LoginDetails details)
         {
             if (details is null || details.name == null || details.password == null || details.server == null)
                 return true;

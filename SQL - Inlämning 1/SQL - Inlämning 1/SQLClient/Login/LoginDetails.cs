@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQL___Inlämning_1
 {
-    public class SqlLoginDetails
+    public class LoginDetails
     { 
         public string? name;
         public string? password;
