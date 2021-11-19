@@ -1,6 +1,12 @@
 ﻿using SQL___Inlämning_1;
+using SQL___Inlämning_1.SQL;
+using SQL___Inlämning_1.SQLClient;
 
-SQLClient database = new();
-database.Login();
+Select Selection = new Select();
+Selection.Start();
 
-Console.ReadLine();
+SQLClient.GenerateConnection();
+
+SqlCommands commands = new SqlCommands();
+
+commands.CreateDB(SQLClient.C, "TestDBDB", "");

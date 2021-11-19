@@ -6,28 +6,33 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace SQL___Inlämning_1
+namespace SQL___Inlämning_1.SQLClient
 {
-    internal class SQLClient
+    internal static class SQLClient
     {
-        public SqlConnection? C { get; set; }
+        public static SqlConnection? C { get; set; }
+        public static LoginDetails LoginDetails { get; set; } = new LoginDetails();
 
-        public void Login()
+        public static void GenerateConnection()
         {
             LoginXMLReader XmlReader = new();
-            LoginDetails? LoginDetails = XmlReader.Read();
+            List<LoginDetails> logins = XmlReader.Read();
 
             if (!XmlReader.IsNull(LoginDetails))
             {
-                Console.WriteLine("Tring to Login with: ");
-                Console.WriteLine("Username: " + LoginDetails.name);
-                Console.WriteLine("Password: " + LoginDetails.password);
-                Console.WriteLine("Server: " + LoginDetails.server);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nBuilding connecting string with:");
+
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("\tUsername: " + LoginDetails.Name);
+                Console.WriteLine("\tServer: " + LoginDetails.Server);
+                Console.ForegroundColor = ConsoleColor.White;
 
                 C = new(
-                    "Server=" + LoginDetails.server + ";" +
-                    "User id=" + LoginDetails.name + ";" +
-                    "Password=" + LoginDetails.password + ";" +
+                    "Server=" + LoginDetails.Server + ";" +
+                    "User id=" + LoginDetails.Name + ";" +
+                    "Password=" + LoginDetails.Password + ";" +
                     "Integrated security=SSPI;" +
                     "database=master"
                     );
@@ -41,6 +46,15 @@ namespace SQL___Inlämning_1
             {
                 Console.WriteLine("Error reading login-data");
             }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nManaged to generate connection string");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void AddLogin()
+        {
+
         }
     }
 }

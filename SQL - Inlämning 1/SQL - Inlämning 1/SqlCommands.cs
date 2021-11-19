@@ -8,25 +8,52 @@ using System.Data;
 
 namespace SQL___Inlämning_1.SQL
 {
-    internal class SqlCommands
+    public class SqlCommands
     {
-        public void CreateDB(SqlConnection connection, string databaseName)
+        public void CreateDB(SqlConnection connection, string databaseName, string path)
         {
-            string str = "CREATE DATABASE" + databaseName + "ON PRIMARY " +
-             "(NAME = TestData, " +
-             "FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\" + databaseName + ".mdf', " +
+            path = "C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\";
+
+            string str = "CREATE DATABASE @DATABASENAME ON PRIMARY " +
+             "(NAME = @DATABASENAME, " +
+             "FILENAME = ' @DATABASENAME .mdf', " +
              "SIZE = 2MB, MAXSIZE = 10MB, FILEGROWTH = 10%)" +
-             "LOG ON (NAME = MyDatabase_Log, " +
-             "FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\" + databaseName + ".ldf', " +
+             "LOG ON (NAME = DATABASENAME _Log, " +
+             "FILENAME = '@PATH @DATABASENAME .ldf', " +
              "SIZE = 1MB, " +
              "MAXSIZE = 5MB, " +
              "FILEGROWTH = 10%)";
 
-            SqlCommand myCommand = new(str, connection);
+            SqlCommand q = new(str, connection);
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter()
+                {
+                    ParameterName = "@DATABSENAME",
+                    Value = databaseName
+                },
+                new SqlParameter()
+                {
+                    ParameterName = "@PATH",
+                    Value = path
+                }
+            };
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                q.Parameters.Add(parameters[i]);
+            }
+
             try
             {
                 connection.Open();
-                myCommand.ExecuteNonQuery();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("EXECUTING: \n\n\t");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(q.CommandText);
+
+                q.ExecuteNonQuery();
                 Console.WriteLine("Database was Created Successfully");
             }
             catch (System.Exception ex)
