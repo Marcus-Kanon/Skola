@@ -8,7 +8,7 @@ using System.Data;
 
 namespace SQL___Inlämning_1.SQLClient
 {
-    internal static class SQLClient
+    internal static class SqlConnectorClient
     {
         public static SqlConnection? C { get; set; }
         public static LoginDetails LoginInfo { get; set; } = new LoginDetails();

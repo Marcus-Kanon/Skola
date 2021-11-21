@@ -4,14 +4,14 @@ using SQL___Inlämning_1.SQLClient;
 
 Select Selection = new Select();
 Selection.Logins();
-SQLClient.GenerateConnection();
+SqlConnectorClient.GenerateConnection();
 SqlCommands commands = new SqlCommands();
 
 var dbName = "Test1";
 
-commands.CreateDB(SQLClient.C, dbName, "C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\");
-commands.CreateTable(SQLClient.C, dbName);
+commands.CreateDB(SqlConnectorClient.C, dbName, "C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\");
+commands.CreateTable(SqlConnectorClient.C, dbName);
 
 
 
-SQLClient.C.Close();
+SqlConnectorClient.C.Close();

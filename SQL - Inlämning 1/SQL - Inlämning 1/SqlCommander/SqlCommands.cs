@@ -33,9 +33,9 @@ namespace SQL___Inlämning_1.SQL
 
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("EXECUTING: \n\n\t");
+                    Console.WriteLine("EXECUTING: ");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(q.CommandText);
+                    Console.WriteLine("\n" + q.CommandText);
 
                     q.ExecuteNonQuery();
 
@@ -45,7 +45,9 @@ namespace SQL___Inlämning_1.SQL
                 }
                 catch (System.Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nERROR:\n" + ex.ToString());
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 finally
                 {
@@ -59,7 +61,13 @@ namespace SQL___Inlämning_1.SQL
 
         public void CreateTable(SqlConnection connection, string dbName)
         {
-            using (StreamReader reader = new("MOCK_DATA.sql"))
+            string fileName = "MOCK_DATA.sql";
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nTrying to read from " + fileName);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            using (StreamReader reader = new(fileName))
             {
                 string str = "USE " + dbName + "; ";
                 while (!reader.EndOfStream)
@@ -67,18 +75,17 @@ namespace SQL___Inlämning_1.SQL
                     str += reader.ReadLine();
                 }
 
+                connection.Open();
+
                 using (var q = new SqlCommand(str, connection))
                 {
-                    connection.Open();
-
                     try
                     {
 
 
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("EXECUTING " + str.Length + " characters of code\n\n\t");
+                        Console.WriteLine("\nEXECUTING " + str.Length + " characters of code");
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine(q.CommandText);
 
                         q.ExecuteNonQuery();
 
@@ -89,7 +96,7 @@ namespace SQL___Inlämning_1.SQL
                     catch (System.Exception ex)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\n\n\n" + ex.ToString());
+                        Console.WriteLine("\nERROR:\n" + ex.ToString());
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     finally
@@ -101,6 +108,47 @@ namespace SQL___Inlämning_1.SQL
                     }
                 }
             }
+        }
+
+        public T ExecuteGenericCommand<T>(SqlConnection connection, string dbName, string str)
+        {
+            T results;
+
+
+            using (var q = new SqlCommand(str, connection))
+            {
+                connection.Open();
+
+                try
+                {
+                    
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("EXECUTING: " + str);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("\n" + q.CommandText);
+
+                    q.ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nERROR:\n" + ex.ToString());
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+
+
+
+
+            return results;
         }
     }
 }

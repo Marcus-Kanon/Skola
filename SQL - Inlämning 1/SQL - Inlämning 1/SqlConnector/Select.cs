@@ -34,11 +34,11 @@ namespace SQL___Inlämning_1.SQLClient
 
             int.TryParse(Console.ReadLine(), out int select);
 
-            SQLClient.LoginInfo.Name = reader.logins[select - 1].Name;
-            SQLClient.LoginInfo.Server = reader.logins[select - 1].Server;
-            SQLClient.LoginInfo.Password = reader.logins[select - 1].Password;
+            SqlConnectorClient.LoginInfo.Name = reader.logins[select - 1].Name;
+            SqlConnectorClient.LoginInfo.Server = reader.logins[select - 1].Server;
+            SqlConnectorClient.LoginInfo.Password = reader.logins[select - 1].Password;
 
-            Console.WriteLine("\nSelected login:\n\tName: " + SQLClient.LoginInfo.Name + "\n\tServer: " + SQLClient.LoginInfo.Server);
+            Console.WriteLine("\nSelected login:\n\tName: " + SqlConnectorClient.LoginInfo.Name + "\n\tServer: " + SqlConnectorClient.LoginInfo.Server);
         }
     }
 }
