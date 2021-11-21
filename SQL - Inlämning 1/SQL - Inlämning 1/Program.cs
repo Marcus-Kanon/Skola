@@ -3,10 +3,15 @@ using SQL___Inlämning_1.SQL;
 using SQL___Inlämning_1.SQLClient;
 
 Select Selection = new Select();
-Selection.Start();
-
+Selection.Logins();
 SQLClient.GenerateConnection();
-
 SqlCommands commands = new SqlCommands();
 
-commands.CreateDB(SQLClient.C, "TestDBDB", "");
+var dbName = "Test1";
+
+commands.CreateDB(SQLClient.C, dbName, "C:\\Program Files\\Microsoft SQL Server\\MSSQL15.SQLEXPRESS\\MSSQL\\DATA\\");
+commands.CreateTable(SQLClient.C, dbName);
+
+
+
+SQLClient.C.Close();

@@ -8,9 +8,7 @@ namespace SQL___Inlämning_1.SQLClient
 {
     internal class Select
     {
-
-
-        public void Start()
+        public void Logins()
         {
 
             Console.WriteLine("*Reading logins from login.xml*\n");
@@ -36,11 +34,11 @@ namespace SQL___Inlämning_1.SQLClient
 
             int.TryParse(Console.ReadLine(), out int select);
 
-            SQLClient.LoginDetails.Name = reader.logins[select - 1].Name;
-            SQLClient.LoginDetails.Server = reader.logins[select - 1].Server;
-            SQLClient.LoginDetails.Password = reader.logins[select - 1].Password;
+            SQLClient.LoginInfo.Name = reader.logins[select - 1].Name;
+            SQLClient.LoginInfo.Server = reader.logins[select - 1].Server;
+            SQLClient.LoginInfo.Password = reader.logins[select - 1].Password;
 
-            Console.WriteLine("Selected login:\n\t" + SQLClient.LoginDetails.Name + "\n\t" + SQLClient.LoginDetails.Server);
+            Console.WriteLine("\nSelected login:\n\tName: " + SQLClient.LoginInfo.Name + "\n\tServer: " + SQLClient.LoginInfo.Server);
         }
     }
 }

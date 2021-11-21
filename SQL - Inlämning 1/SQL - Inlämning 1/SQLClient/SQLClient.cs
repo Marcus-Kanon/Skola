@@ -11,29 +11,38 @@ namespace SQL___Inlämning_1.SQLClient
     internal static class SQLClient
     {
         public static SqlConnection? C { get; set; }
-        public static LoginDetails LoginDetails { get; set; } = new LoginDetails();
+        public static LoginDetails LoginInfo { get; set; } = new LoginDetails();
 
         public static void GenerateConnection()
         {
             LoginXMLReader XmlReader = new();
             List<LoginDetails> logins = XmlReader.Read();
 
-            if (!XmlReader.IsNull(LoginDetails))
+            if (!XmlReader.IsNull(LoginInfo))
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nBuilding connecting string with:");
 
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\tUsername: " + LoginDetails.Name);
-                Console.WriteLine("\tServer: " + LoginDetails.Server);
+                Console.WriteLine("\tUsername: " + LoginInfo.Name);
+                Console.WriteLine("\tServer: " + LoginInfo.Server + "\n\n");
+                
+
+                string cStr = "Server=" + LoginInfo.Server + ";" +
+                                "User id=" + LoginInfo.Name + ";" +
+                                "Password=" + LoginInfo.Password + ";" +
+                                "Integrated security=SSPI;" +
+                                "database=master";
+
+                Console.WriteLine("\tConnection String=" + cStr);
+
                 Console.ForegroundColor = ConsoleColor.White;
 
-                C = new(
-                    "Server=" + LoginDetails.Server + ";" +
-                    "User id=" + LoginDetails.Name + ";" +
-                    "Password=" + LoginDetails.Password + ";" +
-                    "Integrated security=SSPI;" +
+                C = new("Server=" + LoginInfo.Server + "; " +
+                    "User id=" + LoginInfo.Name + "; " +
+                    "Password=" + LoginInfo.Password + "; " +
+                    "Integrated security=SSPI; " +
                     "database=master"
                     );
 
@@ -48,7 +57,7 @@ namespace SQL___Inlämning_1.SQLClient
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nManaged to generate connection string");
+            Console.WriteLine("\nManaged to generate connection string\n");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
