@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using SQL___Inlämning_1.SQL;
 
 namespace SQL___Inlämning_1.SQLClient
 {
@@ -13,7 +14,7 @@ namespace SQL___Inlämning_1.SQLClient
         public static SqlConnection? C { get; set; }
         public static LoginDetails LoginInfo { get; set; } = new LoginDetails();
 
-        public static void GenerateConnection()
+        public static bool GenerateConnection()
         {
             LoginXMLReader XmlReader = new();
             List<LoginDetails> logins = XmlReader.Read();
@@ -24,7 +25,7 @@ namespace SQL___Inlämning_1.SQLClient
                 Console.WriteLine("\nBuilding connecting string with:");
 
 
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("\tUsername: " + LoginInfo.Name);
                 Console.WriteLine("\tServer: " + LoginInfo.Server + "\n\n");
                 
@@ -54,16 +55,36 @@ namespace SQL___Inlämning_1.SQLClient
             else
             {
                 Console.WriteLine("Error reading login-data");
+
+                return false;
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nManaged to generate connection string\n");
             Console.ForegroundColor = ConsoleColor.White;
-        }
 
-        public static void AddLogin()
-        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nTrying to connect...");
 
+            try
+            {
+                SqlConnectorClient.C.Open();
+                SqlCommands command = new();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Connected to " + command.SimpleSqlAnswer<string>(C, "SELECT @@VERSION"));
+                Console.ForegroundColor = ConsoleColor.White;
+
+                return true;
+            }
+            catch
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Couldn't connect to database. Wrong login details in login.xml?");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                return false;
+            }
         }
     }
 }

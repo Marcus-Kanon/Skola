@@ -26,7 +26,6 @@ namespace SQL___Inlämning_1.SQL
 
             using (var q = new SqlCommand(str, connection))
             {
-                connection.Open();
 
                 try
                 {
@@ -53,7 +52,7 @@ namespace SQL___Inlämning_1.SQL
                 {
                     if (connection.State == ConnectionState.Open)
                     {
-                        connection.Close();
+                        //connection.Close();
                     }
                 }
             }
@@ -74,8 +73,6 @@ namespace SQL___Inlämning_1.SQL
                 {
                     str += reader.ReadLine();
                 }
-
-                connection.Open();
 
                 using (var q = new SqlCommand(str, connection))
                 {
@@ -103,52 +100,141 @@ namespace SQL___Inlämning_1.SQL
                     {
                         if (connection.State == ConnectionState.Open)
                         {
-                            connection.Close();
+                            //connection.Close();
                         }
                     }
                 }
             }
+
+
         }
 
-        public T ExecuteGenericCommand<T>(SqlConnection connection, string dbName, string str)
+        public void DifferentCountries(SqlConnection connection, string dbName, string table)
         {
-            T results;
+            var q = "USE " + dbName + "; SELECT count( DISTINCT country) from " + table + " ;";
+
+            Console.WriteLine("Svar: " + SimpleSqlAnswer<int>(connection, q) + "\n");
+        }
+
+        public void UniqueUserPassoword(SqlConnection connection, string dbName, string table)
+        {
+
+            var q = "USE " + dbName + "; SELECT count( DISTINCT username ) from " + table + " ;";
+
+            Console.WriteLine("\nÄr alla användare unika?");
+
+            if (SimpleSqlAnswer<int>(connection, q)==1000)
+                Console.WriteLine("Ja");
+            else
+                Console.WriteLine("Nej");
 
 
-            using (var q = new SqlCommand(str, connection))
+            q = "USE " + dbName + "; SELECT count( DISTINCT password ) from " + table + " ;";
+
+            Console.WriteLine("Är alla lösenord unika?");
+
+            if (SimpleSqlAnswer<int>(connection, q) == 1000)
+                Console.WriteLine("Ja\n");
+            else
+                Console.WriteLine("Nej\n");
+
+        }
+
+        public void ManyScandinavian(SqlConnection connection, string dbName, string table)
+        {
+            var q = "USE " + dbName + "; SELECT COUNT( *  ) from " + table + " WHERE country='Sweden' OR country='Denmark' OR country='Norway';";
+
+            Console.WriteLine("Antal från Skandinavien: " + SimpleSqlAnswer<int>(connection, q) + "\n");
+
+            q = "USE " + dbName + "; SELECT COUNT( *  ) from " + table + " WHERE country='Sweden' OR country='Denmark' OR country='Norway' OR country='Finland' OR country='Iceland';";
+
+            Console.WriteLine("Antal från Norden: " + SimpleSqlAnswer<int>(connection, q) + "\n");
+        }
+
+        public void MostCommonCountry(SqlConnection connection, string dbName, string table)
+        {
+            var q = "USE " + dbName + "; SELECT TOP 1 country FROM " + table + " GROUP BY country ORDER BY COUNT(*) DESC";
+            Console.WriteLine("Flest användare är ifrån: " + SimpleSqlAnswer<string>(connection, q) + "\n");
+
+        }
+
+        public void ListUsersLastNameStartingWith(SqlConnection connection, string dbName, string table, string startingWith)
+        {
+            var q = "USE " + dbName + "; SELECT TOP 10 * FROM " + table + " WHERE last_name LIKE @STARTINGWITH + '%';";
+
+            using (SqlDataAdapter da = new SqlDataAdapter())
             {
-                connection.Open();
 
-                try
-                {
-                    
+                Console.Write("Börjar på: ");
+                startingWith = Console.ReadLine();
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("EXECUTING: " + str);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("\n" + q.CommandText);
+                DataTable dt = new DataTable();
 
-                    q.ExecuteNonQuery();
-                }
-                catch (System.Exception ex)
+                da.SelectCommand = new SqlCommand(q, connection);
+                da.SelectCommand.Parameters.Add("@STARTINGWITH", SqlDbType.NVarChar, 128).Value = startingWith;
+
+                da.Fill(dt);
+
+                for (int y = 0; y < dt.Rows.Count; y++)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nERROR:\n" + ex.ToString());
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open)
+                    Console.Write(y+1 + "| ");
+                    for (var x = 0; x < dt.Columns.Count; x++)
                     {
-                        connection.Close();
+                        Console.Write(dt.Rows[y][x] + " ");
                     }
+                    Console.WriteLine();
                 }
+
+                Console.WriteLine();
+            }
+        }
+
+        public void ListUsersWithNameFirstLast(SqlConnection connection, string dbName, string table)
+        {
+            var q = "USE " + dbName + "; SELECT* FROM " + table + " WHERE UPPER(LEFT(first_name, 1)) = UPPER(LEFT(last_name, 1))";
+
+            using (SqlDataAdapter da = new SqlDataAdapter())
+            {
+                DataTable dt = new DataTable();
+
+                da.SelectCommand = new SqlCommand(q, connection);
+
+                da.Fill(dt);
+
+                for (int y = 0; y < dt.Rows.Count; y++)
+                {
+                    Console.Write(y + 1 + "| ");
+                    for (var x = 0; x < dt.Columns.Count; x++)
+                    {
+                        Console.Write(dt.Rows[y][x] + " ");
+                    }
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+
+
+
+        public T SimpleSqlAnswer<T>(SqlConnection connection, string q)
+        {
+            T result=default(T);
+            IDataRecord dataRecord;
+            SqlCommand command = new SqlCommand(q, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                dataRecord = (IDataRecord)reader;
+                result = (T)dataRecord[0];
             }
 
-
-
-
-            return results;
+            reader.Close();
+            //connection.Close();
+            return result;
         }
     }
 }

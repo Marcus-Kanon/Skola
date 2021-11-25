@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SQL___Inlämning_1.SQL;
+using SQL___Inlämning_1.SQLClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,16 @@ namespace SQL___Inlämning_1.SqlCommander
 {
     internal class SqlCommandMenu
     {
-        List<String> MenuItems = new List<String>();
+        public string DbName { get; set; }
+        public string Table { get; set; }
         int Choice = 0;
+        List<String> MenuItems = new List<String>();
 
-        public SqlCommandMenu()
+        public SqlCommandMenu(string dbName, string table)
         {
+            DbName = dbName;
+            Table = table;
+
             MenuItems.Add("Hur många olika länder finns representerade?");
 
             MenuItems.Add("Är alla username och password unika?");
@@ -26,11 +33,11 @@ namespace SQL___Inlämning_1.SqlCommander
             MenuItems.Add("Visa alla användare vars för - och efternamn har samma begynnelsebokstav");
         }
 
-        public void Show()
+        public void Show(string strParameter = "")
         {
             for (int i = 0; i < MenuItems.Count; i++)
             {
-                Console.WriteLine($"{i}. " + MenuItems[i]);
+                Console.WriteLine($"{i+1}. " + MenuItems[i]);
             }
 
             while (!int.TryParse(Console.ReadLine(), out Choice) || Choice<1 || Choice > MenuItems.Count)
@@ -38,14 +45,27 @@ namespace SQL___Inlämning_1.SqlCommander
                 Console.WriteLine("Ogiltligt val");
             }
 
-            ExecuteSqlCommands(Choice);
+            ExecuteSqlCommands(Choice-1, strParameter);
         }
 
-        public void ExecuteSqlCommands(int choice)
+        public void ExecuteSqlCommands(int choice, string strParameter="")
         {
+            SqlCommands commands = new();
+
             switch (choice)
             {
-                case 0:
+                case 0: commands.DifferentCountries(SqlConnectorClient.C, DbName, Table);
+                    break;
+                case 1: commands.UniqueUserPassoword(SqlConnectorClient.C, DbName, Table);
+                    break;
+                case 2: commands.ManyScandinavian(SqlConnectorClient.C, DbName, Table);
+                    break;
+                case 3: commands.MostCommonCountry(SqlConnectorClient.C, DbName, Table);
+                    break;
+                case 4: commands.ListUsersLastNameStartingWith(SqlConnectorClient.C, DbName, Table, strParameter);
+                    break;
+                case 5: commands.ListUsersWithNameFirstLast(SqlConnectorClient.C, DbName, Table);
+                    break;
                 default:
                     Show();
                     break;

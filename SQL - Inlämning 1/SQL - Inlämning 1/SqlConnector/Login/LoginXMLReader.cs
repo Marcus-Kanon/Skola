@@ -21,15 +21,24 @@ namespace SQL___Inlämning_1
             {
                 using (var sr = new StreamReader(fileName))
                 {
-                    foreach(var login in (LoginDetails[])xmls.Deserialize(sr))
-                        logins.Add(login);
+                    try
+                    {
+                        foreach (var login in (LoginDetails[])xmls.Deserialize(sr))
+                            logins.Add(login);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
             else
             {
+                Console.WriteLine("login.xml didn't exist. Creating it...");
                 using (var sr = File.Create(fileName))
                 {
-                    xmls.Serialize(sr, logins);
+                    logins.Add(new LoginDetails() { Name = "*Enter username here*", Password = "*Enter password here*", Server = "*Enter server here*" });
+                    xmls.Serialize(sr, logins.ToArray());
                 }
             }
 
