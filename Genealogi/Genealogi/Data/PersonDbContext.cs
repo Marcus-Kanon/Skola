@@ -10,6 +10,6 @@ namespace Genealogi.Data
 
         }
 
-        public DbSet<Person> people { get; set; }
+        public DbSet<Person> People { get; set; }
     }
 }
