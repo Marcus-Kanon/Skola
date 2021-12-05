@@ -50,7 +50,9 @@ ViewData["Title"] = "Tree";
         {
             <div style="display: inline-block; vertical-align:top">
                 <div class="downLine"></div>
-                <div class="person" style="border:1px solid #00ff00; background:url( data:image/jpeg;base64,@if(@Model is not null && @Model.Person.Image!=null){Convert.ToBase64String(@Model.Person.Image);})"></div>
+                <div onclick="location.href='@Url.Action("Tree", "People", new {Id = sibling.Id})'" class="person" style="border:1px solid #00ff00; background:url( data:image/jpeg;base64,@if(@Model is not null && @Model.Person.Image!=null){Convert.ToBase64String(@Model.Person.Image);})">
+                    @sibling.Name
+                </div>
                 <div class="downLine"></div>
             </div>
         }
@@ -58,7 +60,9 @@ ViewData["Title"] = "Tree";
         {
             <div style="display: inline-block; vertical-align:top;">
                 <div class="downLine"></div>
-                <div class="person"></div>
+                <div onclick="location.href='@Url.Action("Tree", "People", new {Id = sibling.Id})'" class="person">
+                    @sibling.Name
+                </div>
             </div>
 
         }
@@ -76,12 +80,13 @@ ViewData["Title"] = "Tree";
     <!--
     Antal div = antal barn
     -->
-    <div style="display: inline-block; vertical-align:top">
-        <div class="downLine"></div>
-        <div class="person"></div>
-    </div>
-    <div style="display: inline-block; vertical-align:top">
-        <div class="downLine"></div>
-        <div class="person"></div>
-    </div>
+    @foreach(var kid in Model.Kids)
+    {
+        <div style="display: inline-block; vertical-align:top">
+            <div class="downLine"></div>
+            <div onclick="location.href='@Url.Action("Tree", "People", new {Id = kid.Id})'" class="person">
+                @kid.Name
+            </div>
+        </div>
+    }
 </div>

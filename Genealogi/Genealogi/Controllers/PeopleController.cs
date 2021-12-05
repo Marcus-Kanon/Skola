@@ -86,8 +86,8 @@ namespace Genealogi.Controllers
             {
                 return NotFound();
             }
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", person.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", person.MotherId);
+            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Name", person.FatherId);
+            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Name", person.MotherId);
             return View(person);
         }
 
