@@ -4,16 +4,18 @@ using Genealogi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace Genealogi.Migrations
 {
-    [DbContext(typeof(PersonDbContext))]
-    partial class PersonDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(GenealogiDbContext))]
+    [Migration("20211205121251_rela")]
+    partial class rela
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace Genealogi.Migrations
                     b.Property<string>("DeathPlace")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Father")
+                    b.Property<int?>("FatherId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
@@ -52,7 +54,7 @@ namespace Genealogi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mother")
+                    b.Property<int?>("MotherId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -61,7 +63,32 @@ namespace Genealogi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FatherId")
+                        .IsUnique()
+                        .HasFilter("[FatherId] IS NOT NULL");
+
+                    b.HasIndex("MotherId")
+                        .IsUnique()
+                        .HasFilter("[MotherId] IS NOT NULL");
+
                     b.ToTable("People");
+                });
+
+            modelBuilder.Entity("Genealogi.Models.Person", b =>
+                {
+                    b.HasOne("Genealogi.Models.Person", "Father")
+                        .WithOne()
+                        .HasForeignKey("Genealogi.Models.Person", "FatherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Genealogi.Models.Person", "Mother")
+                        .WithOne()
+                        .HasForeignKey("Genealogi.Models.Person", "MotherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Father");
+
+                    b.Navigation("Mother");
                 });
 #pragma warning restore 612, 618
         }

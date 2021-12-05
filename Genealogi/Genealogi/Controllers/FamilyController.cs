@@ -5,9 +5,9 @@ namespace Genealogi.Controllers
 {
     public class FamilyController : Controller
     {
-        private readonly PersonDbContext _db;
+        private readonly GenealogiDbContext _db;
 
-        public FamilyController(PersonDbContext db)
+        public FamilyController(GenealogiDbContext db)
         {
             _db = db;
 

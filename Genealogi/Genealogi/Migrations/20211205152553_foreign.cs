@@ -4,7 +4,7 @@
 
 namespace Genealogi.Migrations
 {
-    public partial class dbname : Migration
+    public partial class foreign : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

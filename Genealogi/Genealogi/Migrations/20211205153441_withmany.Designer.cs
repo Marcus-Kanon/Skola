@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Genealogi.Migrations
 {
-    [DbContext(typeof(PersonDbContext))]
-    [Migration("20211204172647_dbname")]
-    partial class dbname
+    [DbContext(typeof(GenealogiDbContext))]
+    [Migration("20211205153441_withmany")]
+    partial class withmany
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace Genealogi.Migrations
                     b.Property<string>("DeathPlace")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Father")
+                    b.Property<int?>("FatherId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
@@ -54,7 +54,7 @@ namespace Genealogi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Mother")
+                    b.Property<int?>("MotherId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -63,7 +63,28 @@ namespace Genealogi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FatherId");
+
+                    b.HasIndex("MotherId");
+
                     b.ToTable("People");
+                });
+
+            modelBuilder.Entity("Genealogi.Models.Person", b =>
+                {
+                    b.HasOne("Genealogi.Models.Person", "Father")
+                        .WithMany()
+                        .HasForeignKey("FatherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Genealogi.Models.Person", "Mother")
+                        .WithMany()
+                        .HasForeignKey("MotherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Father");
+
+                    b.Navigation("Mother");
                 });
 #pragma warning restore 612, 618
         }
