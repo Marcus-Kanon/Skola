@@ -124,7 +124,10 @@ namespace Genealogi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Person.Id,Person.Name,Person.LastName,Person.BirthDate,Person.DeathDate,Person.BirthPlace,Person.DeathPlace,Person.MotherId,Person.FatherId,Person.Image")] EditViewModel model)
         {
-            
+            var person = await _context.People
+                .Include(p => p.Father)
+                .Include(p => p.Mother)
+                .FirstOrDefaultAsync(m => m.Id == id);
             /*
             if (id != model.Person.Id)
             {
@@ -153,7 +156,7 @@ namespace Genealogi.Controllers
             }
             //ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", model.Person.FatherId);
             //ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", model.Person.MotherId);
-            return View(model);
+            return View(new EditViewModel(_context.People.ToList(), person));
         }
 
         // GET: People/Delete/5
@@ -183,13 +186,30 @@ namespace Genealogi.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var person = await _context.People
-                .Include(p => p.Father)
-                .Include(p => p.Mother)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            _context.People.Remove(person);
+            if (person == null)
+            {
+                return NotFound();
+            }
 
-            _context.SaveChangesAsync();
+            var kids = _context.People
+                .Include(p => p.Father)
+                .Include(p => p.Mother)
+                .Where(m => m.FatherId == person.Id || m.MotherId == person.Id).ToList();
+
+            kids.ForEach(k =>
+            {
+                if (k.MotherId == person.Id)
+                    k.MotherId = null;
+                else
+                    k.FatherId = null;
+            });
+
+
+            _context.People.Remove(person);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -204,6 +224,14 @@ namespace Genealogi.Controllers
                 .Include(p => p.Father)
                 .Include(p => p.Mother)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            if(person == null)
+            {
+                person = await _context.People
+                .Include(p => p.Father)
+                .Include(p => p.Mother)
+                .FirstOrDefaultAsync(m => m.Id <= 1000);
+            }
 
             if (person is not null)
             {
