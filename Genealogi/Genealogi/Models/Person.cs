@@ -10,7 +10,7 @@ namespace Genealogi.Models
         public string Name { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
-        public DateTime DeathDate { get; set; }
+        public DateTime? DeathDate { get; set; }
         public string? BirthPlace { get; set; }
         public string? DeathPlace { get; set; }
         public int? MotherId { get; set; }

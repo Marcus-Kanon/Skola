@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Genealogi.Data;
 using Genealogi.Models;
 using Genealogi.ViewModels;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Genealogi.Controllers
 {
@@ -47,6 +49,20 @@ namespace Genealogi.Controllers
             return View(person);
         }
 
+        public async Task<JsonResult> GetDetails()
+        {
+
+            var people = _context.People.ToList();
+
+            if (people == null)
+            {
+                return Json("Not Found", new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.IgnoreCycles });
+            }
+
+            return Json(people, new JsonSerializerOptions() { ReferenceHandler = ReferenceHandler.IgnoreCycles });
+        }
+
+
         // GET: People/Create
         public IActionResult Create()
         {
@@ -80,15 +96,23 @@ namespace Genealogi.Controllers
             {
                 return NotFound();
             }
-
+            
             var person = await _context.People.FindAsync(id);
+
             if (person == null)
             {
                 return NotFound();
             }
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Name", person.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Name", person.MotherId);
-            return View(person);
+
+            EditViewModel model = new(_context.People.Where(q => q.Id != id).ToList(), person);
+
+
+            //ViewData["FatherId"] = new SelectList(_context.People, "Id", "Name", person.FatherId);
+            //ViewData["MotherId"] = new SelectList(_context.People, "Id", "Name", person.MotherId);
+
+            
+
+            return View(model);
         }
 
         // POST: People/Edit/5
@@ -96,23 +120,25 @@ namespace Genealogi.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LastName,BirthDate,DeathDate,BirthPlace,DeathPlace,MotherId,FatherId,Image")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Person.Id,Person.Name,Person.LastName,Person.BirthDate,Person.DeathDate,Person.BirthPlace,Person.DeathPlace,Person.MotherId,Person.FatherId,Person.Image")] EditViewModel model)
         {
-            if (id != person.Id)
+            
+            /*
+            if (id != model.Person.Id)
             {
-                return NotFound();
+                return View("Error");
             }
-
+            */
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(model.Person);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.Id))
+                    if (!PersonExists(model.Person.Id))
                     {
                         return NotFound();
                     }
@@ -121,11 +147,11 @@ namespace Genealogi.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Tree), new { id = person.Id});
+                return RedirectToAction(nameof(Tree), new { id = model.Person.Id});
             }
-            ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", person.FatherId);
-            ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", person.MotherId);
-            return View(person);
+            //ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", model.Person.FatherId);
+            //ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", model.Person.MotherId);
+            return View(model);
         }
 
         // GET: People/Delete/5
