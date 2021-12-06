@@ -20,6 +20,8 @@ namespace Genealogi.Controllers
         public PeopleController(GenealogiDbContext context)
         {
             _context = context;
+
+            Helpers.LoadPeople.Load(_context);
         }
 
         // GET: People
@@ -166,6 +168,7 @@ namespace Genealogi.Controllers
                 .Include(p => p.Father)
                 .Include(p => p.Mother)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (person == null)
             {
                 return NotFound();
@@ -179,9 +182,14 @@ namespace Genealogi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var person = await _context.People.FindAsync(id);
+            var person = await _context.People
+                .Include(p => p.Father)
+                .Include(p => p.Mother)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             _context.People.Remove(person);
-            await _context.SaveChangesAsync();
+
+            _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
