@@ -121,7 +121,7 @@ namespace Genealogi.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Tree), new { id = person.Id});
             }
             ViewData["FatherId"] = new SelectList(_context.People, "Id", "Id", person.FatherId);
             ViewData["MotherId"] = new SelectList(_context.People, "Id", "Id", person.MotherId);
