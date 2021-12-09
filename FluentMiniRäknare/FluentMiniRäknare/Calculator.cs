@@ -48,8 +48,14 @@ namespace FluentMiniRäknare
                     case '-':
                         result -= _mem[i];
                         break;
+                    case '*':
+                        result *= _mem[i];
+                        break;
+                    case '/':
+                        result /= _mem[i];
+                        break;
                     default:
-                        return _mem.Sum();
+                        throw new Exception($"Error reading operator {_op[i]}");
                 }
             }
 
