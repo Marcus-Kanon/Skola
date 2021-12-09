@@ -38,6 +38,10 @@ namespace FluentMiniRäknare
         public double Result()
         {
             double result = 0;
+
+            if( _mem.Count != _op.Count )
+                throw new Exception($"Number of digits and operators doesn't match");
+
             for (int i = 0; i < _mem.Count; i++)
             {
                 switch (_op[i])
