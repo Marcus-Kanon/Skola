@@ -18,18 +18,21 @@ namespace FluentMiniRäknare
         public Calculator Digit(double d)
         {
             _mem.Add(d);
+
             return this;
         }
         public Calculator Operator(char op)
         {
             _op.Add(op);
+
             return this;
         }
-        public Calculator Clear(char ope)
+        public Calculator Clear()
         {
             _mem.Clear();
             _op.Clear();
             _op.Add('+');
+
             return this;
         }
         public double Result()
