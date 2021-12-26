@@ -1,0 +1,52 @@
+﻿@using Test_matsidaBlazor.Data
+
+<div>
+    @foreach (var item in DropdownList)
+    {
+        <SearchDropdownItem Info="@(new DropdownItem() {Name=item.Name})" />
+    }
+</div>
+
+@code {
+    public List<DropdownItem> DropdownList { get; set; } = new();
+    List<DropdownItem> DatabaseItems = new();
+
+    //TODO: Ta bort fejk databas
+    List<string> BigCities = new()
+    {
+        "New York",
+        "London",
+        "Mumbai",
+        "Chicago"
+    };
+
+    protected override void OnInitialized()
+    {
+        //TODO: Ta bort fejk databas
+        for(int i=0; i<BigCities.Count; i++)
+        {
+            DatabaseItems.Add(new DropdownItem() { Name = BigCities[i] });
+        }
+
+        base.OnInitialized();
+    }
+
+
+    public void PopulateDropdown(List<DropdownItem> search)
+    {
+        DropdownList = search;
+        StateHasChanged();
+    }
+
+    public void SearchItems(string search)
+    {
+        List<DropdownItem> results = new();
+
+        if(search!="")
+        {
+            results = DatabaseItems.FindAll(q => q.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+        }
+
+        PopulateDropdown(results);
+    }
+}

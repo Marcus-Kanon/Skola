@@ -1,0 +1,10 @@
+﻿@using Test_matsidaBlazor.Data
+
+<div class="dropdown-item">
+    @Info.Name
+</div>
+
+@code {
+    [Parameter]
+    public DropdownItem Info { get; set; } = new();
+}

@@ -1,0 +1,18 @@
+﻿<h3>SearchInput</h3>
+
+<input @bind="Search" @bind:event="oninput" @onkeyup="OnKeyDown" type="text" />
+
+<SearchDropdown @ref="searchdropdown1" />
+
+@code {
+    private SearchDropdown searchdropdown1;
+
+    [Parameter]
+    public string Search { get; set; } = "";
+
+    private void OnKeyDown()
+    {
+        
+        searchdropdown1.SearchItems(Search);
+    }
+}
