@@ -1,13 +1,47 @@
-﻿@page "/RecipeDetails/{recipeId}"
+﻿@page "/RecipeDetails/{recipeId:int}"
+@using Microsoft.EntityFrameworkCore
+@using Test_matsidaBlazor.Data.Models
+@using Test_matsidaBlazor.Data
+
 <h3>RecipeDetails</h3>
+@Recipe.Name
 
 @code {
+    DataContext _context;
+
+    [Parameter]
     public int RecipeId { get; set; } = 0;
+    public Recipe Recipe { get; set; } = new();
 
     protected override void OnParametersSet()
     {
+        LoadContext(new DataContext());
 
+        Recipe=GetRecipe(RecipeId);
 
         base.OnParametersSet();
+    }
+
+    public Recipe GetRecipe(int id)
+    {
+        Recipe? recipe=null;
+
+        if(_context != null)
+        {
+            recipe = _context.Recipes.FirstOrDefault(q => q.Id == id);
+        }
+
+        if (recipe != null)
+        {
+            return recipe;
+        }
+        
+
+        return new Recipe();
+    }
+
+    public void LoadContext(DataContext context)
+    {
+        _context = context;
     }
 }

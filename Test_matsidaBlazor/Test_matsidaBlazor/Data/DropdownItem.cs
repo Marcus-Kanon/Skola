@@ -1,7 +1,8 @@
-﻿namespace Test_matsidaBlazor.Data
+﻿using Test_matsidaBlazor.Data.Models;
+
+namespace Test_matsidaBlazor.Data
 {
-    public class DropdownItem
+    public class DropdownItem : Recipe
     {
-        public string Name { get; set; } = "";
     }
 }

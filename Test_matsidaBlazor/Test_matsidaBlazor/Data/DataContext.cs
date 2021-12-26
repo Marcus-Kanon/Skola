@@ -5,15 +5,34 @@ namespace Test_matsidaBlazor.Data
 {
     public class DataContext : DbContext
     {
-        DbSet<Ingredient> Ingredients { get; set; }
-        DbSet<Recipe> Recipes { get; set; }
-        DbSet<Nutrients> Nutrients { get; set; }
-        DbSet<Recipes_Ingredients> Recipes_Nutrients { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Nutrients> Nutrients { get; set; }
+        public DbSet<Recipes_Ingredients> Recipes_Nutrients { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
+        }
+
+        public DataContext()
+        {
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //https://stackoverflow.com/a/59306299/16859995
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

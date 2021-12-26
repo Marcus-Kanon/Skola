@@ -1,10 +1,16 @@
 ﻿@using Test_matsidaBlazor.Data
+@inject NavigationManager NavigationManager
 
-<div class="dropdown-item">
+<div @onclick="GotoRecipeDetails" class="dropdown-item">
     @Info.Name
 </div>
 
 @code {
     [Parameter]
     public DropdownItem Info { get; set; } = new();
+
+    public void GotoRecipeDetails()
+    {
+        NavigationManager.NavigateTo("RecipeDetails/" + Info.Id);
+    }
 }
