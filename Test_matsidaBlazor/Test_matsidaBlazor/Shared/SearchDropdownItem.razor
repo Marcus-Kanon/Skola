@@ -1,4 +1,5 @@
 ﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
 @inject NavigationManager NavigationManager
 
 <div @onclick="GotoRecipeDetails" class="dropdown-item">
@@ -7,10 +8,11 @@
 
 @code {
     [Parameter]
-    public DropdownItem Info { get; set; } = new();
+    public Recipe Info { get; set; }
 
     public void GotoRecipeDetails()
     {
-        NavigationManager.NavigateTo("RecipeDetails/" + Info.Id);
+        if(Info != null)
+            NavigationManager.NavigateTo("RecipeDetails/" + Info.Id);
     }
 }
