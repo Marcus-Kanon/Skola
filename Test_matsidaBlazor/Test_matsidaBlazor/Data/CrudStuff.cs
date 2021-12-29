@@ -26,6 +26,14 @@ namespace Test_matsidaBlazor.Data
             return new Recipe();
         }
 
+        public static List<Ingredient> GetIngredients(int id)
+        {
+            var recipes_ingredients = _context.Recipes_Nutrients.Where(q => q.RecipeId == id).ToList();
+            var ingredients=recipes_ingredients.Select(s => s.Ingredient).ToList();
+
+            return ingredients;
+        }
+
         public static List<Recipe> SearchRecipes(string search)
         {
             List<Recipe> results = new();

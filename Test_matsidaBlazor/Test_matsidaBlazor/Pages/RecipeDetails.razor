@@ -3,21 +3,25 @@
 @using Test_matsidaBlazor.Data.Models
 @using Test_matsidaBlazor.Data
 
-<h3>RecipeDetails</h3>
+<h4>Ingredienser</h4>
 @Recipe.Name
+@foreach(var ingredient in Ingredients)
+{
+    <span>@ingredient.Name</span>
+}
 
 @code {
-    
+
 
     [Parameter]
     public int RecipeId { get; set; } = 0;
     public Recipe Recipe { get; set; } = new();
+    public List<Ingredient> Ingredients { get; set; } = new();
 
     protected override void OnParametersSet()
     {
-        
-
         Recipe=CrudStuff.GetRecipe(RecipeId);
+        Ingredients = CrudStuff.GetIngredients(RecipeId);
 
         base.OnParametersSet();
     }
