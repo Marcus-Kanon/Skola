@@ -22,10 +22,13 @@
 
     public void OnLogin()
     {
-        if(crud.CheckLoginDetails(new User { Username=Username, Password=Password }))
+        var user = new User { Username=this.Username, Password=this.Password };
+        if(crud.CheckLoginDetails(user))
         {
             success = "Logged in successfully";
 
+            var tracker = crud.GenerateLoginTracker(user);
+            _LocalStorage.SetItemAsync("LoginTracker", tracker);
 
         }
         else

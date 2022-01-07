@@ -1,5 +1,49 @@
-﻿<h3>Inventory</h3>
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+<h3>Inventory</h3>
+
+<span>@Message</span>
+<span>
+
+</span>
+
+<button @onclick="ClearSession">Clear Sesssion</button><br />
+<button @onclick="CheckLogin">Check Login</button>
 
 @code {
+    public LoginTracker? Tracker { get; set; }
+    public bool LoggedIn { get; set; } = false;
+    public string Message { get; set; } = "";
 
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+
+        base.OnInitialized();
+    }
+
+    public void CheckLogin()
+    {
+
+        if(crud.CheckValidTracker(Tracker))
+        {
+            Message = "You are logged in";
+        }
+        else
+        {
+            Message = "You are NOT logged in";
+        }
+    }
+
+    public void ClearSession()
+    {
+        _LocalStorage.ClearAsync();
+        Tracker = null;
+
+        StateHasChanged();
+    }
 }

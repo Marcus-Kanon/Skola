@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Test_matsidaBlazor.Data.Models;
 using System.Linq;
+using System.Text;
 
 namespace Test_matsidaBlazor.Data
 {
@@ -151,25 +152,49 @@ namespace Test_matsidaBlazor.Data
 
         public LoginTracker GenerateLoginTracker(User login)
         {
-            GetInstance().Context.LoginTrackers.Add(new LoginTracker
+
+            var tracker = new LoginTracker
             {
                 Username = login.Username,
                 Password = login.Password,
                 Created = DateTime.Now,
                 LastUsed = DateTime.Now,
-                Key = 
-            });
+                Key = GenerateLoginKey()
+            };
+
+            GetInstance().Context.LoginTrackers.Add(tracker);
+            GetInstance().Context.SaveChanges();
+
+            return tracker;
+        }
+        
+        public bool CheckValidTracker(LoginTracker tracker)
+        {
+            var results = GetInstance().Context.LoginTrackers.Where(q => q == tracker).SingleOrDefault();
+
+            if(results != null)
+            {
+                if(true) //TODO: Lägg till tidsbegränsning
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private string GenerateLoginKey()
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklnopqrstuvxyz123456789#%&()=?";
+            Random rnd = new Random();
+            StringBuilder key = new(); 
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < 32; i++)
             {
-
+                key.Append(characters[rnd.Next(0, characters.Length)]);
             }
-            var key = 
+
+            return key.ToString();
         }
 
         private Inventory? GetUserInventory(User user, int inventoryId = 0)
