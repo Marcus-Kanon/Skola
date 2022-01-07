@@ -1,0 +1,37 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+
+<h1>Login Testing</h1>
+
+<InputUser Parent="this" />
+<InputPassword Parent ="this" />
+
+<button @onclick="OnLogin" class="btn btn-primary btn-lg">Login</button>
+<span>@success</span>
+
+@code {
+    [Parameter]
+    public string Username { get; set; } = "";
+    [Parameter]
+    public string Password { get; set; } = "";
+
+    public string success { get; set; } = "";
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    public void OnLogin()
+    {
+        if(crud.CheckLoginDetails(new User { Username=Username, Password=Password }))
+        {
+            success = "Logged in successfully";
+
+
+        }
+        else
+        {
+            success = "Failed to log in.";
+        }
+
+    }
+}

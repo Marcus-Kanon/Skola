@@ -5,9 +5,9 @@ namespace Test_matsidaBlazor.Data
 {
     public interface IDatabaseTables
     {
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Nutrients> Nutrients { get; set; }
-        public DbSet<Recipes_Ingredients> Recipes_Nutrients { get; set; }
+        public DbSet<Ingredient> Ingredients { get; }
+        public DbSet<Recipe> Recipes { get; }
+        public DbSet<Nutrients> Nutrients { get; }
+        public DbSet<Recipes_Ingredients> Recipes_Nutrients { get; }
     }
 }

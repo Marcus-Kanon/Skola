@@ -9,6 +9,8 @@
 </div>
 
 @code {
+    [Parameter]
+    public string SearchAction { get; set; } = "";
     public List<Recipe> DropdownList { get; set; } = new();
 
     protected override void OnInitialized()
@@ -19,7 +21,20 @@
 
     public void StartSearch(string search)
     {
-        var results = CrudStuff.SearchRecipes(search);
+        var crud = CrudStuff.GetInstance();
+        var results = new List<Recipe>();
+
+        switch (SearchAction)
+        {
+            case "name":
+                results = crud.SearchRecipesByName(search);
+                break;
+            case "ingredient":
+                //results = crud.SearchRecipesByIngredient(search);
+                break;
+            default:
+                throw new ArgumentException("Search parameter not set.");
+        }
 
         PopulateDropdown(results);
     }

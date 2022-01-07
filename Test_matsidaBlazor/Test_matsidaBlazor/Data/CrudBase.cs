@@ -3,6 +3,7 @@ using Test_matsidaBlazor.Data.Models;
 
 namespace Test_matsidaBlazor.Data
 {
+    /*
     internal class CrudBase<T, TDbSets> : IDatabaseTables
         where T : DataContext
         where TDbSets : IDatabaseTables
@@ -22,8 +23,8 @@ namespace Test_matsidaBlazor.Data
         }
 
         public void UpdateLists()
-        {
-            /*
+       
+            
             var properties = _context.GetType().GetProperties();
             foreach (var property in properties)
             {
@@ -37,10 +38,10 @@ namespace Test_matsidaBlazor.Data
 
                     _lists.Add(_context.Model.GetEntityTypes().Take(1));
                 }
-            } */
-            TDbSets sets = Activator.CreateInstance(TDbSets);
-            var props = sets.GetType().GetProperties();
-            _lists.Add();
+            } 
+            //TDbSets sets = Activator.CreateInstance(TDbSets);
+            //var props = sets.GetType().GetProperties();
+            //_lists.Add();
             
         }
 
@@ -49,4 +50,5 @@ namespace Test_matsidaBlazor.Data
 
         }
     }
+    */
 }

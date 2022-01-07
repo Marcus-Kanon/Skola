@@ -21,6 +21,21 @@ namespace Test_matsidaBlazor.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("IngredientInventory", b =>
+                {
+                    b.Property<int>("IngredientsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InventoriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("IngredientsId", "InventoriesId");
+
+                    b.HasIndex("InventoriesId");
+
+                    b.ToTable("IngredientInventory");
+                });
+
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -45,6 +60,30 @@ namespace Test_matsidaBlazor.Migrations
                         .IsUnique();
 
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Nutrients", b =>
@@ -97,6 +136,9 @@ namespace Test_matsidaBlazor.Migrations
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
+                    b.Property<double>("IngredientWeight")
+                        .HasColumnType("float");
+
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
@@ -106,7 +148,43 @@ namespace Test_matsidaBlazor.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Recipes_Nutrients");
+                    b.ToTable("Recipes_Inredients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("IngredientInventory", b =>
+                {
+                    b.HasOne("Test_matsidaBlazor.Data.Models.Ingredient", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test_matsidaBlazor.Data.Models.Inventory", null)
+                        .WithMany()
+                        .HasForeignKey("InventoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
@@ -118,6 +196,17 @@ namespace Test_matsidaBlazor.Migrations
                         .IsRequired();
 
                     b.Navigation("Nutrients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
+                {
+                    b.HasOne("Test_matsidaBlazor.Data.Models.User", "User")
+                        .WithMany("Inventories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Recipes_Ingredients", b =>
@@ -153,6 +242,11 @@ namespace Test_matsidaBlazor.Migrations
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Recipe", b =>
                 {
                     b.Navigation("Recipes_Ingredients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.User", b =>
+                {
+                    b.Navigation("Inventories");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,5 +8,6 @@
         public ICollection<Recipes_Ingredients> Recipes_Ingredients { get; set; }
         public int NutrientsId { get; set; }
         public Nutrients Nutrients { get; set; }
+        public ICollection<Inventory> Inventories { get; set; }
     }
 }

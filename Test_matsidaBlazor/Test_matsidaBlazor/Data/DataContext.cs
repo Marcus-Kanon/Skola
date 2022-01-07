@@ -8,7 +8,10 @@ namespace Test_matsidaBlazor.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Nutrients> Nutrients { get; set; }
-        public DbSet<Recipes_Ingredients> Recipes_Nutrients { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; }
+        public DbSet<LoginTracker> LoginTrackers { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -37,6 +40,19 @@ namespace Test_matsidaBlazor.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Inventories)
+                .WithOne(i => i.User);
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.User)
+                .WithMany(u => u.Inventories);
+            modelBuilder.Entity<Inventory>()
+                .HasMany(inv => inv.Ingredients)
+                .WithMany(ing => ing.Inventories);
+            modelBuilder.Entity<Ingredient>()
+                .HasMany(ing => ing.Inventories)
+                .WithMany(inv => inv.Ingredients);
+
             modelBuilder.Entity<Recipes_Ingredients>()
                 .HasOne(ri => ri.Ingredient)
                 .WithMany(i => i.Recipes_Ingredients)

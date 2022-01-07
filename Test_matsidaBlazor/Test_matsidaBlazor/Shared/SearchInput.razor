@@ -1,16 +1,24 @@
-﻿<input @bind="Search" @bind:event="oninput" @onkeyup="OnKeyDown" type="text" />
+﻿<div class="input-group input-group-md w-50">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Sök recept</span>
+    </div>
+    <div>
+        <input @bind="Search" @bind:event="oninput" @onkeyup="OnKeyUp" type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+        <SearchDropdown SearchAction="@SearchAction" @ref="searchdropdown" />
+    </div>
+</div>
 
-<SearchDropdown @ref="searchdropdown1" />
 
 @code {
-    private SearchDropdown searchdropdown1;
+    private SearchDropdown searchdropdown;
 
     [Parameter]
     public string Search { get; set; } = "";
+    [Parameter]
+    public string SearchAction { get; set; } = "";
 
-    private void OnKeyDown()
+    private void OnKeyUp()
     {
-        
-        searchdropdown1.StartSearch(Search);
+        searchdropdown.StartSearch(Search);
     }
 }

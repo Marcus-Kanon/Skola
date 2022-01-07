@@ -1,0 +1,22 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Shared.Register
+<h3>Register</h3>
+
+<Test_matsidaBlazor.Shared.Register.InputUser Parent="this" />
+<Test_matsidaBlazor.Shared.Register.InputPassword Parent="this" />
+
+<button @onclick="OnRegister" class="btn btn-primary btn-lg">Login</button>
+
+@code {
+    [Parameter]
+    public string Username { get; set; } = "";
+    [Parameter]
+    public string Password { get; set; } = "";
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    public void OnRegister()
+    {
+        crud.AddUser(Username, Password);
+    }
+}
