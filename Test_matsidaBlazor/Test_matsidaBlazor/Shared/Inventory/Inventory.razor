@@ -29,10 +29,21 @@
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
 
+        LoadInventory();
+
         base.OnInitialized();
     }
 
     protected override void OnParametersSet()
+    {
+        LoadInventory();
+
+        StateHasChanged();
+
+        base.OnParametersSet();
+    }
+
+    public void LoadInventory()
     {
         if(crud.CheckValidTracker(Tracker))
         {
@@ -41,16 +52,16 @@
         }
         else
         {
+            Items = new List<Ingredient>();
             Message = "Not logged in";
         }
-
-        StateHasChanged();
     }
 
     public void ClearSession()
     {
         _LocalStorage.ClearAsync();
         Tracker = null;
+        LoadInventory();
 
         StateHasChanged();
     }

@@ -1,19 +1,25 @@
 ﻿@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
 
-<h3>Login InputUser</h3>
-
 <!-- Username Input -->
 <div class="input-group mb-3 w-50">
     <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Username</span>
     </div>
-    <input @bind="Parent.Username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    <input @oninput="OnChanged" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 </div>
 
 @code {
     [Parameter]
-    public Login Parent { get; set; } = null!;
+    public EventCallback<string> Callback { get; set; }
 
+    public Task OnChanged(ChangeEventArgs e)
+    {
+        string? data = "";
 
+        if(e.Value != null)
+            data = e.Value.ToString();
+
+        return Callback.InvokeAsync(data);
+    }
 }

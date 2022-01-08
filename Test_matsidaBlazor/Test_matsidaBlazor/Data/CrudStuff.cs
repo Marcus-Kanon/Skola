@@ -204,7 +204,10 @@ namespace Test_matsidaBlazor.Data
         public bool CheckValidTracker(LoginTracker? tracker)
         {
             if(tracker == null)
+            {
+                Console.WriteLine("Tracker is null");
                 return false;
+            }
 
             var results = GetInstance().Context.LoginTrackers.Where(q => q == tracker).SingleOrDefault();
 

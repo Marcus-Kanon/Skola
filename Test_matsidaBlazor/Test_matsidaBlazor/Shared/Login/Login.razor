@@ -5,22 +5,30 @@
 
 <h1>Login Testing</h1>
 
-<InputUser Parent="this" />
-<InputPassword Parent ="this" />
+<InputUser Callback="InputHandlerUsername" />
+<InputPassword Callback="InputHandlerPassword" />
 
 <button @onclick="OnLogin" class="btn btn-primary btn-lg">Login</button>
 <span>@success</span>
 
 @code {
-    [Parameter]
     public string Username { get; set; } = "";
-    [Parameter]
     public string Password { get; set; } = "";
 
     public LoginTracker? Tracker { get; set; }
     public string success { get; set; } = "";
 
     CrudStuff crud = CrudStuff.GetInstance();
+
+    public void InputHandlerPassword(string input)
+    {
+        Password = input;
+    }
+
+    public void InputHandlerUsername(string input)
+    {
+        Username = input;
+    }
 
     protected override async Task OnInitializedAsync()
     {
