@@ -10,7 +10,7 @@
 
 
 @code {
-    private SearchDropdown searchdropdown;
+    private SearchDropdown? searchdropdown;
 
     [Parameter]
     public string Search { get; set; } = "";
@@ -19,6 +19,7 @@
 
     private void OnKeyUp()
     {
-        searchdropdown.StartSearch(Search);
+        if(searchdropdown != null)
+            searchdropdown.StartSearch(Search);
     }
 }

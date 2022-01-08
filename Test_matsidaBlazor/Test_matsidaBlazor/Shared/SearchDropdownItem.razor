@@ -3,12 +3,15 @@
 @inject NavigationManager NavigationManager
 
 <div @onclick="GotoRecipeDetails" class="dropdown-item">
-    @Info.Name
+    if(Info != null)
+    {
+        Info.Name
+    }
 </div>
 
 @code {
     [Parameter]
-    public Recipe Info { get; set; }
+    public Recipe? Info { get; set; }
 
     public void GotoRecipeDetails()
     {

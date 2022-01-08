@@ -3,9 +3,9 @@
     public class LoginTracker
     {
         public int Id { get; set; }
-        public string Key { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Key { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
         public DateTime Created { get; set; }
         public DateTime LastUsed { get; set; }
     }

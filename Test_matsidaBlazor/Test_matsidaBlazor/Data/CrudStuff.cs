@@ -7,8 +7,8 @@ namespace Test_matsidaBlazor.Data
 {
     public class CrudStuff
     {
-        static CrudStuff Instance;
-        DataContext Context;
+        static CrudStuff Instance = null!;
+        DataContext Context = default!;
 
         private CrudStuff()
         {
@@ -29,10 +29,12 @@ namespace Test_matsidaBlazor.Data
 
         public static CrudStuff Initialize(DataContext context)
         {
-            if(Instance==null)
+            if(Instance == null)
             {
-                Instance = new CrudStuff();
-                Instance.Context = context;
+                Instance = new CrudStuff
+                {
+                    Context = context
+                };
             }
 
             return Instance;
@@ -81,33 +83,60 @@ namespace Test_matsidaBlazor.Data
             GetInstance().Context.SaveChanges();
         }
 
-        public List<Ingredient> GetIngredientsInInventory(User user, int inventoryId)
+        public List<Ingredient> GetIngredientsInInventory(LoginTracker tracker, int inventoryId)
         {
-            if(CheckLoginDetails(user))
+            if(CheckValidTracker(tracker))
             {
-                var inventory = GetUserInventory(user);
+                var user = TrackerToUser(tracker) ?? throw new Exception("No User corresponds to session data");
 
-                if(inventory != null)
-                {
-                    return inventory.Ingredients.ToList();
-                }
+                var inventories = GetUserInventories(user);
+
+                if(inventories.Count == 0)
+                    inventories.Add(MakeNewInventory(user));
+
+                if (inventoryId >= inventories.Count)
+                    inventoryId = 0;
+
+                if (inventoryId < 0)
+                    inventoryId = inventories.Count-1;
+
+                return inventories[inventoryId].Ingredients.ToList();
             }
-
-            return new List<Ingredient>();
+            else
+            {
+                throw new Exception("NOT LOGGED IN");
+            }
         }
 
-        public bool AddInventoryItem(User user, int inventoryId, Ingredient ingredient)
+        public Inventory MakeNewInventory(User user)
         {
+            var context = GetInstance().Context;
+            var ingredients = context.Ingredients.Take(5).ToList();
+            var inventory = new Inventory
+            {
+                User=user,
+                Ingredients=ingredients,
+                Amount=5.0,
+            };
+
+            context.Inventories.Add(inventory);
+            context.SaveChanges();
+
+            return inventory;
+        }
+
+        public bool AddInventoryItem(User user, Ingredient ingredient, int inventoryId)
+        {
+            var context = GetInstance().Context;
+
             if (CheckLoginDetails(user))
             {
-                var inventory = GetUserInventory(user, inventoryId);
+                var inventories = GetUserInventories(user);
+                var checkIngredient = context.Ingredients.Where(q => q == ingredient).Single();
 
-                if(inventory != null)
-                {
-                    inventory.Ingredients.Add(ingredient);
-                }
+                inventories[inventoryId].Ingredients.Add(checkIngredient);
 
-                GetInstance().Context.SaveChanges();
+                context.SaveChanges();
 
                 return true;
             }
@@ -117,16 +146,15 @@ namespace Test_matsidaBlazor.Data
             }
         }
 
-        public bool RemoveInventoryItem(User user, int inventoryId, Ingredient ingredient)
+        public bool RemoveInventoryItem(LoginTracker tracker, Ingredient ingredient, int inventoryId)
         {
-            if (CheckLoginDetails(user))
+            if (CheckValidTracker(tracker))
             {
-                var inventory = GetUserInventory(user, inventoryId);
+                var user = TrackerToUser(tracker) ?? throw new Exception("Tracker is valid but does not correspond with a user in the database");
 
-                if (inventory != null)
-                {
-                    inventory.Ingredients.Remove(ingredient);
-                }
+                var inventories = GetUserInventories(user);
+
+                inventories[inventoryId].Ingredients.Remove(ingredient);
 
                 GetInstance().Context.SaveChanges();
 
@@ -134,8 +162,13 @@ namespace Test_matsidaBlazor.Data
             }
             else
             {
-                throw new Exception("No inventory associated with user.");
+                throw new Exception("Could not find tracker in database");
             }
+        }
+
+        public User? TrackerToUser(LoginTracker tracker)
+        {
+            return GetInstance().Context.Users.Where(q => q.Username == tracker.Username && q.Password == q.Password).SingleOrDefault();
         }
 
         public bool CheckLoginDetails(User userDetails)
@@ -168,8 +201,11 @@ namespace Test_matsidaBlazor.Data
             return tracker;
         }
         
-        public bool CheckValidTracker(LoginTracker tracker)
+        public bool CheckValidTracker(LoginTracker? tracker)
         {
+            if(tracker == null)
+                return false;
+
             var results = GetInstance().Context.LoginTrackers.Where(q => q == tracker).SingleOrDefault();
 
             if(results != null)
@@ -183,10 +219,10 @@ namespace Test_matsidaBlazor.Data
             return false;
         }
 
-        private string GenerateLoginKey()
+        private static string GenerateLoginKey()
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklnopqrstuvxyz123456789#%&()=?";
-            Random rnd = new Random();
+            Random rnd = new();
             StringBuilder key = new(); 
 
             for (int i = 0; i < 32; i++)
@@ -197,11 +233,13 @@ namespace Test_matsidaBlazor.Data
             return key.ToString();
         }
 
-        private Inventory? GetUserInventory(User user, int inventoryId = 0)
+        private static List<Inventory> GetUserInventories(User user)
         {
-            return GetInstance().Context.Inventories
+            var results = GetInstance().Context.Inventories
                     .Include(p => p.Ingredients)
-                    .Where((q, i) => q.User == user && i == inventoryId).SingleOrDefault();
+                    .Where(q => q.User == user).ToList();
+
+            return results;
         }
 
         /*

@@ -7,7 +7,7 @@
         public double VitA { get; set; }
         public double VitB { get; set; }
         public double VitC { get; set; }
-        public Ingredient Ingredient { get; set; }
+        public Ingredient Ingredient { get; set; } = null!;
 
     }
 }

@@ -1,5 +1,10 @@
-﻿<h3>InventoryItem</h3>
+﻿@using Test_matsidaBlazor.Data.Models
+<div>
+    @Ingredient.Name
+</div>
+
 
 @code {
-
+    [Parameter]
+    public Ingredient Ingredient { get; set; } = new Ingredient(); 
 }

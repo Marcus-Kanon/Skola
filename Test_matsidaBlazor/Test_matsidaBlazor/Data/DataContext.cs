@@ -5,13 +5,13 @@ namespace Test_matsidaBlazor.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Nutrients> Nutrients { get; set; }
-        public DbSet<Inventory> Inventories { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; }
-        public DbSet<LoginTracker> LoginTrackers { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; } = null!;
+        public DbSet<Recipe> Recipes { get; set; } = null!;
+        public DbSet<Nutrients> Nutrients { get; set; } = null!;
+        public DbSet<Inventory> Inventories { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; } = null!;
+        public DbSet<LoginTracker> LoginTrackers { get; set; } = null!;
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

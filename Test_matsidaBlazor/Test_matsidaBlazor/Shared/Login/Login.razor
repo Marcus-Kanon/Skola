@@ -1,6 +1,7 @@
 ﻿@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+@inject NavigationManager NavigationManager
 
 <h1>Login Testing</h1>
 
@@ -16,13 +17,36 @@
     [Parameter]
     public string Password { get; set; } = "";
 
+    public LoginTracker? Tracker { get; set; }
     public string success { get; set; } = "";
 
     CrudStuff crud = CrudStuff.GetInstance();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if(crud.CheckValidTracker(Tracker))
+        {
+            NavigationManager.NavigateTo("/Inventory");
+        }
+    }
+
+
     public void OnLogin()
     {
         var user = new User { Username=this.Username, Password=this.Password };
+
+        CheckDetails(user);
+    }
+
+    public void CheckDetails(User user)
+    {
         if(crud.CheckLoginDetails(user))
         {
             success = "Logged in successfully";
@@ -30,11 +54,12 @@
             var tracker = crud.GenerateLoginTracker(user);
             _LocalStorage.SetItemAsync("LoginTracker", tracker);
 
+            NavigationManager.NavigateTo("/Inventory");
+
         }
         else
         {
             success = "Failed to log in.";
         }
-
     }
 }

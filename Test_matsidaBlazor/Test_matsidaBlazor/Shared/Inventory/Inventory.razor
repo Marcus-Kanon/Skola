@@ -4,17 +4,24 @@
 <h3>Inventory</h3>
 
 <span>@Message</span>
-<span>
 
+@foreach(var item in Items)
+{
+    <InventoryItem Ingredient="@item" />
+}
+
+<span>
 </span>
 
 <button @onclick="ClearSession">Clear Sesssion</button><br />
-<button @onclick="CheckLogin">Check Login</button>
+
 
 @code {
     public LoginTracker? Tracker { get; set; }
     public bool LoggedIn { get; set; } = false;
     public string Message { get; set; } = "";
+    public List<Ingredient> Items = new List<Ingredient>();
+    public int InventoryId { get; set; } = 0;
 
     CrudStuff crud = CrudStuff.GetInstance();
 
@@ -22,21 +29,22 @@
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
 
-
         base.OnInitialized();
     }
 
-    public void CheckLogin()
+    protected override void OnParametersSet()
     {
-
         if(crud.CheckValidTracker(Tracker))
         {
-            Message = "You are logged in";
+            Message = "Hej " + Tracker.Username + "!";
+            Items = crud.GetIngredientsInInventory(Tracker, InventoryId);
         }
         else
         {
-            Message = "You are NOT logged in";
+            Message = "Not logged in";
         }
+
+        StateHasChanged();
     }
 
     public void ClearSession()
