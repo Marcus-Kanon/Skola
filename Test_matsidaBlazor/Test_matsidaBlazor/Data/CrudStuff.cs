@@ -75,6 +75,17 @@ namespace Test_matsidaBlazor.Data
 
             return results;
         }
+        public List<Ingredient> SearchIngredientsByName(string search)
+        {
+            var results = GetInstance().Context.Ingredients
+                .AsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .OrderBy(p => p.Name)
+                .Take(10)
+                .ToList();
+
+            return results;
+        }
 
         public void AddUser(string name, string password)
         {

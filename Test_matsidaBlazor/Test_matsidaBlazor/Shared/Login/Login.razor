@@ -37,7 +37,7 @@
 
         if(crud.CheckValidTracker(Tracker))
         {
-            NavigationManager.NavigateTo("/Inventory");
+            NavigationManager.NavigateTo("/Inventory", true);
         }
 
         base.OnInitialized();
@@ -45,7 +45,7 @@
 
     protected override void OnParametersSet()
     {
-        
+
     }
 
 
@@ -65,7 +65,9 @@
             var tracker = crud.GenerateLoginTracker(user);
             await _LocalStorage.SetItemAsync("LoginTracker", tracker);
 
-            NavigationManager.NavigateTo("/Inventory");
+            StateHasChanged();
+
+            NavigationManager.NavigateTo("/Inventory", true);
 
         }
         else

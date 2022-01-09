@@ -1,5 +1,20 @@
-﻿<h3>DropdownItem</h3>
+﻿@using Test_matsidaBlazor.Data.Models
+
+<div class="dropdown-item">
+    @if(Data != null)
+    {
+        @Data.Name
+    }
+</div>
 
 @code {
+    [Parameter]
+    public Ingredient? Data { get; set; }
 
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(Data.Name);
+
+        base.OnInitialized();
+    }
 }

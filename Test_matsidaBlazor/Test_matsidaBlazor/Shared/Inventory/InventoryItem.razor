@@ -1,16 +1,20 @@
 ﻿@using Test_matsidaBlazor.Data.Models
 @using Test_matsidaBlazor.Data
 @using Blazored.LocalStorage
+@using Test_matsidaBlazor.Shared.SearchIngredient
 
 <li class="list-group-item list-group-item">
     <div class="d-sm-flex align-items-center justify-content-between">
+    @*<input value="@Name" @onchange="OnNameChange" style="@StyleInput" />*@
+    <InputSearch Visible="@InputVisible"/>
+    <span style="@StyleItemName">@Name</span> 
 
-    <div>@Ingredient.Name</div> 
-
-    
-    <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn-close" aria-label="Close">
+    <div>
+    <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
+    <button style="@StyleBtnSave" @onclick="OnSaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
+    <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn btn-close" aria-label="Close">
     </button>
-
+    </div>
 
     </div>
 
@@ -21,9 +25,58 @@
     public Ingredient Ingredient { get; set; } = new Ingredient();
     [Parameter]
     public EventCallback<Ingredient> RemoveItem { get; set; }
+    private bool InputVisible = false;
+    public string? Name { get; set; } = "";
+    public string StyleItemName { get; set; } = "";
+    public string StyleInput { get; set; } = "display:none; width:50%";
+    public string StyleBtnSave { get; set; } = "display:none";
+
+    protected override void OnParametersSet()
+    {
+        Name = Ingredient.Name;
+
+        base.OnParametersSet();
+    }
+
+    public void OnEditItem()
+    {
+        StyleItemName = "display:none";
+        StyleInput = "display:inline; width:50%";
+        StyleBtnSave = "display:inline";
+        InputVisible = true;
+
+        StateHasChanged();
+    }
+
+    public void OnSaveItem()
+    {
+        StyleItemName = "display:inline";
+        StyleInput = "display:none; width:50%";
+        StyleBtnSave = "display:none";
+        InputVisible = false;
+
+
+        StateHasChanged();
+    }
+
+    public void OnNameChange(ChangeEventArgs e)
+    {
+        string? value = "";
+
+        if(e.Value != null)
+            value = e.Value.ToString();
+
+
+        Name = value;
+    }
 
     public void OnRemoveItem(Ingredient value)
     {
-            RemoveItem.InvokeAsync(value);
+        RemoveItem.InvokeAsync(value);
+    }
+
+    public void UpdateItem()
+    {
+        
     }
 }

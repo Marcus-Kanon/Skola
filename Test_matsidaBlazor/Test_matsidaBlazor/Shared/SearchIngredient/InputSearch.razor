@@ -1,5 +1,44 @@
-﻿<h3>InputSearch</h3>
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+
+<input @onchange="OnInput" value="@Value" style="@StyleDisplay @StyleWidth" type="text" class="form-control" />
+<DropdownContainer IngredientList="@IngredientSearch" />
 
 @code {
+    private CrudStuff crud = CrudStuff.GetInstance();
+    private bool visible = false;
+
+    [Parameter]
+    public bool Visible
+    {
+        get { return visible; }
+        set
+        {
+            visible = value;
+            if (visible)
+                StyleDisplay = "display:inline;";
+            else
+                StyleDisplay = "display:none;";
+        }
+    }
+    [Parameter]
+    public string Value { get; set; } = "";
+    [Parameter]
+    public EventCallback<List<Ingredient>> OnReturn { get; set; }
+
+    public string StyleDisplay { get; set; } = "display:none;";
+    public string StyleWidth { get; set; } = "width:50%;";
+    public List<Ingredient> IngredientSearch = new();
+
+    public void OnInput(ChangeEventArgs e)
+    {
+        string? search = "";
+
+        if (e.Value != null)
+            search = e.Value.ToString();
+
+        IngredientSearch = crud.SearchIngredientsByName(search);
+
+    }
 
 }

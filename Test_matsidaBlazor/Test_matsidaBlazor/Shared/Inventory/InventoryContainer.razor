@@ -1,0 +1,95 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <h3>Ditt skafferi</h3>
+
+    <div class="d-sm-flex align-items-center justify-content-between w-25">
+        <div></div>
+        <div>
+            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+                <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
+            </button>
+        </div>
+    </div>
+<ul class="list-group w-25">
+    @foreach(var item in Items)
+    {
+        <InventoryItem RemoveItem="RemoveItem" Ingredient="@item" />
+
+    }
+</ul>
+</div>
+
+
+@code {
+    [Parameter]
+    public int InventoryPage { get; set; } = 0;
+    public LoginTracker? Tracker { get; set; }
+    public bool LoggedIn { get; set; } = false;
+    public string Message { get; set; } = "";
+    public List<Ingredient> Items = new List<Ingredient>();
+    public int InventoryId { get; set; } = 0;
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    public void RemoveItem(Ingredient ingredient)
+    {
+        crud.RemoveInventoryItem(Tracker, ingredient, 0);
+        LoadInventory();
+    }
+
+    public void UpdateItem(int id, Ingredient ingredient)
+    {
+        
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+        if(Tracker != null)
+        {
+            LoadInventory();
+
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/Login", true);
+        }
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+
+        base.OnParametersSet();
+    }
+
+    public void LoadInventory()
+    {
+        if(crud.CheckValidTracker(Tracker))
+        {
+            Message = "Hej " + Tracker.Username + "!";
+            Items = crud.GetIngredientsInInventory(Tracker, InventoryId);
+        }
+        else
+        {
+            Items = new List<Ingredient>();
+            Message = "Not logged in";
+        }
+    }
+
+    public void ClearSession()
+    {
+        _LocalStorage.ClearAsync();
+        Tracker = null;
+        LoadInventory();
+
+        StateHasChanged();
+    }
+}

@@ -1,5 +1,18 @@
-﻿<h3>DropdownContainer</h3>
+﻿@using Test_matsidaBlazor.Data.Models
+
+<div>
+@foreach(var item in IngredientList)
+{
+    <DropdownItem Data="@item" />
+}
+</div>
 
 @code {
+    [Parameter]
+    public List<Ingredient> IngredientList { get; set; } = new();
 
+    public void FillIngredientList(List<Ingredient> list)
+    {
+        IngredientList = list;
+    }
 }

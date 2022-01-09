@@ -1,4 +1,9 @@
-﻿<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2">
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2">
     <div class="container">
         <a href="#" class="navbar-brand">Näringsrikt.se</a>
 
@@ -14,13 +19,51 @@
                 <li class="nav-item">
                     <a href="/ingredients" class="nav-link">Visa alla ingredienser</a>
                 </li>
-                <li class="nav-item">
-                    <a href="/LoginTesting" class="nav-link">Logga in</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Register" class="nav-link">Registrera dig</a>
-                </li>
+                
+                    @if(crud.CheckValidTracker(Tracker))
+                    {
+                        <li class="nav-item">
+                            <a href="/Inventory" class="nav-link">Skafferiet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a @onclick="ClearSession" href="#" class="nav-link"> Logga ut (<span style="font-size:10pt">Inloggad som <i>@Tracker.Username</i></span>)</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="/LoginTesting" class="nav-link">Logga in</a>
+                        </li>
+                    }
+                    
+                    @if(!crud.CheckValidTracker(Tracker))
+                    {
+                        <li class="nav-item">
+                            <a href="/Register" class="nav-link">Registrera dig</a>
+                        </li>
+                    }
             </ul>
         </div>
     </div>
 </nav>
+
+@code{
+    public LoginTracker? Tracker { get; set; }
+    
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    public void ClearSession()
+    {
+        _LocalStorage.ClearAsync();
+        Tracker = null;
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+        base.OnInitialized();
+    }
+}

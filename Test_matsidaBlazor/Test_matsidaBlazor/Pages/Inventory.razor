@@ -1,10 +1,12 @@
 ﻿@page "/Inventory"
 @using Test_matsidaBlazor.Data.Models
 @using Test_matsidaBlazor.Shared.Inventory
-<h3>InventoryTesting</h3>
 
-<Test_matsidaBlazor.Shared.Inventory.Inventory />
+
+
+<InventoryContainer InventoryPage="0" />
+
 
 @code {
-    
+    public int MyProperty { get; set; }
 }
