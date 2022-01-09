@@ -1,10 +1,29 @@
 ﻿@using Test_matsidaBlazor.Data.Models
-<div>
-    @Ingredient.Name
-</div>
+@using Test_matsidaBlazor.Data
+@using Blazored.LocalStorage
 
+<li class="list-group-item list-group-item">
+    <div class="d-sm-flex align-items-center justify-content-between">
+
+    <div>@Ingredient.Name</div> 
+
+    
+    <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn-close" aria-label="Close">
+    </button>
+
+
+    </div>
+
+</li>
 
 @code {
     [Parameter]
-    public Ingredient Ingredient { get; set; } = new Ingredient(); 
+    public Ingredient Ingredient { get; set; } = new Ingredient();
+    [Parameter]
+    public EventCallback<Ingredient> RemoveItem { get; set; }
+
+    public void OnRemoveItem(Ingredient value)
+    {
+            RemoveItem.InvokeAsync(value);
+    }
 }

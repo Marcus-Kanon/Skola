@@ -1,5 +1,6 @@
 ﻿@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 @inject NavigationManager NavigationManager
 
@@ -34,15 +35,17 @@
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
 
+        if(crud.CheckValidTracker(Tracker))
+        {
+            NavigationManager.NavigateTo("/Inventory");
+        }
+
         base.OnInitialized();
     }
 
     protected override void OnParametersSet()
     {
-        if(crud.CheckValidTracker(Tracker))
-        {
-            NavigationManager.NavigateTo("/Inventory");
-        }
+        
     }
 
 
@@ -50,17 +53,17 @@
     {
         var user = new User { Username=this.Username, Password=this.Password };
 
-        CheckDetails(user);
+        _ = CheckDetailsAsync(user);
     }
 
-    public void CheckDetails(User user)
+    public async Task CheckDetailsAsync(User user)
     {
         if(crud.CheckLoginDetails(user))
         {
             success = "Logged in successfully";
 
             var tracker = crud.GenerateLoginTracker(user);
-            _LocalStorage.SetItemAsync("LoginTracker", tracker);
+            await _LocalStorage.SetItemAsync("LoginTracker", tracker);
 
             NavigationManager.NavigateTo("/Inventory");
 

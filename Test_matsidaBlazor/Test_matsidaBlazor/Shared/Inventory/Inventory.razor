@@ -1,17 +1,18 @@
 ﻿@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+@inject NavigationManager NavigationManager
 <h3>Inventory</h3>
 
 <span>@Message</span>
+<ul class="list-group w-25">
+    @foreach(var item in Items)
+    {
+        <InventoryItem RemoveItem="RemoveItem" Ingredient="@item" />
 
-@foreach(var item in Items)
-{
-    <InventoryItem Ingredient="@item" />
-}
-
-<span>
-</span>
+    }
+</ul>
 
 <button @onclick="ClearSession">Clear Sesssion</button><br />
 
@@ -25,20 +26,31 @@
 
     CrudStuff crud = CrudStuff.GetInstance();
 
+    public void RemoveItem(Ingredient ingredient)
+    {
+        crud.RemoveInventoryItem(Tracker, ingredient, 0);
+        LoadInventory();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
 
-        LoadInventory();
+        if(Tracker != null)
+        {
+            LoadInventory();
+
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/Login");
+        }
 
         base.OnInitialized();
     }
 
     protected override void OnParametersSet()
     {
-        LoadInventory();
-
-        StateHasChanged();
 
         base.OnParametersSet();
     }
