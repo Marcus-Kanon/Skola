@@ -10,7 +10,7 @@
     <div class="d-sm-flex align-items-center justify-content-between w-25">
         <div></div>
         <div>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+            <button @onclick=OnAddItem type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                 <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
             </button>
         </div>
@@ -18,7 +18,8 @@
 <ul class="list-group w-25">
     @foreach(var item in Items)
     {
-        <InventoryItem RemoveItem="RemoveItem" Ingredient="@item" />
+        <InventoryItem RemoveItem=RemoveItem Ingredient="@item" />
+        Console.WriteLine(item.Name);
 
     }
 </ul>
@@ -42,9 +43,15 @@
         LoadInventory();
     }
 
+    
+    public void OnAddItem()
+    {
+        Items.Insert(0, new Ingredient() { Name = "Ny vara" });
+    }
+
     public void UpdateItem(int id, Ingredient ingredient)
     {
-        
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -69,6 +76,7 @@
 
         base.OnParametersSet();
     }
+
 
     public void LoadInventory()
     {

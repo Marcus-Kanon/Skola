@@ -5,16 +5,15 @@
 
 <li class="list-group-item list-group-item">
     <div class="d-sm-flex align-items-center justify-content-between">
-    @*<input value="@Name" @onchange="OnNameChange" style="@StyleInput" />*@
-    <InputSearch Visible="@InputVisible"/>
-    <span style="@StyleItemName">@Name</span> 
+        <IngredientSelector CurrentIngredient="@Ingredient" OnSelect="@OnSearchReturn" Visible="@InputVisible"/>
+        <span style="@StyleItemName">@Ingredient.Name</span> 
 
-    <div>
-    <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
-    <button style="@StyleBtnSave" @onclick="OnSaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
-    <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn btn-close" aria-label="Close">
-    </button>
-    </div>
+        <div>
+        <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
+        <button style="@StyleBtnSave" @onclick="OnSaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
+        <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn btn-close" aria-label="Close">
+        </button>
+        </div>
 
     </div>
 
@@ -33,9 +32,14 @@
 
     protected override void OnParametersSet()
     {
-        Name = Ingredient.Name;
 
         base.OnParametersSet();
+    }
+
+    public void OnSearchReturn(Ingredient ingredient)
+    {
+        Ingredient = ingredient;
+        OnSaveItem();
     }
 
     public void OnEditItem()

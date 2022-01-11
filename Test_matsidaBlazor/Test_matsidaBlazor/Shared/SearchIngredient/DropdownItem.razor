@@ -1,6 +1,6 @@
 ﻿@using Test_matsidaBlazor.Data.Models
 
-<div class="dropdown-item">
+<div @onmousedown="@OnClick" class="dropdown-item">
     @if(Data != null)
     {
         @Data.Name
@@ -10,11 +10,20 @@
 @code {
     [Parameter]
     public Ingredient? Data { get; set; }
+    [Parameter]
+    public EventCallback<Ingredient> ItemClick { get; set; }
 
     protected override void OnInitialized()
     {
-        Console.WriteLine(Data.Name);
 
         base.OnInitialized();
+    }
+
+    public void OnClick()
+    {
+            Console.WriteLine(Data.Name);
+
+        if (ItemClick.HasDelegate)
+            ItemClick.InvokeAsync(Data ?? throw new Exception("Ingredient not set"));
     }
 }
