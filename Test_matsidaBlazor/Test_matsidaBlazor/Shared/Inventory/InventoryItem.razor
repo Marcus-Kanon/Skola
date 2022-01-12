@@ -23,7 +23,11 @@
     [Parameter]
     public Ingredient Ingredient { get; set; } = new Ingredient();
     [Parameter]
+    public int ListId { get; set; } = new();
+    [Parameter]
     public EventCallback<Ingredient> RemoveItem { get; set; }
+    [Parameter]
+    public EventCallback<ItemEventArgs> UpdateItem { get; set; }
     private bool InputVisible = false;
     public string? Name { get; set; } = "";
     public string StyleItemName { get; set; } = "";
@@ -59,6 +63,7 @@
         StyleBtnSave = "display:none";
         InputVisible = false;
 
+        UpdateItem.InvokeAsync(new ItemEventArgs() { Id = ListId, Ingredient=Ingredient });
 
         StateHasChanged();
     }
@@ -77,10 +82,5 @@
     public void OnRemoveItem(Ingredient value)
     {
         RemoveItem.InvokeAsync(value);
-    }
-
-    public void UpdateItem()
-    {
-        
     }
 }

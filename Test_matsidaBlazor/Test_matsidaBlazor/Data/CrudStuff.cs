@@ -136,40 +136,103 @@ namespace Test_matsidaBlazor.Data
             return inventory;
         }
 
-        public bool AddInventoryItem(User user, Ingredient ingredient, int inventoryId)
+        public Inventory GetInventory(User user, int inventoryId)
         {
             var context = GetInstance().Context;
+            Inventory inventory = context.Inventories.Find(
+                user.Inventories.ElementAt(inventoryId).Id
+                );
 
-            if (CheckLoginDetails(user))
+            if(inventory != null)
             {
-                var inventories = GetUserInventories(user);
-                var checkIngredient = context.Ingredients.Where(q => q == ingredient).Single();
+                return inventory;
+            }
+            else
+            {
+                throw new Exception("No Inventory Found");
+            }
+        }
 
-                inventories[inventoryId].Ingredients.Add(checkIngredient);
+        public int GetNumberOfInventories(User user)
+        {
+            var context = GetInstance().Context;
+            int count = context.Inventories
+                .Include(p => p.User)
+                .Where(p => p.User == user)
+                .Count();
+            
+            return count;
+        }
 
+        public bool AddInventoryItem(LoginTracker tracker, Ingredient ingredient, int inventoryId)
+        {
+            var context = GetInstance().Context;
+            var user = TrackerToUser(tracker);
+            Ingredient item;
+            Inventory inventory = GetInventory(user, inventoryId);
+
+            if(CheckValidIngredient(ingredient) && !CheckIngredientExistsInInventory(user, ingredient, inventoryId))
+            {
+                item = context.Ingredients.Find(ingredient.Id) ?? throw new Exception("Could not find matching ingredient");
+                inventory.Ingredients.Add(item);
                 context.SaveChanges();
 
                 return true;
             }
-            else
+
+            return false;
+        }
+
+        public bool CheckIngredientExistsInInventory(User user, Ingredient ingredient ,int inventoryId)
+        {
+            var context = GetInstance().Context;
+            var ingredients = GetInventory(user, inventoryId).Ingredients.ToList();
+
+            var result = ingredients.Where(p => p == ingredient).SingleOrDefault();
+
+            if(result != null)
+                return true;
+
+            Console.WriteLine("Item exists " + ingredient.Name);
+            return false;
+
+        }
+
+        public bool CheckValidIngredient(Ingredient ingredient)
+        {
+            var result = GetInstance().Context.Ingredients.Where(p => p == ingredient).SingleOrDefault();
+
+            if(result!=null)
             {
-                throw new Exception("No inventory associated with user.");
+                return true;
             }
+
+            return false;
         }
 
         public bool RemoveInventoryItem(LoginTracker tracker, Ingredient ingredient, int inventoryId)
         {
+            
             if (CheckValidTracker(tracker))
             {
                 var user = TrackerToUser(tracker) ?? throw new Exception("Tracker is valid but does not correspond with a user in the database");
+                var context = GetInstance().Context;
 
-                var inventories = GetUserInventories(user);
+                if (CheckIngredientExistsInInventory(user, ingredient, inventoryId))
+                {
+                    var inventory = GetInventory(user, inventoryId);
+                    inventory.Ingredients.Remove(ingredient);
+                    context.SaveChanges();
 
-                inventories[inventoryId].Ingredients.Remove(ingredient);
-
-                GetInstance().Context.SaveChanges();
-
-                return true;
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Could not find ingredient to remove.");
+                    return false;
+                }
+                
+                
             }
             else
             {

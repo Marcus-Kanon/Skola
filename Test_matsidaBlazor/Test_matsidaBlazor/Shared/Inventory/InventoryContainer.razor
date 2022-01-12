@@ -1,4 +1,6 @@
-﻿@using Test_matsidaBlazor.Data
+﻿@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
 @using Blazored.LocalStorage
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
@@ -6,7 +8,7 @@
 
 <div class="container">
     <h3>Ditt skafferi</h3>
-
+    <span>@Message</span>
     <div class="d-sm-flex align-items-center justify-content-between w-25">
         <div></div>
         <div>
@@ -16,12 +18,16 @@
         </div>
     </div>
 <ul class="list-group w-25">
-    @foreach(var item in Items)
+    @if(Items != null)
     {
-        <InventoryItem RemoveItem=RemoveItem Ingredient="@item" />
-        Console.WriteLine(item.Name);
+        for(int i = 0; i < Items.Count(); i++)
+        {
+            <InventoryItem ListId=i UpdateItem=@((args) => UpdateItem(args.Id, args.Ingredient)) RemoveItem=RemoveItem Ingredient=@Items[i] />
+            Console.WriteLine(Items[i].Name);
 
+        }
     }
+
 </ul>
 </div>
 
@@ -32,36 +38,22 @@
     public LoginTracker? Tracker { get; set; }
     public bool LoggedIn { get; set; } = false;
     public string Message { get; set; } = "";
-    public List<Ingredient> Items = new List<Ingredient>();
+    //public List<Ingredient> Items = new List<Ingredient>();
+
     public int InventoryId { get; set; } = 0;
 
     CrudStuff crud = CrudStuff.GetInstance();
 
-    public void RemoveItem(Ingredient ingredient)
-    {
-        crud.RemoveInventoryItem(Tracker, ingredient, 0);
-        LoadInventory();
-    }
-
-    
-    public void OnAddItem()
-    {
-        Items.Insert(0, new Ingredient() { Name = "Ny vara" });
-    }
-
-    public void UpdateItem(int id, Ingredient ingredient)
-    {
-
-    }
 
     protected override async Task OnInitializedAsync()
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
 
+
         if(Tracker != null)
         {
             LoadInventory();
-
+            ItemsInitialized = true;
         }
         else
         {
@@ -69,6 +61,25 @@
         }
 
         base.OnInitialized();
+    }
+
+    public void RemoveItem(Ingredient ingredient)
+    {
+        crud.RemoveInventoryItem(Tracker, ingredient, 0);
+        LoadInventory();
+    }
+
+
+
+    public void OnAddItem()
+    {
+        Items.Add(new Ingredient() { Name = "Ny vara" });
+    }
+
+    public void UpdateItem(int id, Ingredient ingredient)
+    {
+        Items.RemoveAt(id);
+        Items.Insert(id, ingredient);
     }
 
     protected override void OnParametersSet()
@@ -83,11 +94,13 @@
         if(crud.CheckValidTracker(Tracker))
         {
             Message = "Hej " + Tracker.Username + "!";
-            Items = crud.GetIngredientsInInventory(Tracker, InventoryId);
+
+            Items.Clear();
+            crud.GetIngredientsInInventory(Tracker, InventoryId).ForEach(Items.Add);
         }
         else
         {
-            Items = new List<Ingredient>();
+            Items = new ObservableCollection<Ingredient>();
             Message = "Not logged in";
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Test_matsidaBlazor.Data.Models
+﻿using System.ComponentModel;
+
+namespace Test_matsidaBlazor.Data.Models
 {
     public class Ingredient
     {
@@ -9,5 +11,6 @@
         public int NutrientsId { get; set; }
         public Nutrients? Nutrients { get; set; }
         public ICollection<Inventory>? Inventories { get; set; }
+
     }
 }
