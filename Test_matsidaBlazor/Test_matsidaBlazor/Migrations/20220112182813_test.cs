@@ -1,13 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Test_matsidaBlazor.Migrations
 {
-    public partial class first : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "LoginTrackers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUsed = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoginTrackers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Nutrients",
                 columns: table => new
@@ -77,9 +95,7 @@ namespace Test_matsidaBlazor.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    IngredientId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,33 +136,32 @@ namespace Test_matsidaBlazor.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IngredientInventory",
+                name: "Inventories_Ingredients",
                 columns: table => new
                 {
-                    IngredientsId = table.Column<int>(type: "int", nullable: false),
-                    InventoriesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InventoryId = table.Column<int>(type: "int", nullable: false),
+                    IngredientId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IngredientInventory", x => new { x.IngredientsId, x.InventoriesId });
+                    table.PrimaryKey("PK_Inventories_Ingredients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IngredientInventory_Ingredients_IngredientsId",
-                        column: x => x.IngredientsId,
+                        name: "FK_Inventories_Ingredients_Ingredients_IngredientId",
+                        column: x => x.IngredientId,
                         principalTable: "Ingredients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IngredientInventory_Inventories_InventoriesId",
-                        column: x => x.InventoriesId,
+                        name: "FK_Inventories_Ingredients_Inventories_InventoryId",
+                        column: x => x.InventoryId,
                         principalTable: "Inventories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IngredientInventory_InventoriesId",
-                table: "IngredientInventory",
-                column: "InventoriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_NutrientsId",
@@ -158,6 +173,16 @@ namespace Test_matsidaBlazor.Migrations
                 name: "IX_Inventories_UserId",
                 table: "Inventories",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventories_Ingredients_IngredientId",
+                table: "Inventories_Ingredients",
+                column: "IngredientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventories_Ingredients_InventoryId",
+                table: "Inventories_Ingredients",
+                column: "InventoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_Inredients_IngredientId",
@@ -173,7 +198,10 @@ namespace Test_matsidaBlazor.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "IngredientInventory");
+                name: "Inventories_Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "LoginTrackers");
 
             migrationBuilder.DropTable(
                 name: "Recipes_Inredients");

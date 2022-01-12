@@ -12,6 +12,7 @@ namespace Test_matsidaBlazor.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; } = null!;
         public DbSet<LoginTracker> LoginTrackers { get; set; } = null!;
+        public DbSet<Inventories_Ingredients> Inventories_Ingredients { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -47,22 +48,27 @@ namespace Test_matsidaBlazor.Data
                 .HasOne(i => i.User)
                 .WithMany(u => u.Inventories);
 
+            /*
             modelBuilder.Entity<Inventory>()
                 .HasMany(inv => inv.Ingredients)
                 .WithMany(ing => ing.Inventories);
             modelBuilder.Entity<Ingredient>()
                 .HasMany(ing => ing.Inventories)
                 .WithMany(inv => inv.Ingredients);
+            */
 
             modelBuilder.Entity<Inventories_Ingredients>()
                 .HasOne(ii => ii.Inventory)
                 .WithMany(inv => inv.Inventories_Ingredients)
-                .HasForeignKey(ii => ii.InventoryId);
+                .HasForeignKey(ii => ii.InventoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
 
             modelBuilder.Entity<Inventories_Ingredients>()
                 .HasOne(ii => ii.Ingredient)
                 .WithMany(inv => inv.Inventories_Ingredients)
-                .HasForeignKey(ii => ii.IngredientId);
+                .HasForeignKey(ii => ii.IngredientId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipes_Ingredients>()
                 .HasOne(ri => ri.Ingredient)

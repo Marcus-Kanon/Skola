@@ -12,8 +12,8 @@ using Test_matsidaBlazor.Data;
 namespace Test_matsidaBlazor.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220108091850_nullable")]
-    partial class nullable
+    [Migration("20220112182813_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace Test_matsidaBlazor.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("IngredientInventory", b =>
-                {
-                    b.Property<int>("IngredientsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InventoriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IngredientsId", "InventoriesId");
-
-                    b.HasIndex("InventoriesId");
-
-                    b.ToTable("IngredientInventory");
-                });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
                 {
@@ -65,7 +50,7 @@ namespace Test_matsidaBlazor.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventories_Ingredients", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,6 +63,30 @@ namespace Test_matsidaBlazor.Migrations
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("Inventories_Ingredients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -206,21 +215,6 @@ namespace Test_matsidaBlazor.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("IngredientInventory", b =>
-                {
-                    b.HasOne("Test_matsidaBlazor.Data.Models.Ingredient", null)
-                        .WithMany()
-                        .HasForeignKey("IngredientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Test_matsidaBlazor.Data.Models.Inventory", null)
-                        .WithMany()
-                        .HasForeignKey("InventoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
                 {
                     b.HasOne("Test_matsidaBlazor.Data.Models.Nutrients", "Nutrients")
@@ -230,6 +224,25 @@ namespace Test_matsidaBlazor.Migrations
                         .IsRequired();
 
                     b.Navigation("Nutrients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventories_Ingredients", b =>
+                {
+                    b.HasOne("Test_matsidaBlazor.Data.Models.Ingredient", "Ingredient")
+                        .WithMany("Inventories_Ingredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test_matsidaBlazor.Data.Models.Inventory", "Inventory")
+                        .WithMany("Inventories_Ingredients")
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("Inventory");
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
@@ -264,7 +277,14 @@ namespace Test_matsidaBlazor.Migrations
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
                 {
+                    b.Navigation("Inventories_Ingredients");
+
                     b.Navigation("Recipes_Ingredients");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
+                {
+                    b.Navigation("Inventories_Ingredients");
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Nutrients", b =>

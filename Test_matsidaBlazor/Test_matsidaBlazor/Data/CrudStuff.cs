@@ -111,7 +111,7 @@ namespace Test_matsidaBlazor.Data
                 if (inventoryId < 0)
                     inventoryId = inventories.Count-1;
 
-                return inventories[inventoryId].Ingredients.ToList();
+                return inventories[inventoryId].Inventories_Ingredients.Select(s => s.Ingredient).ToList();
             }
             else
             {
@@ -126,9 +126,18 @@ namespace Test_matsidaBlazor.Data
             var inventory = new Inventory
             {
                 User=user,
-                Ingredients=ingredients,
-                Amount=5.0,
             };
+
+            foreach(Ingredient ingredient in ingredients)
+            {
+                context.Inventories_Ingredients.Add(new Inventories_Ingredients()
+                {
+                    Inventory = inventory,
+                    Ingredient=ingredient,
+                    Amount = 5.0,
+                });
+            }
+
 
             context.Inventories.Add(inventory);
             context.SaveChanges();
@@ -174,7 +183,19 @@ namespace Test_matsidaBlazor.Data
             if(CheckValidIngredient(ingredient) && !CheckIngredientExistsInInventory(user, ingredient, inventoryId))
             {
                 item = context.Ingredients.Find(ingredient.Id) ?? throw new Exception("Could not find matching ingredient");
-                inventory.Ingredients.Add(item);
+
+                var i_i = new Inventories_Ingredients
+                {
+                    Ingredient = item,
+                    Inventory = inventory,
+                    Amount = 500,
+                    Unit = "gram"
+                    
+                };
+
+                //Context.Inventories_Ingredients.Add(i_i);//TODO: testa utan denna raden
+                inventory.Inventories_Ingredients.Add(i_i);
+
                 context.SaveChanges();
 
                 return true;
@@ -186,9 +207,9 @@ namespace Test_matsidaBlazor.Data
         public bool CheckIngredientExistsInInventory(User user, Ingredient ingredient ,int inventoryId)
         {
             var context = GetInstance().Context;
-            var ingredients = GetInventory(user, inventoryId).Ingredients.ToList();
 
-            var result = ingredients.Where(p => p == ingredient).SingleOrDefault();
+            var item = context.Ingredients.Find(ingredient.Id) ?? throw new Exception("Could not find requested ingredient");
+            var result = context.Inventories_Ingredients.Where(p => p.Inventory == GetInventory(user, inventoryId) && p.Ingredient==item).SingleOrDefault();
 
             if(result != null)
                 return true;
@@ -221,7 +242,10 @@ namespace Test_matsidaBlazor.Data
                 if (CheckIngredientExistsInInventory(user, ingredient, inventoryId))
                 {
                     var inventory = GetInventory(user, inventoryId);
-                    inventory.Ingredients.Remove(ingredient);
+
+                    var ii = context.Inventories_Ingredients.Where(p => p.Ingredient == ingredient && p.Inventory==inventory).SingleOrDefault();
+
+                    inventory.Inventories_Ingredients.Remove(ii);
                     context.SaveChanges();
 
                     return true;
@@ -313,7 +337,8 @@ namespace Test_matsidaBlazor.Data
         private static List<Inventory> GetUserInventories(User user)
         {
             var results = GetInstance().Context.Inventories
-                    .Include(p => p.Ingredients)
+                    .Include(p => p.Inventories_Ingredients)
+                    .ThenInclude(p => p.Ingredient)
                     .Where(q => q.User == user).ToList();
 
             return results;
