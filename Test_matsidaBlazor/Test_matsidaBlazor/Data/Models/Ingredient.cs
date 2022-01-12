@@ -11,6 +11,6 @@ namespace Test_matsidaBlazor.Data.Models
         public int NutrientsId { get; set; }
         public Nutrients? Nutrients { get; set; }
         public ICollection<Inventory>? Inventories { get; set; }
-
+        public ICollection<Inventories_Ingredients> Inventories_Ingredients { get; set; } = null!;
     }
 }

@@ -6,7 +6,9 @@
 <li class="list-group-item list-group-item">
     <div class="d-sm-flex align-items-center justify-content-between">
         <IngredientSelector CurrentIngredient="@Ingredient" OnSelect="@OnSearchReturn" Visible="@InputVisible"/>
-        <span style="@StyleItemName">@Ingredient.Name</span> 
+        <div>
+        <span style="@StyleItemName">@Ingredient.Name</span>
+        </div>
 
         <div>
         <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
