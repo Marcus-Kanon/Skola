@@ -30,7 +30,7 @@ namespace TDD___Övningar_20220113
 
         public static int?[] HighAndLow(int[] numbers)
         {          
-            int? low = null, high = 0;
+            int? low = null, high = null;
             for (int i = 0; i < numbers.Length; i++)
             {
                 if(numbers[i] > high || high == null)
@@ -40,6 +40,10 @@ namespace TDD___Övningar_20220113
                     low = numbers[i];
 
             }
+
+            low ??= 0;
+            high ??= 0;
+
 
             int?[] result = new int?[2] { high, low };
 

@@ -25,8 +25,9 @@ namespace TDD___Övningar_20220113.Tests
             foreach (var array in list)
             {
 
-                int?[] testResult = HighAndLow(array.Item1);
-                Assert.AreEqual(testResult, new int?[] { array.Item2, array.Item3 });
+                int?[] actual = HighAndLow(array.Item1);
+                int?[] expected = new int?[2] { array.Item2, array.Item3 };
+                CollectionAssert.AreEqual(expected, actual);
 
             }
 

@@ -37,6 +37,7 @@ namespace Test_matsidaBlazor.Shared.Inventory
                     {
                         Console.WriteLine("adding; " + newItem.Name + " Id: " + newItem.Id + " to db");
                         var number = Items.Where(p => p.Id == newItem.Id).ToList().Count();
+
                         if (number > 1 && ItemsInitialized)
                         {
                             Message = "Ingrediens finns redan i listan";
