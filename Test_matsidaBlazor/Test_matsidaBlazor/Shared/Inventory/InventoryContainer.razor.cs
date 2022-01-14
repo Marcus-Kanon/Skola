@@ -22,7 +22,6 @@ namespace Test_matsidaBlazor.Shared.Inventory
             {
                 foreach (Ingredient oldItem in e.OldItems)
                 {
-                    Console.WriteLine("removing; " + oldItem.Name + " Id: " + oldItem.Id + " from db");
                     crud.RemoveInventoryItem(Tracker, oldItem, InventoryId);
                 }
             }
@@ -31,17 +30,13 @@ namespace Test_matsidaBlazor.Shared.Inventory
             {
                 foreach (Ingredient newItem in e.NewItems)
                 {
-                    Console.WriteLine("EVENT NEW ITEM: " + newItem.Name);
-
                     if(crud.CheckValidIngredient(newItem))
                     {
-                        Console.WriteLine("adding; " + newItem.Name + " Id: " + newItem.Id + " to db");
                         var number = Items.Where(p => p.Id == newItem.Id).ToList().Count();
 
                         if (number > 1 && ItemsInitialized)
                         {
                             Message = "Ingrediens finns redan i listan";
-                            Console.WriteLine("Ingrediens finns redan i listan");
 
                             Items.Remove(newItem);
                         }
@@ -50,7 +45,7 @@ namespace Test_matsidaBlazor.Shared.Inventory
                     }
                     else
                     {
-                        Console.WriteLine(newItem.Name + " is not valid to add");
+
                     }
                 }
             }

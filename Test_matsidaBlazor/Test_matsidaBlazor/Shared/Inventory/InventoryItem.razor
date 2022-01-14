@@ -5,7 +5,7 @@
 
 <li class="list-group-item list-group-item">
     <div class="d-sm-flex align-items-center justify-content-between">
-        <IngredientSelector CurrentIngredient="@Ingredient" OnItemSelect="@OnItemSelected" Visible="@InputVisible"/>
+        <IngredientSelector CurrentIngredient="@Ingredient" OnItemSelect="@OnItemSelected" Visible=@InputVisible/>
         <div>
             <span style="@StyleItemName">@Ingredient.Name</span>
         </div>
@@ -27,7 +27,7 @@
     public EventCallback<ItemEventArgs> OnItemRemove { get; set; }
     [Parameter]
     public EventCallback<ItemEventArgs> OnItemUpdate { get; set; }
-    private bool InputVisible = false;
+    public bool InputVisible = false;
     public string? Name { get; set; } = "";
     public string StyleItemName { get; set; } = "";
     public string StyleInput { get; set; } = "display:none; width:50%";
