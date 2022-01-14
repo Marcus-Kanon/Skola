@@ -1,6 +1,6 @@
 ﻿using Test_matsidaBlazor.Data.Models;
 
-namespace Test_matsidaBlazor.Shared.SearchIngredient
+namespace Test_matsidaBlazor.Shared.IngredientSelector
 {
     public class ItemEventArgs
     {

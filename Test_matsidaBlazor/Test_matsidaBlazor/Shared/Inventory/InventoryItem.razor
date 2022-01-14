@@ -1,24 +1,21 @@
 ﻿@using Test_matsidaBlazor.Data.Models
 @using Test_matsidaBlazor.Data
 @using Blazored.LocalStorage
-@using Test_matsidaBlazor.Shared.SearchIngredient
+@using Test_matsidaBlazor.Shared.IngredientSelector
 
 <li class="list-group-item list-group-item">
     <div class="d-sm-flex align-items-center justify-content-between">
-        <IngredientSelector CurrentIngredient="@Ingredient" OnSelect="@OnSearchReturn" Visible="@InputVisible"/>
+        <IngredientSelector CurrentIngredient="@Ingredient" OnItemSelect="@OnItemSelected" Visible="@InputVisible"/>
         <div>
-        <span style="@StyleItemName">@Ingredient.Name</span>
+            <span style="@StyleItemName">@Ingredient.Name</span>
         </div>
 
         <div>
-        <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
-        <button style="@StyleBtnSave" @onclick="OnSaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
-        <button @onclick="() => OnRemoveItem(Ingredient)" type="button" class="btn btn-close" aria-label="Close">
-        </button>
+            <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
+            <button style="@StyleBtnSave" @onclick="SaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
+            <button @onclick="() => RemoveItem(new ItemEventArgs() { Ingredient = Ingredient, Id = ListId })" type="button" class="btn btn-close" aria-label="Close"></button>
         </div>
-
     </div>
-
 </li>
 
 @code {
@@ -27,25 +24,20 @@
     [Parameter]
     public int ListId { get; set; } = new();
     [Parameter]
-    public EventCallback<Ingredient> RemoveItem { get; set; }
+    public EventCallback<ItemEventArgs> OnItemRemove { get; set; }
     [Parameter]
-    public EventCallback<ItemEventArgs> UpdateItem { get; set; }
+    public EventCallback<ItemEventArgs> OnItemUpdate { get; set; }
     private bool InputVisible = false;
     public string? Name { get; set; } = "";
     public string StyleItemName { get; set; } = "";
     public string StyleInput { get; set; } = "display:none; width:50%";
     public string StyleBtnSave { get; set; } = "display:none";
 
-    protected override void OnParametersSet()
-    {
-
-        base.OnParametersSet();
-    }
-
-    public void OnSearchReturn(Ingredient ingredient)
+    public void OnItemSelected(Ingredient ingredient)
     {
         Ingredient = ingredient;
-        OnSaveItem();
+
+        SaveItem();
     }
 
     public void OnEditItem()
@@ -58,18 +50,6 @@
         StateHasChanged();
     }
 
-    public void OnSaveItem()
-    {
-        StyleItemName = "display:inline";
-        StyleInput = "display:none; width:50%";
-        StyleBtnSave = "display:none";
-        InputVisible = false;
-
-        UpdateItem.InvokeAsync(new ItemEventArgs() { Id = ListId, Ingredient=Ingredient });
-
-        StateHasChanged();
-    }
-
     public void OnNameChange(ChangeEventArgs e)
     {
         string? value = "";
@@ -77,12 +57,23 @@
         if(e.Value != null)
             value = e.Value.ToString();
 
-
         Name = value;
     }
 
-    public void OnRemoveItem(Ingredient value)
+    public void RemoveItem(ItemEventArgs item)
     {
-        RemoveItem.InvokeAsync(value);
+        OnItemRemove.InvokeAsync(item);
+    }
+
+    public void SaveItem()
+    {
+        StyleItemName = "display:inline";
+        StyleInput = "display:none; width:50%";
+        StyleBtnSave = "display:none";
+        InputVisible = false;
+
+        OnItemUpdate.InvokeAsync(new ItemEventArgs() { Id = ListId, Ingredient=Ingredient });
+
+        StateHasChanged();
     }
 }

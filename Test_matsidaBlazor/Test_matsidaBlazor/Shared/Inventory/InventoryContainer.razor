@@ -3,6 +3,7 @@
 @using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
 @using Blazored.LocalStorage
+@using Test_matsidaBlazor.Shared.IngredientSelector
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 @inject NavigationManager NavigationManager
 
@@ -12,25 +13,23 @@
     <div class="d-sm-flex align-items-center justify-content-between w-25">
         <div></div>
         <div>
-            <button @onclick=OnAddItem type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+            <button @onclick=AddItem type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                 <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
             </button>
         </div>
     </div>
-<ul class="list-group w-25">
-    @if(Items != null)
-    {
-        for(int i = 0; i < Items.Count(); i++)
+
+    <ul class="list-group w-25">
+        @if(Items != null)
         {
-            <InventoryItem ListId=i UpdateItem=@((args) => UpdateItem(args.Id, args.Ingredient)) RemoveItem=RemoveItem Ingredient=@Items[i] />
-            Console.WriteLine(Items[i].Name);
-
+            for(int i = 0; i < Items.Count(); i++)
+            {
+                <InventoryItem ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
+            }
         }
-    }
-
-</ul>
+    </ul>
+    <br /><br /><br /><br /><br /><br /><br /><br />
 </div>
-
 
 @code {
     [Parameter]
@@ -38,12 +37,9 @@
     public LoginTracker? Tracker { get; set; }
     public bool LoggedIn { get; set; } = false;
     public string Message { get; set; } = "";
-    //public List<Ingredient> Items = new List<Ingredient>();
-
     public int InventoryId { get; set; } = 0;
 
     CrudStuff crud = CrudStuff.GetInstance();
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,31 +59,24 @@
         base.OnInitialized();
     }
 
-    public void RemoveItem(Ingredient ingredient)
+    public void OnItemRemoved(int id, Ingredient ingredient)
     {
+        Items.RemoveAt(id);
         crud.RemoveInventoryItem(Tracker, ingredient, 0);
-        LoadInventory();
+
+        StateHasChanged();
     }
 
-
-
-    public void OnAddItem()
-    {
-        Items.Add(new Ingredient() { Name = "Ny vara" });
-    }
-
-    public void UpdateItem(int id, Ingredient ingredient)
+    public void OnItemUpdated(int id, Ingredient ingredient)
     {
         Items.RemoveAt(id);
         Items.Insert(id, ingredient);
     }
 
-    protected override void OnParametersSet()
+    public void AddItem()
     {
-
-        base.OnParametersSet();
+        Items.Add(new Ingredient() { Name = "Ny vara" });
     }
-
 
     public void LoadInventory()
     {

@@ -1,19 +1,17 @@
 ﻿@using Test_matsidaBlazor.Data.Models
 
 <div style="@StyleContainerDisplay; position: absolute; overflow:visible">
-@foreach(var item in IngredientList)
-{
-    <DropdownItem ItemClick="@OnItemClick" Data="@item" />
-}
+    @foreach(var item in IngredientList)
+    {
+        <DropdownItem OnItemClick="@OnItemClicked" Data="@item" />
+    }
 </div>
 
 @code {
-    public EventCallback<Ingredient?> callback;
-
     [Parameter]
     public List<Ingredient> IngredientList { get; set; } = new();
     [Parameter]
-    public EventCallback<Ingredient?> ItemClickCallback { get; set; }
+    public EventCallback<Ingredient?> OnItemClick { get; set; }
     [Parameter]
     public bool Visible
     {
@@ -24,13 +22,10 @@
         set
         {
             if (value)
-            {
                 StyleContainerDisplay = "display:inline;";
-            }
             else
-            {
                 StyleContainerDisplay = "display:none;";
-            }
+
             visible = value;
         }
     }
@@ -38,21 +33,12 @@
     private bool visible = false;
     private string StyleContainerDisplay = "";
 
-    protected override void OnParametersSet()
+    public void OnItemClicked(Ingredient ingredient)
     {
-        callback = ItemClickCallback;
-
-        base.OnParametersSet();
-    }
-
-    public void OnItemClick(Ingredient ingredient)
-    {
-        callback.InvokeAsync(ingredient);
+        OnItemClick.InvokeAsync(ingredient);
         IngredientList = new();
 
         StateHasChanged();
-
-        Console.WriteLine(ingredient.Name);
     }
 
     public void FillIngredientList(List<Ingredient> list)

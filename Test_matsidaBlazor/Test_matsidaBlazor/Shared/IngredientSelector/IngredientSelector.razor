@@ -6,10 +6,9 @@
 
 <input @onfocusin=@(() =>{ DropdownVisible=true;}) @onfocusout=@(() =>{ DropdownVisible=false;}) @bind-value=InputValue @oninput=OnInput style="@StyleDisplay @StyleWidth" type="text" class="form-control" /><br />
 
-
 <div style="position: absolute; z-index:9">
     <div style="height:50px"></div>
-    <DropdownContainer Visible=@DropdownVisible ItemClickCallback=@OnItemClick IngredientList=IngredientSearch />
+    <DropdownContainer Visible=@DropdownVisible OnItemClick=@OnItemClicked IngredientList=IngredientSearch />
 </div>
 
 
@@ -32,10 +31,11 @@
                 StyleDisplay = "display:none;";
         }
     }
+
     [Parameter]
     public Ingredient CurrentIngredient { get; set; } = new();
     [Parameter]
-    public EventCallback<Ingredient> OnSelect { get; set; }
+    public EventCallback<Ingredient> OnItemSelect { get; set; }
 
     public string StyleDisplay { get; set; } = "display:inline;";
     public string StyleWidth { get; set; } = "width:50%;";
@@ -61,10 +61,9 @@
         }
         
         IngredientSearch = crud.SearchIngredientsByName(search);
-
     }
 
-    public void OnItemClick(Ingredient? ingredient)
+    public void OnItemClicked(Ingredient? ingredient)
     {
         if(ingredient!=null)
         {
@@ -72,14 +71,10 @@
             CurrentIngredient.Name = ingredient.Name;
 
             IngredientSearch = new();
-
-            Console.WriteLine(ingredient.Name);
         }
-        
 
-        OnSelect.InvokeAsync(CurrentIngredient);
+        OnItemSelect.InvokeAsync(CurrentIngredient);
 
         StateHasChanged();
     }
-
 }
