@@ -155,12 +155,15 @@ namespace Test_matsidaBlazor.Data
 
         public bool AddInventoryItem(LoginTracker tracker, Ingredient ingredient, int inventoryId)
         {
+            if (!CheckValidIngredient(ingredient))
+                return false;
+
             var context = GetInstance().Context;
             var user = TrackerToUser(tracker);
             Ingredient item;
             Inventory inventory = GetInventory(user, inventoryId);
 
-            if(CheckValidIngredient(ingredient) && !CheckIngredientExistsInInventory(user, ingredient, inventoryId))
+            if (!CheckIngredientExistsInInventory(user, ingredient, inventoryId))
             {
                 item = context.Ingredients
                     .Find(ingredient.Id) ?? throw new Exception("Could not find matching ingredient");
@@ -217,6 +220,9 @@ namespace Test_matsidaBlazor.Data
             if (!CheckValidTracker(tracker))
                 throw new Exception("Could not find tracker in database");
 
+            if(!CheckValidIngredient(ingredient))
+                return false;
+
             var user = TrackerToUser(tracker) ?? throw new Exception("Tracker is valid but does not correspond with a user in the database");
             var context = GetInstance().Context;
 
@@ -258,7 +264,7 @@ namespace Test_matsidaBlazor.Data
         /// </summary>
         /// <param name="login">User to add track for.</param>
         /// <returns></returns>
-        protected LoginTracker GenerateLoginTracker(User login)
+        public LoginTracker GenerateLoginTracker(User login)
         {
             var tracker = new LoginTracker
             {
