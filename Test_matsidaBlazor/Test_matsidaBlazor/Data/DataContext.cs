@@ -13,6 +13,7 @@ namespace Test_matsidaBlazor.Data
         public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; } = null!;
         public DbSet<LoginTracker> LoginTrackers { get; set; } = null!;
         public DbSet<Inventories_Ingredients> Inventories_Ingredients { get; set; }
+        public DbSet<Inventories_Ingredients> ShoppingLists_Ingredients { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -48,6 +49,13 @@ namespace Test_matsidaBlazor.Data
                 .HasOne(i => i.User)
                 .WithMany(u => u.Inventories);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.ShoppingLists)
+                .WithOne(i => i.User);
+            modelBuilder.Entity<ShoppingList>()
+                .HasOne(i => i.User)
+                .WithMany(u => u.ShoppingLists);
+
             modelBuilder.Entity<Inventories_Ingredients>()
                 .HasOne(ii => ii.Inventory)
                 .WithMany(inv => inv.Inventories_Ingredients)
@@ -60,7 +68,17 @@ namespace Test_matsidaBlazor.Data
                 .HasForeignKey(ii => ii.IngredientId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //TODO: Lägg till dbset och modeller för shoppinglist
+            modelBuilder.Entity<ShoppingLists_Ingredients>()
+                .HasOne(ii => ii.ShoppingList)
+                .WithMany(inv => inv.Inventories_Ingredients)
+                .HasForeignKey(ii => ii.InventoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ShoppingLists_Ingredients>()
+                .HasOne(ii => ii.Ingredient)
+                .WithMany(inv => inv.ShoppingLists_Ingredients)
+                .HasForeignKey(ii => ii.IngredientId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipes_Ingredients>()
                 .HasOne(ri => ri.Ingredient)

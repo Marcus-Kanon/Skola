@@ -24,7 +24,7 @@
         {
             for(int i = 0; i < Items.Count(); i++)
             {
-                <InventoryItem ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
+                <ShoppingListItem ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
             }
         }
     </ul>
@@ -47,7 +47,7 @@
 
         if(Tracker != null)
         {
-            LoadInventory();
+            LoadShoppingList();
             ItemsInitialized = true;
         }
         else
@@ -61,7 +61,7 @@
     public void OnItemRemoved(int id, Ingredient ingredient)
     {
         Items.RemoveAt(id);
-        crud.RemoveInventoryItem(Tracker, ingredient, 0);
+        crud.RemoveShoppingListItem(Tracker, ingredient, 0);
 
         StateHasChanged();
     }
@@ -77,14 +77,14 @@
         Items.Add(new Ingredient() { Name = "Ny vara" });
     }
 
-    public void LoadInventory()
+    public void LoadShoppingList()
     {
         if(crud.CheckValidTracker(Tracker))
         {
             Message = "Hej " + Tracker.Username + "!";
 
             Items.Clear();
-            crud.GetIngredientsInInventory(Tracker, Page).ForEach(Items.Add);
+            crud.GetIngredientsInShoppingList(Tracker, Page).ForEach(Items.Add);
         }
         else
         {
@@ -97,7 +97,7 @@
     {
         _LocalStorage.ClearAsync();
         Tracker = null;
-        LoadInventory();
+        LoadShoppingList();
 
         StateHasChanged();
     }

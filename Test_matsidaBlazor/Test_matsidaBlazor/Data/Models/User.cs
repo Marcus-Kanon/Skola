@@ -9,5 +9,6 @@ namespace Test_matsidaBlazor.Data.Models
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public ICollection<Inventory> Inventories { get; set; } = null!;
+        public ICollection<ShoppingList> ShoppingLists { get; set; } = null!;
     }
 }

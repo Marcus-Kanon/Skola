@@ -3,14 +3,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Test_matsidaBlazor.Data.Models;
 
-namespace Test_matsidaBlazor.Shared.Inventory
+namespace Test_matsidaBlazor.Shared.ShoppingList
 {
-    public partial class InventoryContainer : ComponentBase
+    public partial class ShoppingListContainer : ComponentBase
     {
         public ObservableCollection<Ingredient> Items;
         public bool ItemsInitialized { get; set; } = false;
 
-        public InventoryContainer()
+        public ShoppingListContainer()
         {
             Items = new();
             Items.CollectionChanged += OnListChange;
@@ -22,7 +22,7 @@ namespace Test_matsidaBlazor.Shared.Inventory
             {
                 foreach (Ingredient oldItem in e.OldItems)
                 {
-                    crud.RemoveInventoryItem(Tracker, oldItem, Page);
+                    crud.RemoveShoppingListItem(Tracker, oldItem, Page);
                 }
             }
 
@@ -41,7 +41,7 @@ namespace Test_matsidaBlazor.Shared.Inventory
                             Items.Remove(newItem);
                         }
 
-                        crud.AddInventoryItem(Tracker, newItem, Page);
+                        crud.AddShoppingListItem(Tracker, newItem, Page);
                     }
                     else
                     {
