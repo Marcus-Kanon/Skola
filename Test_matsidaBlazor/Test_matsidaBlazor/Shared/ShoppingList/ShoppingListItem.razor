@@ -12,6 +12,7 @@
 
         <div>
             <button style="@StyleItemName" @onclick="OnEditItem" type="button" class="btn btn-warning btn-sm">Redigera</button>
+            <button style="@StyleItemName" @onclick=@(() => OnItemTransfer.InvokeAsync(new ItemEventArgs() { Ingredient = Ingredient, Id = ListId })) type="button" class="btn btn-success btn-sm">Flytta till skafferiet</button>
             <button style="@StyleBtnSave" @onclick="SaveItem" type="button" class="btn btn-success btn-sm">Spara</button>
             <button @onclick="() => RemoveItem(new ItemEventArgs() { Ingredient = Ingredient, Id = ListId })" type="button" class="btn btn-close" aria-label="Close"></button>
         </div>
@@ -27,6 +28,8 @@
     public EventCallback<ItemEventArgs> OnItemRemove { get; set; }
     [Parameter]
     public EventCallback<ItemEventArgs> OnItemUpdate { get; set; }
+    [Parameter]
+    public EventCallback<ItemEventArgs> OnItemTransfer { get; set; }
     public bool InputVisible = false;
     public string? Name { get; set; } = "";
     public string StyleItemName { get; set; } = "";

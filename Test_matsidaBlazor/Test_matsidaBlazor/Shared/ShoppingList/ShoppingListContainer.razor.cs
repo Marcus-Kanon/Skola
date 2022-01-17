@@ -32,7 +32,7 @@ namespace Test_matsidaBlazor.Shared.ShoppingList
                 {
                     if(crud.CheckValidIngredient(newItem))
                     {
-                        var number = Items.Where(p => p.Id == newItem.Id).ToList().Count();
+                        var number = Items.Where(p => p.Id == newItem.Id).ToList().Count;
 
                         if (number > 1 && ItemsInitialized)
                         {

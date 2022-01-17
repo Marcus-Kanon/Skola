@@ -4,13 +4,20 @@
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 @inject NavigationManager NavigationManager
 
-<h1>Login Testing</h1>
 
-<InputUser Callback="InputHandlerUsername" />
-<InputPassword Callback="InputHandlerPassword" />
 
-<button @onclick="OnLogin" class="btn btn-primary btn-lg">Login</button>
-<span>@success</span>
+
+<div class="container">
+
+    <InputUser Callback="InputHandlerUsername" />
+    <InputPassword Callback="InputHandlerPassword" />
+
+    <button @onclick="OnLogin" class="btn btn-primary btn-lg">Login</button>
+    <span>@success</span>
+</div>
+
+
+
 
 @code {
     public string Username { get; set; } = "";

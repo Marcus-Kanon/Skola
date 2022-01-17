@@ -7,19 +7,19 @@
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 @inject NavigationManager NavigationManager
 
-<div class="container">
+<div>
     <h3>Ditt skafferi</h3>
     <span>@Message</span>
     <div class="d-sm-flex align-items-center justify-content-between w-25">
         <div></div>
         <div>
-            <button @onclick=AddItem type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+            <button @onclick=@(() => AddItem()) type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                 <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
             </button>
         </div>
     </div>
 
-    <ul class="list-group w-25">
+    <ul class="list-group w-50">
         @if(Items != null)
         {
             for(int i = 0; i < Items.Count(); i++)
@@ -28,13 +28,12 @@
             }
         }
     </ul>
-    <br /><br /><br /><br /><br /><br /><br /><br />
 </div>
 
 @code {
     [Parameter]
     public int Page { get; set; } = 0;
-    public LoginTracker? Tracker { get; set; }
+    public LoginTracker? Tracker { get; set; } = null!;
     public bool LoggedIn { get; set; } = false;
     public string Message { get; set; } = "";
 
@@ -43,7 +42,6 @@
     protected override async Task OnInitializedAsync()
     {
         Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
-
 
         if(Tracker != null)
         {
@@ -72,19 +70,37 @@
         Items.Insert(id, ingredient);
     }
 
-    public void AddItem()
+    public void AddItem(Ingredient? ingredient = null)
     {
-        Items.Add(new Ingredient() { Name = "Ny vara" });
+        if(ingredient==null)
+            Items.Add(new Ingredient() { Name = "Ny vara" });
+        else
+            Items.Add(ingredient);
+
+        StateHasChanged();
+    }
+
+    public void TransferItem(Ingredient? ingredient = null)
+    {
+        if(ingredient==null)
+            Items.Add(new Ingredient() { Name = "Ny vara" });
+        else
+            Items.Add(ingredient);
+
+        StateHasChanged();
     }
 
     public void LoadInventory()
     {
         if(crud.CheckValidTracker(Tracker))
         {
-            Message = "Hej " + Tracker.Username + "!";
-
             Items.Clear();
-            crud.GetIngredientsInInventory(Tracker, Page).ForEach(Items.Add);
+
+            crud.GetIngredientsInInventory(Tracker, Page).ForEach((item) =>
+            {
+                if(item != null)
+                    Items.Add(item);
+            });
         }
         else
         {

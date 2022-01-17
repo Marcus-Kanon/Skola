@@ -21,18 +21,18 @@
                 </li>
                 
                     @if(crud.CheckValidTracker(Tracker))
-                    {
-                        <li class="nav-item">
-                            <a href="/Inventory" class="nav-link">Skafferiet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a @onclick="ClearSession" href="#" class="nav-link"> Logga ut (<span style="font-size:10pt">Inloggad som <i>@Tracker.Username</i></span>)</a>
+                {
+                    <li class="nav-item">
+                        <a href="/Inventory" class="nav-link">Skafferiet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a @onclick="ClearSession" href="#" class="nav-link"> Logga ut (<span style="font-size:10pt">Inloggad som <i>@if(Tracker!=null){@Tracker.Username}</i></span>)</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a href="/LoginTesting" class="nav-link">Logga in</a>
+                            <a href="/Login" class="nav-link">Logga in</a>
                         </li>
                     }
                     
@@ -49,7 +49,7 @@
 
 @code{
     public LoginTracker? Tracker { get; set; }
-    
+
     CrudStuff crud = CrudStuff.GetInstance();
 
     public void ClearSession()

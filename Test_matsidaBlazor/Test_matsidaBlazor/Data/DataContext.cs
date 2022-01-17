@@ -9,11 +9,12 @@ namespace Test_matsidaBlazor.Data
         public DbSet<Recipe> Recipes { get; set; } = null!;
         public DbSet<Nutrients> Nutrients { get; set; } = null!;
         public DbSet<Inventory> Inventories { get; set; } = null!;
+        public DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Recipes_Ingredients> Recipes_Inredients { get; set; } = null!;
         public DbSet<LoginTracker> LoginTrackers { get; set; } = null!;
-        public DbSet<Inventories_Ingredients> Inventories_Ingredients { get; set; }
-        public DbSet<Inventories_Ingredients> ShoppingLists_Ingredients { get; set; }
+        public DbSet<Inventories_Ingredients> Inventories_Ingredients { get; set; } = null!;
+        public DbSet<ShoppingLists_Ingredients> ShoppingLists_Ingredients { get; set; } = null!;
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -70,8 +71,8 @@ namespace Test_matsidaBlazor.Data
 
             modelBuilder.Entity<ShoppingLists_Ingredients>()
                 .HasOne(ii => ii.ShoppingList)
-                .WithMany(inv => inv.Inventories_Ingredients)
-                .HasForeignKey(ii => ii.InventoryId)
+                .WithMany(inv => inv.ShoppingLists_Ingredients)
+                .HasForeignKey(ii => ii.ShoppingListId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ShoppingLists_Ingredients>()

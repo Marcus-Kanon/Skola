@@ -1,25 +1,13 @@
 ﻿@page "/search"
 @using Test_matsidaBlazor.Data
 
-<Section_BodyHeader Header="Sök!" />
+<Section_BodyHeader Header="Sök recept" />
 
-<section class="bg-light">
-    <div class="container">
-        <SearchInput SearchAction="name" Search="@test" />
-    </div>
-</section>
+<div class="container">
+    <br />
+    <h1>Denna sida är under uppbyggnad</h1>
+</div>
 
 @code {
 
-    [Parameter]
-    public string GetSearch { get; set; } = "";
-
-    public string test { get; set; } = "";
-
-    protected override void OnParametersSet()
-    {
-        test = GetSearch;
-
-        base.OnParametersSet();
-    }
 }

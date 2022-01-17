@@ -1,15 +1,50 @@
 ﻿@page "/Inventory"
+@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Data.Models
 @using Test_matsidaBlazor.Shared.Inventory
 @using Test_matsidaBlazor.Shared.ShoppingList
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 
 
+<div class="container">
+    @Message
+    <br />
+    <div class="row">
+        <div class="col-sm">
+            <InventoryContainer @ref=Inv Page="0" />
+        </div>
+        <div class="col-sm">
+                <ShoppingListContainer OnItemTransfer=OnItemTransfered Page="0" />
+        </div>
+    </div>
+</div>
 
-<InventoryContainer Page="0" />
-
-<ShoppingListContainer Page="0" />
-
+<div style="height:500px;"></div>
 
 @code {
-    public int MyProperty { get; set; }
+    public InventoryContainer Inv { get; set; } = new();
+    public LoginTracker? Tracker { get; set; } = null!;
+    public string Message { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if(CrudStuff.GetInstance().CheckValidTracker(Tracker) && Tracker!=null)
+        {
+            Message = "Välkommen " + Tracker.Username + "!";
+        }
+
+        base.OnParametersSet();
+    }
+
+    public void OnItemTransfered(Ingredient ingredient)
+    {
+        Inv.AddItem(ingredient);
+    }
 }

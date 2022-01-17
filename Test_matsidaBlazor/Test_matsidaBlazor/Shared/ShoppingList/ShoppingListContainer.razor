@@ -4,36 +4,40 @@
 @using Test_matsidaBlazor.Data.Models
 @using Blazored.LocalStorage
 @using Test_matsidaBlazor.Shared.IngredientSelector
+@using Test_matsidaBlazor.Shared.Inventory
 @inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
 @inject NavigationManager NavigationManager
 
-<div class="container">
-    <h3>Ditt skafferi</h3>
-    <span>@Message</span>
+<div>
+     <h3>Inköpslista</h3>
+     <span>@Message</span>
     <div class="d-sm-flex align-items-center justify-content-between w-25">
         <div></div>
         <div>
-            <button @onclick=AddItem type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+            <button @onclick=@(() => AddItem()) type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                 <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
             </button>
         </div>
     </div>
-
-    <ul class="list-group w-25">
+    <ul class="list-group w-75">
         @if(Items != null)
         {
             for(int i = 0; i < Items.Count(); i++)
             {
-                <ShoppingListItem ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
+                <ShoppingListItem OnItemTransfer=@((args) => OnItemTransfered(args.Id, args.Ingredient)) ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
             }
         }
     </ul>
-    <br /><br /><br /><br /><br /><br /><br /><br />
+
 </div>
 
 @code {
     [Parameter]
     public int Page { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<Ingredient> OnItemTransfer { get; set; }
+
     public LoginTracker? Tracker { get; set; }
     public bool LoggedIn { get; set; } = false;
     public string Message { get; set; } = "";
@@ -56,6 +60,18 @@
         }
 
         base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+
+    }
+
+    public void OnItemTransfered(int id, Ingredient ingredient)
+    {
+        Items.RemoveAt(id);
+
+        OnItemTransfer.InvokeAsync(ingredient);
     }
 
     public void OnItemRemoved(int id, Ingredient ingredient)
@@ -81,7 +97,6 @@
     {
         if(crud.CheckValidTracker(Tracker))
         {
-            Message = "Hej " + Tracker.Username + "!";
 
             Items.Clear();
             crud.GetIngredientsInShoppingList(Tracker, Page).ForEach(Items.Add);

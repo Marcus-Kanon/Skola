@@ -28,11 +28,16 @@ namespace Test_matsidaBlazor.Shared.Inventory
 
             if (e.NewItems != null)
             {
+                if (Tracker == null)
+                    Tracker = Task<LoginTracker>.Run( async () => await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker")).GetAwaiter().GetResult();
+
+
+                    
                 foreach (Ingredient newItem in e.NewItems)
                 {
                     if(crud.CheckValidIngredient(newItem))
                     {
-                        var number = Items.Where(p => p.Id == newItem.Id).ToList().Count();
+                        var number = Items.Where(p => p.Id == newItem.Id).ToList().Count;
 
                         if (number > 1 && ItemsInitialized)
                         {

@@ -1,22 +1,74 @@
 ﻿@using Test_matsidaBlazor.Data
 @using Test_matsidaBlazor.Shared.Register
-<h3>Register</h3>
+@inject NavigationManager NavigationManager
 
-<Test_matsidaBlazor.Shared.Register.InputUser Parent="this" />
-<Test_matsidaBlazor.Shared.Register.InputPassword Parent="this" />
 
-<button @onclick="OnRegister" class="btn btn-primary btn-lg">Login</button>
 
+<div class="container">
+    <br />
+    <RegisterInputUser Callback=@OnUsernameInput/>
+    <RegisterInputPassword Callback=@OnPasswordInput />
+    <RegisterInputPasswordConfirm Callback=@OnPasswordConfirmInput />
+
+    <span style="color:#ff3333">@Message</span>
+    <br />
+    <button disabled="@IsButtonDiabled" style="" @onclick="OnRegister" class="btn btn-primary btn-lg">Register</button>
+</div>
 @code {
     [Parameter]
     public string Username { get; set; } = "";
     [Parameter]
     public string Password { get; set; } = "";
+    [Parameter]
+    public string PasswordConfirmed { get; set; } = "";
+
+    public string Message { get; set; } = "";
+    public bool IsButtonDiabled { get; set; } = true;
 
     CrudStuff crud = CrudStuff.GetInstance();
+
+
+    public void OnUsernameInput(string name)
+    {
+        Username = name;
+    }
+
+    public void OnPasswordInput(string password)
+    {
+        Password = password;
+
+        CheckPasswordSame();
+    }
+
+    public void OnPasswordConfirmInput(string passwordConfirmed)
+    {
+        PasswordConfirmed = passwordConfirmed;
+
+        CheckPasswordSame();
+    }
 
     public void OnRegister()
     {
         crud.AddUser(Username, Password);
+
+        NavigationManager.NavigateTo("/Login", true);
+    }
+
+    public bool CheckPasswordSame()
+    {
+        if(Password!=PasswordConfirmed || Password == "")
+        {
+            Message = "Passwords don't match.";
+            IsButtonDiabled = true;
+
+            return false;
+        }
+        else
+        {
+            Message = "";
+            IsButtonDiabled = false;
+
+            return false;
+        }
     }
 }
