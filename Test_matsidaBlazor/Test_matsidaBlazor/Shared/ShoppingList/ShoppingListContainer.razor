@@ -70,7 +70,7 @@
     public void OnItemTransfered(int id, Ingredient ingredient)
     {
         Items.RemoveAt(id);
-
+        crud.RemoveShoppingListItem(Tracker, ingredient, Page);
         OnItemTransfer.InvokeAsync(ingredient);
     }
 
@@ -95,11 +95,15 @@
 
     public void LoadShoppingList()
     {
-        if(crud.CheckValidTracker(Tracker))
+        if(crud.CheckValidTracker(Tracker) && Tracker != null)
         {
-
             Items.Clear();
-            crud.GetIngredientsInShoppingList(Tracker, Page).ForEach(Items.Add);
+
+            crud.GetIngredientsInShoppingList(Tracker, Page).ForEach((item) =>
+            {
+                if(item.Name != "")
+                    Items.Add(item);
+            });
         }
         else
         {

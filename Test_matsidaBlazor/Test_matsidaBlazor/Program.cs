@@ -18,6 +18,8 @@ builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
+CrudStuff.GetInstance().FillUpIngredientTable();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

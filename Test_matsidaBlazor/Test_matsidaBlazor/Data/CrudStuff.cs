@@ -10,26 +10,96 @@ namespace Test_matsidaBlazor.Data
         static CrudStuff Instance = null!;
         DataContext Context = default!;
 
+        /// <summary>
+        /// Private constructor in order to avoid it being accessed outside the class. Singleton.
+        /// </summary>
         private CrudStuff()
         {
             
         }
-
+        /// <summary>
+        /// Returns current instance.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static CrudStuff GetInstance()
         {
             return Instance ?? throw new Exception("Class hasn't been Initiated. Call Initialize(DbContext context)."); ;
         }
-
+        /// <summary>
+        /// Initializes the instance. This must be called before calling GetInstance().
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static CrudStuff Initialize(DataContext context)
         {
             return Instance ??= new CrudStuff { Context = context };
         }
+        /// <summary>
+        /// Adds initial ingredients to the database
+        /// </summary>
+        public void FillUpIngredientTable()
+        {
+            if(!GetInstance().Context.Ingredients.Any())
+            {
+                List<Ingredient> ingredients = new ();
 
+                ingredients.Add(new Ingredient { Name = "Lök", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Mjölk", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Mjöl", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Yoghurt", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Lök", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Potatis", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Morot", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Ris", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Spaghetti", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Jordgubbssylt", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Fésk", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Köttfärs", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Marabou", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Svartpeppar", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Korv, massa korv", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Billy's Pan pizza", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Chips", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Tunnbröd", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Ost", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Socker", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Donuts", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Sallad", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Tomat", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Äpplen", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Curry", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Havre", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+                ingredients.Add(new Ingredient { Name = "Snickers", Density = 6.6, Nutrients = new Nutrients { VitA = 3.3, VitB = 4.4, VitC = 5.5 } });
+
+
+                foreach (var item in ingredients)
+                {
+                    GetInstance().Context.Ingredients.Add(item);
+
+                    Console.WriteLine("Adding: " + item.Name);
+                }
+
+                GetInstance().Context.SaveChanges();
+            }
+        }
+
+        //Shared Crud operations
+
+        /// <summary>
+        /// Returns recipe of specific id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Recipe GetRecipe(int id)
         {
             return GetInstance().Context.Recipes.FirstOrDefault(q => q.Id == id) ?? new Recipe();
         }
-
+        /// <summary>
+        /// Returns List of Ingredients in recipe with specific id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Recipes_Ingredients> GetIngredients(int id)
         {
             var recipes_ingredients = GetInstance().Context.Recipes_Inredients
@@ -39,7 +109,11 @@ namespace Test_matsidaBlazor.Data
 
             return recipes_ingredients;
         }
-
+        /// <summary>
+        /// Returns a List of recipes whose names contain specified string.
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public List<Recipe> SearchRecipesByName(string search)
         {
             var recipes = GetInstance().Context.Recipes
@@ -51,6 +125,11 @@ namespace Test_matsidaBlazor.Data
 
             return recipes;
         }
+        /// <summary>
+        /// Returns a List of ingredients whose names contain specified string.
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public List<Ingredient> SearchIngredientsByName(string search)
         {
             var ingredients = GetInstance().Context.Ingredients
@@ -62,7 +141,11 @@ namespace Test_matsidaBlazor.Data
 
             return ingredients;
         }
-
+        /// <summary>
+        /// Returns true if the specified Ingredient-Object is listed as an ingredient in the database.
+        /// </summary>
+        /// <param name="ingredient"></param>
+        /// <returns></returns>
         public bool CheckValidIngredient(Ingredient ingredient)
         {
             var result = GetInstance().Context.Ingredients
@@ -71,8 +154,41 @@ namespace Test_matsidaBlazor.Data
 
             return result != null;
         }
+        /// <summary>
+        /// Returns a List of all Ingredients in a User's inventory where inventoryId is the id of the inventory.
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<Ingredient> GetIngredientsInInventory(LoginTracker? tracker, int inventoryId)
+        {
+            if (!CheckValidTracker(tracker))
+                throw new Exception("NOT LOGGED IN");
+
+            var user = TrackerToUser(tracker);
+            var inventories = GetUserInventories(user);
+
+            if (inventories.Count == 0)
+            {
+                MakeNewInventory(user);
+                inventories = GetUserInventories(user);
+            }
+
+            CorrectInventoryId(inventoryId, inventories.Count);
+
+            return inventories[inventoryId].Inventories_Ingredients
+                .Select(s => s.Ingredient)
+                .ToList();
+        }
 
         //Login Crud
+
+        /// <summary>
+        /// Adds a user to the database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
         public void AddUser(string name, string password)
         {
             GetInstance().Context.Users.Add(new User { Username = name, Password = password });
@@ -80,6 +196,12 @@ namespace Test_matsidaBlazor.Data
             GetInstance().Context.SaveChanges();
         }
 
+        /// <summary>
+        /// Takes a Tracker-object, finds the corresponding User in the database and returns it.
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public User TrackerToUser(LoginTracker? tracker)
         {
             if (tracker == null)
@@ -89,7 +211,12 @@ namespace Test_matsidaBlazor.Data
                 .Where(q => q.Username == tracker.Username && q.Password == q.Password)
                 .SingleOrDefault() ?? throw new Exception("No User corresponds to session data");
         }
-
+        
+        /// <summary>
+        /// Checks if there is a matching User in the DB
+        /// </summary>
+        /// <param name="userDetails"></param>
+        /// <returns></returns>
         public bool CheckLoginDetails(User userDetails)
         {
             var user = GetInstance().Context.Users
@@ -119,6 +246,11 @@ namespace Test_matsidaBlazor.Data
 
             return tracker;
         }
+        
+        /// <summary>
+        /// Generates a random Tracker-key
+        /// </summary>
+        /// <returns></returns>
         private static string GenerateLoginKey()
         {
             string characters = "ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklnopqrstuvxyz123456789#%&()=?";
@@ -133,6 +265,11 @@ namespace Test_matsidaBlazor.Data
             return key.ToString();
         }
 
+        /// <summary>
+        /// Checks if there is any corresponding Tracker in the DB
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <returns></returns>
         public bool CheckValidTracker(LoginTracker? tracker)
         {
             if(tracker == null)
@@ -144,27 +281,13 @@ namespace Test_matsidaBlazor.Data
 
             return results != null;
         }
+        /// <summary>
+        /// Checks if a username has already been used.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool CheckUsernameExists(string name) => GetInstance().Context.Users.Where(p => p.Username == name).Any();
 
-        public List<Ingredient?> GetIngredientsInInventory(LoginTracker? tracker, int inventoryId)
-        {
-            if (!CheckValidTracker(tracker))
-                throw new Exception("NOT LOGGED IN");
-
-            var user = TrackerToUser(tracker);
-            var inventories = GetUserInventories(user);
-
-            if (inventories.Count == 0)
-            {
-                inventories.Add(MakeNewInventory(user));
-            }
-
-            CorrectInventoryId(inventoryId, inventories.Count);
-
-            return inventories[inventoryId].Inventories_Ingredients 
-                .Select(s => s.Ingredient)
-                .DefaultIfEmpty(null)
-                .ToList();
-        }
 
         //Inventory Crud
         /// <summary>
@@ -214,9 +337,15 @@ namespace Test_matsidaBlazor.Data
             context.Inventories.Add(inventory);
             context.SaveChanges();
 
-            return inventory ?? throw new Exception("Inventory is null");
+            return inventory;
         }
-
+        /// <summary>
+        /// Returns a User's Inventory
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="inventoryId">Id of Inventory</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Inventory GetInventory(User? user, int inventoryId)
         {
             if (user != null)
@@ -233,7 +362,11 @@ namespace Test_matsidaBlazor.Data
                 throw new Exception("user is null");
             }
         }
-
+        /// <summary>
+        /// Returns how many Inventories a User has
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public int GetNumberOfInventories(User user)
         {
             var context = GetInstance().Context;
@@ -244,7 +377,14 @@ namespace Test_matsidaBlazor.Data
 
             return count;
         }
-
+        /// <summary>
+        /// Adds an ingredient to the Inventory
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool AddInventoryItem(LoginTracker tracker, Ingredient ingredient, int inventoryId)
         {
             if (!CheckValidTracker(tracker))
@@ -274,7 +414,12 @@ namespace Test_matsidaBlazor.Data
 
             return false;
         }
-
+        /// <summary>
+        /// Creates a template object of type "Inventories_Ingredients"
+        /// </summary>
+        /// <param name="ingredient"></param>
+        /// <param name="inventory"></param>
+        /// <returns></returns>
         public Inventories_Ingredients CreateInventoriesIngredients(Ingredient ingredient, Inventory inventory)
         {
             return new Inventories_Ingredients
@@ -286,7 +431,14 @@ namespace Test_matsidaBlazor.Data
 
             };
         }
-
+        /// <summary>
+        /// Checks if Ingredient exists in given Inventory
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool CheckIngredientExistsInInventory(User? user, Ingredient ingredient, int inventoryId)
         {
             var context = GetInstance().Context;
@@ -301,7 +453,14 @@ namespace Test_matsidaBlazor.Data
             return result != null;
         }
 
-
+        /// <summary>
+        /// Removes Ingredient from Inventory
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool RemoveInventoryItem(LoginTracker? tracker, Ingredient ingredient, int inventoryId)
         {
             if (!CheckValidTracker(tracker))
@@ -330,7 +489,11 @@ namespace Test_matsidaBlazor.Data
 
             return false;
         }
-
+        /// <summary>
+        /// Returns a List of all Inventories a User has.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private static List<Inventory> GetUserInventories(User user)
         {
             var inventories = GetInstance().Context.Inventories
@@ -351,7 +514,10 @@ namespace Test_matsidaBlazor.Data
             var shoppingLists = GetUserShoppingLists(user);
 
             if (shoppingLists.Count == 0)
-                shoppingLists.Add(MakeNewShoppingList(user));
+            {
+                MakeNewShoppingList(user);
+                shoppingLists = GetUserShoppingLists(user);
+            }
 
             CorrectShoppingListId(id, shoppingLists.Count);
 
@@ -360,7 +526,7 @@ namespace Test_matsidaBlazor.Data
                 .ToList();
         }
         /// <summary>
-        /// Adjusts the inventory element identifier so that it won't exceed the minimum or maximum value
+        /// Adjusts the ShoppingList element identifier so that it won't exceed the minimum or maximum value
         /// </summary>
         /// <param name="inventoryId">Value to adjust</param>
         /// <param name="count">Number of inventories</param>
@@ -377,33 +543,43 @@ namespace Test_matsidaBlazor.Data
         }
 
         /// <summary>
-        /// Adds a new inventory to the user
+        /// Adds a new ShoppingList to the user
         /// </summary>
-        /// <param name="user">User to add inventory to</param>
+        /// <param name="user">User to add ShoppingList to</param>
         /// <returns></returns>
         public ShoppingList MakeNewShoppingList(User user)
         {
-            const int numberOfIngrediensToStartWith = 5;
+            const int numberOfIngrediensToStartWith = 3;
             var context = GetInstance().Context;
             var ingredients = context.Ingredients.Take(numberOfIngrediensToStartWith).ToList();
             var shoppingList = new ShoppingList { User = user };
 
-            foreach (Ingredient ingredient in ingredients)
+            if (ingredients.Any())
             {
-                context.ShoppingLists_Ingredients.Add(new ShoppingLists_Ingredients()
+                foreach (Ingredient ingredient in ingredients)
                 {
-                    ShoppingList = shoppingList,
-                    Ingredient = ingredient,
-                    Amount = 4.0,
-                    Unit = "gram"
-                });
+                    context.ShoppingLists_Ingredients.Add(new ShoppingLists_Ingredients()
+                    {
+                        ShoppingList = shoppingList,
+                        Ingredient = ingredient,
+                        Amount = 4.0,
+                        Unit = "gram"
+                    });
+                }
             }
+
             context.ShoppingLists.Add(shoppingList);
             context.SaveChanges();
 
             return shoppingList;
         }
-
+        /// <summary>
+        /// Returns a User's Inventory
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="inventoryId">Id of ShoppingList</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public ShoppingList GetShoppingList(User? user, int id)
         {
             if(user != null)
@@ -420,7 +596,11 @@ namespace Test_matsidaBlazor.Data
                 throw new Exception("user is null");
             }
         }
-
+        /// <summary>
+        /// Returns how many ShoppingLists a User has
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public int GetNumberOfShoppingLists(User user)
         {
             var context = GetInstance().Context;
@@ -431,7 +611,14 @@ namespace Test_matsidaBlazor.Data
 
             return count;
         }
-
+        /// <summary>
+        /// Adds an ingredient to the ShoppingList
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool AddShoppingListItem(LoginTracker? tracker, Ingredient ingredient, int id)
         {
             if(!CheckValidTracker(tracker))
@@ -461,7 +648,12 @@ namespace Test_matsidaBlazor.Data
 
             return false;
         }
-
+        /// <summary>
+        /// Creates a template object of type "ShoppingLists_Ingredients"
+        /// </summary>
+        /// <param name="ingredient"></param>
+        /// <param name="inventory"></param>
+        /// <returns></returns>
         public ShoppingLists_Ingredients CreateShoppingListsIngredients(Ingredient ingredient, ShoppingList shoppingList)
         {
             return new ShoppingLists_Ingredients
@@ -473,7 +665,14 @@ namespace Test_matsidaBlazor.Data
 
             };
         }
-
+        /// <summary>
+        /// Checks if Ingredient exists in given ShoppingList
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool CheckIngredientExistsInShoppingList(User user, Ingredient ingredient, int id)
         {
             var context = GetInstance().Context;
@@ -488,7 +687,14 @@ namespace Test_matsidaBlazor.Data
             return result != null;
         }
 
-
+        /// <summary>
+        /// Removes Ingredient from ShoppingList
+        /// </summary>
+        /// <param name="tracker"></param>
+        /// <param name="ingredient"></param>
+        /// <param name="inventoryId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool RemoveShoppingListItem(LoginTracker? tracker, Ingredient ingredient, int id)
         {
             if (!CheckValidTracker(tracker))
@@ -502,12 +708,12 @@ namespace Test_matsidaBlazor.Data
 
             if (CheckIngredientExistsInShoppingList(user, ingredient, id))
             {
-                var shoppingList = GetInventory(user, id);
-                var ii = context.Inventories_Ingredients
-                    .Where(p => p.Ingredient == ingredient && p.Inventory == shoppingList)
+                var shoppingList = GetShoppingList(user, id);
+                var ii = context.ShoppingLists_Ingredients
+                    .Where(p => p.Ingredient == ingredient && p.ShoppingList == shoppingList)
                     .Single();
 
-                shoppingList.Inventories_Ingredients
+                shoppingList.ShoppingLists_Ingredients
                     .Remove(ii);
 
                 context.SaveChanges();
@@ -517,7 +723,11 @@ namespace Test_matsidaBlazor.Data
 
             return false;
         }
-
+        /// <summary>
+        /// Returns a List of all ShoppingLists a User has.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private static List<ShoppingList> GetUserShoppingLists(User user)
         {
             var shoppingLists = GetInstance().Context.ShoppingLists

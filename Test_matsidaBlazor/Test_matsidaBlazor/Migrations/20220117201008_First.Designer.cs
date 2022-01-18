@@ -12,8 +12,8 @@ using Test_matsidaBlazor.Data;
 namespace Test_matsidaBlazor.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220112182813_test")]
-    partial class test
+    [Migration("20220117201008_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,6 +194,54 @@ namespace Test_matsidaBlazor.Migrations
                     b.ToTable("Recipes_Inredients");
                 });
 
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.ShoppingList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingLists");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.ShoppingLists_Ingredients", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShoppingListId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("ShoppingListId");
+
+                    b.ToTable("ShoppingLists_Ingredients");
+                });
+
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -275,11 +323,43 @@ namespace Test_matsidaBlazor.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.ShoppingList", b =>
+                {
+                    b.HasOne("Test_matsidaBlazor.Data.Models.User", "User")
+                        .WithMany("ShoppingLists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.ShoppingLists_Ingredients", b =>
+                {
+                    b.HasOne("Test_matsidaBlazor.Data.Models.Ingredient", "Ingredient")
+                        .WithMany("ShoppingLists_Ingredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test_matsidaBlazor.Data.Models.ShoppingList", "ShoppingList")
+                        .WithMany("ShoppingLists_Ingredients")
+                        .HasForeignKey("ShoppingListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("ShoppingList");
+                });
+
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Ingredient", b =>
                 {
                     b.Navigation("Inventories_Ingredients");
 
                     b.Navigation("Recipes_Ingredients");
+
+                    b.Navigation("ShoppingLists_Ingredients");
                 });
 
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.Inventory", b =>
@@ -298,9 +378,16 @@ namespace Test_matsidaBlazor.Migrations
                     b.Navigation("Recipes_Ingredients");
                 });
 
+            modelBuilder.Entity("Test_matsidaBlazor.Data.Models.ShoppingList", b =>
+                {
+                    b.Navigation("ShoppingLists_Ingredients");
+                });
+
             modelBuilder.Entity("Test_matsidaBlazor.Data.Models.User", b =>
                 {
                     b.Navigation("Inventories");
+
+                    b.Navigation("ShoppingLists");
                 });
 #pragma warning restore 612, 618
         }

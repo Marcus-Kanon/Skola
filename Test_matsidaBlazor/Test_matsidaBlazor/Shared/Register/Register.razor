@@ -31,27 +31,39 @@
     public void OnUsernameInput(string name)
     {
         Username = name;
+
+
+        ValidateForm();
     }
 
     public void OnPasswordInput(string password)
     {
         Password = password;
 
-        CheckPasswordSame();
+        ValidateForm();
     }
 
     public void OnPasswordConfirmInput(string passwordConfirmed)
     {
         PasswordConfirmed = passwordConfirmed;
 
-        CheckPasswordSame();
+        ValidateForm();
     }
 
     public void OnRegister()
     {
-        crud.AddUser(Username, Password);
+        if (!crud.CheckUsernameExists(Username) && Username != "")
+        {
+            crud.AddUser(Username, Password);
+            NavigationManager.NavigateTo("/Login", true);
+        }
+    }
 
-        NavigationManager.NavigateTo("/Login", true);
+    public void ValidateForm()
+    {
+        if(!CheckUsernameExists())
+            CheckPasswordSame();
+
     }
 
     public bool CheckPasswordSame()
@@ -62,6 +74,31 @@
             IsButtonDiabled = true;
 
             return false;
+        }
+        else
+        {
+            Message = "";
+            IsButtonDiabled = false;
+
+            return false;
+        }
+    }
+
+    public bool CheckUsernameExists()
+    {
+        if(crud.CheckUsernameExists(Username))
+        {
+            Message = "Username Exists";
+            IsButtonDiabled = true;
+
+            return true;
+        }
+        else if (Username == "")
+        {
+            Message = "Username not allowed";
+            IsButtonDiabled = true;
+
+            return true;
         }
         else
         {
