@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Geometri.GeometricObjects
 {
-    public abstract class GeometricObject
+    public interface IGeometricObject
     {
+        public float GetArea();
+        public float GetPerimeter();
     }
 }

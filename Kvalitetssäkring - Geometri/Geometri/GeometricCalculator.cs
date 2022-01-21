@@ -6,24 +6,30 @@ using System.Threading.Tasks;
 
 namespace Geometri.GeometricObjects
 {
-    public class GeometricCalculator : IGeometricCalculations
+    public class GeometricCalculator
     {
-        public float GetArea(Circle geoObject) => (float)(Math.Pow(geoObject.Radius, 2) * Math.PI);
+        public float GetPerimeter(IGeometricObject[] geoObjects)
+        {
+            float sum = 0f;
 
-        public float GetPerimeter(Circle geoObject) => (float)(2 * Math.PI * geoObject.Radius);
+            foreach (var geoObject in geoObjects)
+            {
+                sum += geoObject.GetPerimeter();
+            }
 
-        public float GetArea(Rectangle geoObject) => geoObject.Height * geoObject.Width;
+            return sum;
+        }
 
-        public float GetPerimeter(Rectangle geoObject) => geoObject.Height * 2 + geoObject.Width * 2;
+        public float GetArea(IGeometricObject[] geoObjects)
+        {
+            float sum = 0f;
 
-        public float GetArea(Square geoObject) => geoObject.Height * geoObject.Width;
+            foreach (var geoObject in geoObjects)
+            {
+                sum += geoObject.GetArea();
+            }
 
-        public float GetPerimeter(Square geoObject) => geoObject.Height * 2 + geoObject.Width * 2;
-
-        public float GetArea(Triangle geoObject) => throw new NotImplementedException();
-
-        public float GetPerimeter(Triangle geoObject) => throw new NotImplementedException();
-
-        public float GetPerimeter(GeometricObject[] geoObjects) => throw new NotImplementedException();
+            return sum;
+        }
     }
 }
