@@ -8,18 +8,6 @@ namespace Geometri.GeometricObjects
 {
     public class GeometricCalculator
     {
-        public float GetPerimeter(IGeometricObject[] geoObjects)
-        {
-            float sum = 0f;
-
-            foreach (var geoObject in geoObjects)
-            {
-                sum += geoObject.GetPerimeter();
-            }
-
-            return sum;
-        }
-
         public float GetArea(IGeometricObject[] geoObjects)
         {
             float sum = 0f;
@@ -27,6 +15,18 @@ namespace Geometri.GeometricObjects
             foreach (var geoObject in geoObjects)
             {
                 sum += geoObject.GetArea();
+            }
+
+            return sum;
+        }
+
+        public float GetPerimeter(IGeometricObject[] geoObjects)
+        {
+            float sum = 0f;
+
+            foreach (var geoObject in geoObjects)
+            {
+                sum += geoObject.GetPerimeter();
             }
 
             return sum;

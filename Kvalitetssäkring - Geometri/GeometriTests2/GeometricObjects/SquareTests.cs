@@ -12,29 +12,59 @@ namespace Geometri.GeometricObjects.Tests
     public class SquareTests
     {
         [TestMethod()]
-        [DataRow(1, 1, 1)]
-        [DataRow(2, 2, 4)]
-        [DataRow(3, 3, 9)]
-        [DataRow(4, 4, 16)]
-        [DataRow(5, 5, 25)]
-        public void GetAreaTest(float a, float expected)
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        [DataRow(4)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        [DataRow(-3)]
+        [DataRow(-4)]
+        [DataRow(float.MaxValue)]
+        [DataRow(float.MaxValue + 1.0f)]
+        [DataRow(float.MinValue)]
+        [DataRow(float.MinValue - 1.0f)]
+        [DataRow(float.PositiveInfinity)]
+        [DataRow(float.NegativeInfinity)]
+        [DataRow(float.NaN)]
+        [DataRow(float.Epsilon)]
+        [DataRow(null)]
+        public void GetAreaTest(float a)
         {
             Square geo = new Square() { Width = a};
-            var actual = geo.GetArea();
+
+            float actual = geo.GetArea();
+            float expected = a * a;
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
-        [DataRow(1, 1, 4)]
-        [DataRow(2, 2, 8)]
-        [DataRow(3, 3, 12)]
-        [DataRow(4, 4, 16)]
-        [DataRow(5, 5, 20)]
-        public void GetPerimeterTest(float a, float expected)
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(3)]
+        [DataRow(4)]
+        [DataRow(-1)]
+        [DataRow(-2)]
+        [DataRow(-3)]
+        [DataRow(-4)]
+        [DataRow(float.MaxValue)]
+        [DataRow(float.MaxValue + 1.0f)]
+        [DataRow(float.MinValue)]
+        [DataRow(float.MinValue - 1.0f)]
+        [DataRow(float.PositiveInfinity)]
+        [DataRow(float.NegativeInfinity)]
+        [DataRow(float.NaN)]
+        [DataRow(float.Epsilon)]
+        [DataRow(null)]
+        public void GetPerimeterTest(float a)
         {
             Square geo = new Square() { Width = a };
-            var actual = geo.GetPerimeter();
+
+            float actual = geo.GetPerimeter();
+            float expected = a * 4;
 
             Assert.AreEqual(expected, actual);
         }

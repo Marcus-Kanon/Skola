@@ -6,6 +6,6 @@ namespace Geometri.GeometricObjects
     {
         public float Width { get; set; } = 0;
         public float GetArea() => Width * Width;
-        public float GetPerimeter() => Width * 2 + Width * 2;
+        public float GetPerimeter() => Width * 4;
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Geometri.GeometricObjects.Tests
 {
     [TestClass()]
-    public class RectangleTests
+    public class GeometricCalculatorTests
     {
         [TestMethod()]
         [DataRow(0, -0)]
@@ -30,12 +30,22 @@ namespace Geometri.GeometricObjects.Tests
         [DataRow(float.NaN, float.NaN)]
         [DataRow(float.Epsilon, float.Epsilon)]
         [DataRow(null, null)]
-        public void GetAreaTest(float a , float b)
+        public void GetAreaTest(float a, float b)
         {
-            Rectangle geo = new Rectangle() { Height = a, Width = b };
+            var calculator = new GeometricCalculator();
 
-            float actual = geo.GetArea();
-            float expected = a * b;
+            IGeometricObject[] geos = {
+                new Circle() {Radius = a},
+                new EquilateralTriangle() {a = a},
+                new IsoscelesTriangle() {a = a, b = b},
+                new RightTriangle() {a = a, b = b},
+                new Rectangle() {Height = a, Width = b},
+                new Square() {Width = a}
+            };
+
+            float actual = calculator.GetArea(geos);
+            float expected = 0f;
+            geos.ToList().ForEach(geo => expected += geo.GetArea());
 
             Assert.AreEqual(expected, actual);
         }
@@ -61,10 +71,20 @@ namespace Geometri.GeometricObjects.Tests
         [DataRow(null, null)]
         public void GetPerimeterTest(float a, float b)
         {
-            Rectangle geo = new Rectangle() { Height = a, Width = b };
+            var calculator = new GeometricCalculator();
 
-            float actual = geo.GetPerimeter();
-            float expected = a * 2 + b * 2;
+            IGeometricObject[] geos = {
+                new Circle() {Radius = a},
+                new EquilateralTriangle() {a = a},
+                new IsoscelesTriangle() {a = a, b = b},
+                new RightTriangle() {a = a, b = b},
+                new Rectangle() {Height = a, Width = b},
+                new Square() {Width = a}
+            };
+
+            float actual = calculator.GetPerimeter(geos);
+            float expected = 0f;
+            geos.ToList().ForEach(geo => expected += geo.GetPerimeter());
 
             Assert.AreEqual(expected, actual);
         }
