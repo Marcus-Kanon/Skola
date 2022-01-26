@@ -8,6 +8,11 @@ namespace Geometri.GeometricObjects
 {
     public class GeometricCalculator
     {
+        /// <summary>
+        /// Calculates the combined area of an array of IGeometricObject-objects
+        /// </summary>
+        /// <param name="geoObjects"></param>
+        /// <returns>The combined area</returns>
         public float GetArea(IGeometricObject[] geoObjects)
         {
             float sum = 0f;
@@ -19,7 +24,11 @@ namespace Geometri.GeometricObjects
 
             return sum;
         }
-
+        /// <summary>
+        /// Calculates the combined perimeter of an array of IGeometricObject-objects
+        /// </summary>
+        /// <param name="geoObjects"></param>
+        /// <returns>The combined perimeter</returns>
         public float GetPerimeter(IGeometricObject[] geoObjects)
         {
             float sum = 0f;
