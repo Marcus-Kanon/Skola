@@ -9,5 +9,4 @@ namespace Övningar_20220207
     public class Salary
     {
     }
-
 }
