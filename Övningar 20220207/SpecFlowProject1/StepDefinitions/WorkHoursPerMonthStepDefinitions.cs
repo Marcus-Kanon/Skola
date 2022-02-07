@@ -27,7 +27,7 @@ namespace SpecFlowProject1.StepDefinitions
         [Then(@"there's (.*) work hours per month")]
         public void ThenTheresWorkHoursPerMonth(int hours)
         {
-            int monthlyHours = hours;
+            //int monthlyHours = hours;
         }
     }
 }

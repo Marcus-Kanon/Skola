@@ -1,6 +1,5 @@
 ﻿Feature: Salary
 
-
 @mytag
 Scenario: Work hours per month
 	Given that a workday is 8 hours
