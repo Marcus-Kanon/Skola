@@ -1,0 +1,49 @@
+﻿@page "/RecipeDetails/{recipeId:int}"
+@using Microsoft.EntityFrameworkCore
+@using Test_matsidaBlazor.Data.Models
+@using Test_matsidaBlazor.Data
+
+<div class="container bg-dark text-white">
+    <h2>@Recipe.Name</h2>
+    <h4>Ingredienser</h4>
+</div>
+<div class="container">
+
+    <table class ="table">
+
+        <thead>
+            
+        </thead>
+
+        <tbody>
+            @foreach(var ingredient in Ingredients)
+            {
+                <tr>
+                    <th scope="row">@ingredient.Ingredient.Name</th>
+                    <td>@ingredient.IngredientWeight</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+@code {
+
+
+    [Parameter]
+    public int RecipeId { get; set; } = 0;
+    public Recipe Recipe { get; set; } = new();
+    public List<Recipes_Ingredients> Ingredients { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+        var crud = CrudStuff.GetInstance();
+
+        Recipe=crud.GetRecipe(RecipeId);
+        Ingredients = crud.GetIngredients(RecipeId);
+
+        base.OnParametersSet();
+    }
+}

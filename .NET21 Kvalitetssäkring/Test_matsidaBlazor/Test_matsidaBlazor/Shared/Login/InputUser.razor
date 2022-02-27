@@ -1,0 +1,25 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+
+<!-- Username Input -->
+<div class="input-group mb-3 w-25">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Username</span>
+    </div>
+    <input @oninput="OnChanged" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> Callback { get; set; }
+
+    public Task OnChanged(ChangeEventArgs e)
+    {
+        string? data = "";
+
+        if(e.Value != null)
+            data = e.Value.ToString();
+
+        return Callback.InvokeAsync(data);
+    }
+}

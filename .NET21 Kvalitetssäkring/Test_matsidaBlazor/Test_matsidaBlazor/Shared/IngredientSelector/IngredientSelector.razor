@@ -1,0 +1,80 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+
+
+
+
+<input @onfocusin=@(() =>{ DropdownVisible=true;}) @onfocusout=@(() =>{ DropdownVisible=false;}) @bind-value=InputValue @oninput=OnInput style="@StyleDisplay @StyleWidth" type="text" class="form-control" /><br />
+
+<div style="position: absolute; z-index:9">
+    <div style="height:50px"></div>
+    <DropdownContainer Visible=@DropdownVisible OnItemClick=@OnItemClicked IngredientList=IngredientSearch />
+</div>
+
+
+
+
+@code {
+    private CrudStuff crud = CrudStuff.GetInstance();
+    private bool visible = false;
+
+    [Parameter]
+    public bool Visible
+    {
+        get { return visible; }
+        set
+        {
+            visible = value;
+            if (visible)
+                StyleDisplay = "display:inline;";
+            else
+                StyleDisplay = "display:none;";
+        }
+    }
+
+    [Parameter]
+    public Ingredient CurrentIngredient { get; set; } = new();
+    [Parameter]
+    public EventCallback<Ingredient> OnItemSelect { get; set; }
+
+    public string StyleDisplay { get; set; } = "display:inline;";
+    public string StyleWidth { get; set; } = "width:50%;";
+    public List<Ingredient> IngredientSearch = new();
+    public string InputValue { get; set; } = "";
+    public bool DropdownVisible { get; set; } = false;
+
+    protected override void OnParametersSet()
+    {
+        InputValue = CurrentIngredient.Name;
+
+        base.OnParametersSet();
+    }
+
+    public void OnInput(ChangeEventArgs e)
+    {
+        string? search = "";
+
+        if (e.Value != null)
+        {
+            search = e.Value.ToString();
+            InputValue = search;
+        }
+        
+        IngredientSearch = crud.SearchIngredientsByName(search);
+    }
+
+    public void OnItemClicked(Ingredient? ingredient)
+    {
+        if(ingredient!=null)
+        {
+            CurrentIngredient = ingredient;
+            CurrentIngredient.Name = ingredient.Name;
+
+            IngredientSearch = new();
+        }
+
+        OnItemSelect.InvokeAsync(CurrentIngredient);
+
+        StateHasChanged();
+    }
+}

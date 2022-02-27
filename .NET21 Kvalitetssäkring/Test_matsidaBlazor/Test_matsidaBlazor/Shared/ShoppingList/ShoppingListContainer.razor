@@ -1,0 +1,123 @@
+﻿@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
+@using Test_matsidaBlazor.Shared.IngredientSelector
+@using Test_matsidaBlazor.Shared.Inventory
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+@inject NavigationManager NavigationManager
+
+<div>
+     <h3>Inköpslista</h3>
+     <span>@Message</span>
+    <div class="d-sm-flex align-items-center justify-content-between w-25">
+        <div></div>
+        <div>
+            <button @onclick=@(() => AddItem()) type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+                <span class="fa fa-plus fa-lg" aria-hidden="true"> Lägg till </span>
+            </button>
+        </div>
+    </div>
+    <ul class="list-group w-75">
+        @if(Items != null)
+        {
+            for(int i = 0; i < Items.Count(); i++)
+            {
+                <ShoppingListItem OnItemTransfer=@((args) => OnItemTransfered(args.Id, args.Ingredient)) ListId=i OnItemUpdate=@((args) => OnItemUpdated(args.Id, args.Ingredient)) OnItemRemove=@((args) => OnItemRemoved(args.Id, args.Ingredient)) Ingredient=@Items[i] />
+            }
+        }
+    </ul>
+
+</div>
+
+@code {
+    [Parameter]
+    public int Page { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<Ingredient> OnItemTransfer { get; set; }
+
+    public LoginTracker? Tracker { get; set; }
+    public bool LoggedIn { get; set; } = false;
+    public string Message { get; set; } = "";
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+
+        if(Tracker != null)
+        {
+            LoadShoppingList();
+            ItemsInitialized = true;
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/Login", true);
+        }
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+
+    }
+
+    public void OnItemTransfered(int id, Ingredient ingredient)
+    {
+        Items.RemoveAt(id);
+        crud.RemoveShoppingListItem(Tracker, ingredient, Page);
+        OnItemTransfer.InvokeAsync(ingredient);
+    }
+
+    public void OnItemRemoved(int id, Ingredient ingredient)
+    {
+        Items.RemoveAt(id);
+        crud.RemoveShoppingListItem(Tracker, ingredient, 0);
+
+        StateHasChanged();
+    }
+
+    public void OnItemUpdated(int id, Ingredient ingredient)
+    {
+        Items.RemoveAt(id);
+        Items.Insert(id, ingredient);
+    }
+
+    public void AddItem()
+    {
+        Items.Add(new Ingredient() { Name = "Ny vara" });
+    }
+
+    public void LoadShoppingList()
+    {
+        if(crud.CheckValidTracker(Tracker) && Tracker != null)
+        {
+            Items.Clear();
+
+            crud.GetIngredientsInShoppingList(Tracker, Page).ForEach((item) =>
+            {
+                if(item.Name != "")
+                    Items.Add(item);
+            });
+        }
+        else
+        {
+            Items = new ObservableCollection<Ingredient>();
+            Message = "Not logged in";
+        }
+    }
+
+    public void ClearSession()
+    {
+        _LocalStorage.ClearAsync();
+        Tracker = null;
+        LoadShoppingList();
+
+        StateHasChanged();
+    }
+}

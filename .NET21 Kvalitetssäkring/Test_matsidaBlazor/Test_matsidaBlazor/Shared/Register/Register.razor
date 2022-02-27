@@ -1,0 +1,111 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Shared.Register
+@inject NavigationManager NavigationManager
+
+
+
+<div class="container">
+    <br />
+    <RegisterInputUser Callback=@OnUsernameInput/>
+    <RegisterInputPassword Callback=@OnPasswordInput />
+    <RegisterInputPasswordConfirm Callback=@OnPasswordConfirmInput />
+
+    <span style="color:#ff3333">@Message</span>
+    <br />
+    <button disabled="@IsButtonDiabled" style="" @onclick="OnRegister" class="btn btn-primary btn-lg">Register</button>
+</div>
+@code {
+    [Parameter]
+    public string Username { get; set; } = "";
+    [Parameter]
+    public string Password { get; set; } = "";
+    [Parameter]
+    public string PasswordConfirmed { get; set; } = "";
+
+    public string Message { get; set; } = "";
+    public bool IsButtonDiabled { get; set; } = true;
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+
+    public void OnUsernameInput(string name)
+    {
+        Username = name;
+
+
+        ValidateForm();
+    }
+
+    public void OnPasswordInput(string password)
+    {
+        Password = password;
+
+        ValidateForm();
+    }
+
+    public void OnPasswordConfirmInput(string passwordConfirmed)
+    {
+        PasswordConfirmed = passwordConfirmed;
+
+        ValidateForm();
+    }
+
+    public void OnRegister()
+    {
+        if (!crud.CheckUsernameExists(Username) && Username != "")
+        {
+            crud.AddUser(Username, Password);
+            NavigationManager.NavigateTo("/Login", true);
+        }
+    }
+
+    public void ValidateForm()
+    {
+        if(!CheckUsernameExists())
+            CheckPasswordSame();
+
+    }
+
+    public bool CheckPasswordSame()
+    {
+        if(Password!=PasswordConfirmed || Password == "")
+        {
+            Message = "Passwords don't match.";
+            IsButtonDiabled = true;
+
+            return false;
+        }
+        else
+        {
+            Message = "";
+            IsButtonDiabled = false;
+
+            return false;
+        }
+    }
+
+    public bool CheckUsernameExists()
+    {
+        if(crud.CheckUsernameExists(Username))
+        {
+            Message = "Username Exists";
+            IsButtonDiabled = true;
+
+            return true;
+        }
+        else if (Username == "")
+        {
+            Message = "Username not allowed";
+            IsButtonDiabled = true;
+
+            return true;
+        }
+        else
+        {
+            Message = "";
+            IsButtonDiabled = false;
+
+            return false;
+        }
+    }
+}

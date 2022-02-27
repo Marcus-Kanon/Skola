@@ -1,0 +1,85 @@
+﻿@using Test_matsidaBlazor.Data
+@using Test_matsidaBlazor.Data.Models
+@using Blazored.LocalStorage
+@inject Blazored.LocalStorage.ILocalStorageService _LocalStorage
+@inject NavigationManager NavigationManager
+
+
+
+
+<div class="container">
+
+    <InputUser Callback="InputHandlerUsername" />
+    <InputPassword Callback="InputHandlerPassword" />
+
+    <button @onclick="OnLogin" class="btn btn-primary btn-lg">Login</button>
+    <span>@success</span>
+</div>
+
+
+
+
+@code {
+    public string Username { get; set; } = "";
+    public string Password { get; set; } = "";
+
+    public LoginTracker? Tracker { get; set; }
+    public string success { get; set; } = "";
+
+    CrudStuff crud = CrudStuff.GetInstance();
+
+    public void InputHandlerPassword(string input)
+    {
+        Password = input;
+    }
+
+    public void InputHandlerUsername(string input)
+    {
+        Username = input;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tracker = await _LocalStorage.GetItemAsync<LoginTracker>("LoginTracker");
+
+        if(crud.CheckValidTracker(Tracker))
+        {
+            NavigationManager.NavigateTo("/Inventory", true);
+        }
+
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+
+    }
+
+
+    public void OnLogin()
+    {
+        var user = new User { Username=this.Username, Password=this.Password };
+
+        _ = CheckDetailsAsync(user);
+    }
+
+    public async Task CheckDetailsAsync(User user)
+    {
+        if(crud.CheckLoginDetails(user))
+        {
+            success = "Logged in successfully";
+
+            var tracker = crud.GenerateLoginTracker(user);
+            await _LocalStorage.SetItemAsync("LoginTracker", tracker);
+
+            StateHasChanged();
+
+            NavigationManager.NavigateTo("/Inventory", true);
+
+        }
+        else
+        {
+            success = "Failed to log in.";
+        }
+    }
+}
