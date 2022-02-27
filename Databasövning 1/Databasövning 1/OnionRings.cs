@@ -1,1 +1,0 @@
-﻿Databasövning_1.Databas.Saker();
