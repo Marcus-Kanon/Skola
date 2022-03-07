@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            border:2px solid grey;
+            height: 500px;
+            margin-top: 2em;
+            position: relative;
+        }
+
+        .container > div {
+            width: 200px;
+            height: 200px;
+            background-color: bisque;
+            left:0px;
+            position: absolute;
+            top:0px;
+        }
+        .container > div:after {
+            width: 200px;
+            height: 200px;
+            background-color: rgb(92, 51, 0);
+            
+            left:300px;
+            top:0px;
+            content: "";
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
+        <div class="target">Target</div>
+        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
+    </div>
+</body>
+</html>

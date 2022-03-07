@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div, section {
+            padding: 2em;
+            background-color: #D8E1FF;
+            border: 1px dashed #222D53;
+            border-radius: 4px;
+            margin: 0.5em 0em;;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height:1000px;
+        }
+
+        .container > div {
+            padding: 1em;
+            margin: 2px 0px;
+        }
+        .liten, .mellan, .stor, .nav { display: none; }
+        .container > *:nth-child(3) {
+            grid-column: 2 / span 1;
+            grid-row: 2 / span 1;
+        }
+        .nav > div {
+            flex-grow: 1;
+            padding: 1em;
+            margin: 1px;
+            text-align: center;
+        }
+        .nav > div:hover {
+            background-color: aquamarine;
+        }
+        @media (max-width:400px) {
+            .nav {
+                display: flex;
+                flex-direction: column;
+                padding: 0px;
+            }
+            .liten {
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) and (min-width: 400px) {
+            .mellan {
+                display: block;
+            }
+            .container {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        @media (min-width:400px) {
+            .nav {
+                display: flex;
+                flex-direction: row;
+                padding: 0px;
+            }
+            
+        }
+
+        @media (min-width:600px) {
+            .container {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section>
+        Solve the exercises using media queries. You may not modify the HTML. <br> Tip: use the CodePen view that shows the preview to the left/right of the code windows. You can easily check your queries by dragging the center bar.
+        <br> Use <code> :nth-child(n) </code> or add a CSS class to select individual items, if you have to.
+        
+        <ol>
+            <li> Initially, display these instructions and all the fruits. Display the fruits in a column. </li>
+            <li> Set a generous height to the column. Let the fruits expand to fill the available space. But the penguin requires double the height. (flexbox) </li>
+            <li> Display the fruits in 3 columns (grid) </li>
+            <li> ... and move the penguin to the middle. (Between pear and melon in the grid.) </li>
+            <li> Use flexbox if the viewport is less  than 500 pixels, grid otherwise. </li>
+            <li> Display the "liten" element if the width is less than 400 pixels. </li>
+            <li> Display the "stor" element if the width is greater than 600 pixels. Keep the previous CSS. </li>
+            <li> Display the "mellan" element if the width is between 300 and 700 pixels. Keep the previous CSS. </li>
+            <li> Modify the CSS so that at most one of liten/mellan/stor is visible at any time. </li>
+            <li> Refine the grid so that it uses 2, 3 or 4 columns; depending on the available width. </li>
+            <li> Make a menu bar with the options: Home, Shop, About. The menu items should display in a row if there is enough space, in a column otherwise. </li>
+            
+        </ol>
+    </section>
+    
+    <div class="nav">
+        <div>Home</div>
+        <div>Shop</div>
+        <div>About</div>
+    </div>
+    <div class="liten"> liten </div>
+    <div class="mellan"> mellan </div>
+    <div class="stor"> stor </div>
+    <div class="container">
+        <div> Apple </div>
+        <div> Orange </div>
+        <div> Penguin </div>
+        <div> Banana </div>
+        <div> Pear </div>
+        <div> Melon </div>
+        <div> Grape </div>
+        <div> Plum </div>
+        <div> Garlic </div>
+    </div>
+</body>
+</html>
