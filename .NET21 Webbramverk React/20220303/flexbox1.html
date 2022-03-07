@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .flexer {display:flex; flex-wrap: wrap;}
+        .flexer div{height: 200px; width: 100px; margin: 5px;}
+        .flexer div:first-child{width: 200px;}
+        .flexer div:nth-child(odd) {background-color: rgb(236, 209, 176); flex-grow: 1;}
+        .flexer div:nth-child(even) {background-color: rgb(206, 182, 152);}
+    
+        .gridder div:first-child{background-color: antiquewhite;}
+        .gridder div{background-color: bisque;}
+        .gridder div:last-child{background-color: rgb(116, 81, 54);}
+    
+    
+    
+    </style>
+</head>
+<body>
+    <div class="flexer">
+        <div>a</div>
+        <div>b</div>
+        <div>c</div>
+        <div>d</div>
+        <div>e</div>
+        <div>f</div>
+        <div>g</div>
+    </div>
+
+</body>
+</html>
