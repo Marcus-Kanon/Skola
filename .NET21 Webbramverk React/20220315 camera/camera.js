@@ -51,6 +51,5 @@ function greyFrame() {
   }
 
 document.getElementById('snap').addEventListener('click', () => {
-    //context.drawImage(video, 0,0, 640,480);
-    greyFrame();
+    context.drawImage(video, 0,0, 640,480);
 })
