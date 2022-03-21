@@ -6,27 +6,47 @@ let Timer = 0;
 Timer = Date.now();
 
 function inputReceiverKeyDown(e) {
-    if(e.key == Words[AtWord][AtCharacter]) {
-        console.log("Rätt");
-        AtCharacter++;
-        if(AtCharacter >= Words[AtWord].length) {
-            let timeNow = Date.now();
-            let timePassed = timeNow - Timer;
-            console.log(timePassed);
-            let charPerSec = (Words[AtWord].length / (timePassed / 1000)).toFixed(2);
-            document.querySelector("#Time").innerHTML = charPerSec + " characters per second";
+    if(checkCorrectCharacter(e))
+        onCorrectCharacter(e);
 
-            AtWord++;
+    writeWordToElement("#Word");
+}
 
-            AtCharacter=0;
-            Timer = Date.now();
+function checkCorrectCharacter(e) {
+    return e.key == Words[AtWord][AtCharacter];
+}
 
-            console.log("Nästa");
-        }
-    }
+function checkWordFinished(e) {
+    return AtCharacter >= Words[AtWord].length;
+}
 
+function onCorrectCharacter(e) {
+    AtCharacter++;
+
+    if(checkWordFinished(e))
+        onNextWord(e);
+}
+
+function onNextWord(e) {
+    AtWord++;
+    AtCharacter=0;
+
+    DisplayTimer();
+    Timer = Date.now();
+}
+
+function DisplayTimer() {
+    let timeNow = Date.now();
+    let timePassed = timeNow - Timer;
+    console.log(timePassed);
+    let charPerSec = (Words[AtWord].length / (timePassed / 1000)).toFixed(2);
+
+    document.querySelector("#Time").innerHTML = charPerSec + " characters per second. Words done: " + AtWord;
+}
+
+function writeWordToElement(wordElementId)
+{
     let tempWord = "";
-
     for (let i = 0; i < Words[AtWord].length; i++) {
 
         if(i < AtCharacter) {
@@ -38,8 +58,7 @@ function inputReceiverKeyDown(e) {
 
     }
 
-
-    document.querySelector("#Word").innerHTML = tempWord;
+    document.querySelector(wordElementId).innerHTML = tempWord;
 }
 
 function randomInt(max) {
