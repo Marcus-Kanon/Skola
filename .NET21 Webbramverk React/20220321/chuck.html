@@ -6,17 +6,39 @@
     <meta name="viewport" content="width=s, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            background-color: #7c8d94;
+            text-align: center;
+        }
         #btnGetAPI {
-            
+            width: 150px;
+            height: 50px;
+            background-color: rgb(177, 180, 182);
+            border: 2px dotted #b0c7d1;
+            transition: border 0.3s;
+            font-size: 17px;
+            color:rgb(82, 101, 104)
+        }
+        #btnGetAPI:hover {
+            border: 3px solid #343b3d;
+            color: #283033;
+            transition: border 0.2s;
         }
         #displayAPI {
-            border: 2px dotted #d7b4e6;
+            display: inline-block;
+            border: 2px solid #8e999e;
+            width: 300px;
+            margin-top: 1em;
+        }
+        #displayAPI:empty {
+            border: none;
         }
     </style>
-    <script src="chuck.js"></script>
+    <script defer src="chuck.js"></script>
 </head>
 <body>
-    <button id="btnGetAPI">Get!</button>
+    <button id="btnGetAPI">Get fact!</button>
+    <br>
     <div id="displayAPI"></div>
 </body>
 </html>
