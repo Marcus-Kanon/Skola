@@ -1,14 +1,16 @@
 import React from 'react';
 function ContactForm(props) {
+    let name = "";
+    let email = "";
+    let phone = "";
 
     const handleSubmit = e => {
         e.preventDefault();
-        const form = e.target;
 
         const contact = {
-            name: form.name,
-            email: form.email,
-            phone: form.phone
+            name: name,
+            email: email,
+            phone: phone
         };
         console.log(contact);
         props.onAddContact(contact);
@@ -19,15 +21,15 @@ function ContactForm(props) {
             <h1>Contact Form</h1>
             <form>
                 <label>Name: </label>
-                <input name="name" type="text" /><br />
+                <input onChange={(e) => {name = e.target.value}} name="name" type="text" /><br />
                 <label>Email: </label>
-                <input name="email" type="text" /><br />
+                <input onChange={(e) => {email = e.target.value}} name="email" type="text" /><br />
                 <label>Phone: </label>
-                <input name="phone" type="text" /><br />
+                <input onChange={(e) => {phone = e.target.value}} name="phone" type="text" /><br />
                 <button onClick={handleSubmit}>Send</button>
             </form>
         </div>
-     );
+        );
 }
 
 export default ContactForm;

@@ -9,7 +9,7 @@ function ContactList(props) {
             <ul>
                 {props.contacts.map(contact => (
                     <li key={contact.email}>
-                        <a href="#">{contact.name}</a>
+                        <a onClick={() => props.onSelectContact(contact)} href="#">{contact.name}</a>
                     </li>
                 ))}
             </ul>

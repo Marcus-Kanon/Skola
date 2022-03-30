@@ -3,9 +3,11 @@ import { useState } from 'react';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import './ContactContainer.css';
+import ViewContact from './ViewContact';
 
 function ContactContainer() {
     const [IsContactFormVisible, setIsContactFormVisible] = useState(false);
+    const [currectContact, setCurrentContact] = useState(null);
 
     const [contacts, setContacts] = useState([
         {
@@ -45,14 +47,20 @@ function ContactContainer() {
         setContacts([...contacts, contact]);
     }
 
+    const onSelectContact = contact => {
+        console.log(contact);
+        setCurrentContact(contact);
+    }
+
     return ( 
         <div>
-            <ContactList contacts={contacts} />
+            <ContactList onSelectContact={onSelectContact} contacts={contacts} />
             <button onClick={() => {setIsContactFormVisible(!IsContactFormVisible)}}>Add Contact</button>
 
             <div className={IsContactFormVisible ? "ContactForm" : "ContactFormHidden"} >
                 <ContactForm onAddContact={onAddContact} />
             </div>
+            <ViewContact contact={currectContact}  />
         </div>
      );
 }
