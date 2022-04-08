@@ -1,13 +1,14 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom'
 import './Nav.css';
 
 function Nav() {
     return ( 
         <div className='nav-container'>
             <div></div>
-            <span>Start</span>
-            <span>Pokemon</span>
-            <span>My Team</span>
+            <NavLink to="/Start">Start</NavLink>
+            <NavLink to="/Search">Search Pokemon</NavLink>
+            <NavLink to="/Team">My Team</NavLink>
             <div></div>
         </div>
      );

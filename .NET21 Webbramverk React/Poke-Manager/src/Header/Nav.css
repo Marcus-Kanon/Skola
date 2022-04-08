@@ -25,18 +25,20 @@
     background-color:  rgb(183, 0, 0);
 }
 
-.nav-container > span {
+.nav-container > a {
     flex-grow: 1;
     height: 2em;
     padding-top: 5px;
 
     text-align: center;
+    text-decoration: none;
 
+    color: #000;
     background-color: rgb(183, 0, 0);
     border: 1px solid #000
 }
 
-.nav-container > span:hover {
+.nav-container > a:hover {
     background-color: rgb(255, 0, 0);
 }
 
