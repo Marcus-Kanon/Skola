@@ -1,0 +1,40 @@
+input {
+    height: 2em;
+    background-color: rgb(232, 232, 232);
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 2px;
+
+    font-size: 14pt;
+    font-family: Calibri;
+
+    transition: background-color 0.2s;
+}
+input:focus {
+    background-color: rgb(255, 255, 255);
+
+    transition: background-color 0.1s;
+}
+
+input.inputValid {
+    background-color: rgb(206, 232, 202);
+    border: 2px solid rgb(94, 138, 96);
+
+    transition: background-color 0.2s;
+}
+input.inputValid:focus {
+    background-color: rgb(255, 255, 255);
+
+    transition: background-color 0.1s;
+}
+
+input.inputInvalid {
+    background-color: rgb(255, 186, 186);
+    border: 2px solid rgb(106, 23, 23);
+
+    transition: background-color 0.2s;
+}
+input.inputInvalid:focus {
+    background-color: rgb(255, 255, 255);
+
+    transition: background-color 0.1s;
+}
