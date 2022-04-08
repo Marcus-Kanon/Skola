@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import React from 'react';
 import logo from './logo.svg'
 import './App.css'
+import Header from './Header/Header.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-
+	  <Header></Header>
   )
 }
 
