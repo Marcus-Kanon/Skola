@@ -1,0 +1,14 @@
+.pokemon-card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr, 1fr, 1fr);
+    width: 100%;
+
+}
+
+.pokemon-card-container > div {
+    grid-column: span 3;
+    grid-row: span 2;
+
+
+    background-color: rgb(255, 106, 106);
+}
