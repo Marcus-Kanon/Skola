@@ -1,21 +1,20 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {data, populatePokemonList} from './Search/PokeDataFetcher.js';
-import {team, removeTeamMember} from './TeamData.js';
+import {removeTeamMember} from './TeamData.js';
 import PokemonCard from './Search/PokemonCard.jsx';
 import './Search/PokemonCard.css';
 
-function Team() {
+function Team({teamState, cachedDetailsState}) {
 
-const [changer, setChanger] = useState(false);
+    console.log(teamState.team);
 
     return (
             <div>
                 <h1>Team</h1>
                 <div className='pokemon-card-container'>
-                { team.map(member => (
-                    <PokemonCard key={member.key} pokemon={member}>
-                        <a onClick={() => {removeTeamMember(member); setChanger(!changer)}}>Remove from team</a>
+                { teamState.team.map(member => (
+                    <PokemonCard key={member.key} pokemon={member} cachedDetailsState={cachedDetailsState}>
+                        <a onClick={() => {removeTeamMember(teamState, member);}}>Remove from team</a>
                     </PokemonCard>
                     ))}
                 </div>
