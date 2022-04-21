@@ -1,0 +1,26 @@
+.input-container {
+    margin-top: 1em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.search-input {
+    width: 30%;
+    height: 40px;
+    border: 5px solid rgb(182, 179, 179);
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+
+    transition: 0.2s border;
+}
+
+.search-input:focus {
+    border: 5px solid rgb(255, 194, 11);
+}
+
+.search-input:hover {
+    border: 5px solid rgb(209, 209, 209);
+}

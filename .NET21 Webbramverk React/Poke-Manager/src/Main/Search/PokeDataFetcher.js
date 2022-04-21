@@ -1,14 +1,16 @@
-let data = {};
+
 let pokeCache = [];
 
 async function populatePokemonList() {
     try {
-        let response = await fetch("https://pokeapi.co/api/v2/pokemon/");
+        let response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=200");
         data = await response.json();
         console.log("Data: ", data);
+        return data
     }
     catch (e) {
         console.log(e);
+        return null
     }
 }
 

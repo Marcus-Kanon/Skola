@@ -1,14 +1,39 @@
 .pokemon-card-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr, 1fr, 1fr);
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
 }
 
 .pokemon-card-container > div {
-    grid-column: span 3;
-    grid-row: span 2;
+    margin: 1em;
+    width: 150px;
+    height: 250px;
 
+    border: 5px solid rgb(255, 194, 11);
+    border-radius: 5px;
 
-    background-color: rgb(255, 106, 106);
+    text-align: center;
+
+    background-color: rgb(129, 135, 176);
+    box-shadow: rgb(129, 135, 176) 0px 0px 10px;
+
+    transition: 0.1s transform, 0.1s background-color, 0.1s box-shadow;
+}
+
+.pokemon-card-container > div:hover {
+    transform: scale(1.1);
+    transition: 0.2s transform, 0.2s background-color, 0.2s box-shadow;
+    background-color: rgb(179, 183, 214);
+    box-shadow: rgb(129, 135, 176) 0px 0px 20px;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+}
+
+a:hover {
+    text-decoration: underline;
 }
