@@ -13,36 +13,38 @@ import Team from "./Main/Team";
 
 function App() {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [team, setTeam] = useState([]);
-    const [cachedDetails, setCachedDetails] = useState([]);
+    const [cachedDetails, setCachedDetails] = useState(null);
 
     useEffect(() => {
-        async function something() {
-            let incoming = await populatePokemonList();
-            setData(incoming);
+
+        async function getData() {
+            await populatePokemonList().then(data => {
+                setData(data);
+            });
 
         }
-        something();
-        // setSearch(data.results.map(pokemon => (
-        //     <PokemonCard key={pokemon.url} pokemon={pokemon}>
-        //         <a onClick={() => {addTeamMember(pokemon)}}>Add to team</a>
-        //     </PokemonCard>
-        // )));
+        getData();
     }, []);
 
     return (
         <>
+        {data !== null ? (
             <Router>
                 <Header/>
                 <main>
                     <Routes>
                         <Route path="/Start" element={<Start />} />
-                        <Route path="/Search" element={<Search dataState={{data, set: setData}} teamState={{team, set: setTeam}} cachedDetailsState={{cachedDetails, set: setCachedDetails}} />} />
+                        <Route path="/Search" element={<Search dataState={{data, set: setData}} setData={setData} teamState={{team, set: setTeam}} cachedDetailsState={{cachedDetails, set: setCachedDetails}} />} />
                         <Route path="/Team" element={<Team teamState={{team, set: setTeam}} cachedDetailsState={{cachedDetails, set: setCachedDetails}}  />} />
                     </Routes>
                 </main>
             </Router>
+        ) : (
+            <div>Loading...</div>
+        )}
+
             <Footer />
         </>
     );

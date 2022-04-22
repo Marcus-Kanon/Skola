@@ -1,0 +1,6 @@
+div > .Footer {
+    background-color: rgb(183, 0, 0);
+    position: fixed;
+    Width: 100%;
+    bottom: 0;
+}

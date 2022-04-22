@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-content: center;
 
 }
 
@@ -34,6 +35,23 @@ a {
     display: block;
 }
 
-a:hover {
-    text-decoration: underline;
+.abilities {
+    width: 90%;
+    margin: auto;
+    font-size: 20px;
+    border:rgb(0, 0, 0) 1px dotted;
+    opacity: 80%;
+    background-color: rgb(155, 162, 193);
+    text-align: left;
+}
+
+p {
+    font-size: 16px;
+    border: 1px solid rgb(142, 142, 142);
+    margin: 3px;
+}
+
+.pokemon-name {
+    border: none;
+    font-weight: bolder;
 }

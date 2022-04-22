@@ -1,6 +1,6 @@
 async function populatePokemonList() {
     try {
-        let response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=10");
+        let response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=1200");
         let data = await response.json();
         
         return data
@@ -24,6 +24,9 @@ async function getPokemonDetails(url) {
 }
 
 const isPokemonCached = (cachedDetailsState, url) => {
+    if(cachedDetailsState.cachedDetails == null)
+        return false;
+
     if(cachedDetailsState.cachedDetails
         .filter(pokemon => pokemon.url == url)
         .length > 0) {
