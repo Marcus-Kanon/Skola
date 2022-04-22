@@ -31,7 +31,6 @@ function PokemonCard({pokemon, cachedDetailsState, onValidNameChange, children})
 
     function inputHandler(input, key) {
         onValidNameChange(input, key);
-        console.log("KEY: ", key);
     }
 
     return ( 

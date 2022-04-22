@@ -8,14 +8,11 @@ import './Team.css';
 function Team({teamState, cachedDetailsState}) {
 
     function onValidNameChange(input, key) {
-        let team = teamState.team.map(member => {
-            console.log("Key: ", key, "Name: ", member.name);
+        team = teamState.team.map(member => {
             if(member.key == key) {
                 member.name = input;
-                console.log("Member with right key: ", member.name);
             }
         })
-        console.log("Team: ", team);
     }
 
     return (
