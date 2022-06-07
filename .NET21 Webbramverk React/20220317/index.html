@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(215, 217, 230);
+            transform: skew(30deg, 20deg);
+        }
+        body:focus {
+            
+        }
+        .minlistfan > li {
+            color: #6e5388;
+        }
+
+        .minlistfan {
+            position: relative;
+            left: 300px;
+            width: 100px;
+            transition: transform 2s;
+        }
+
+        .minlistfan:hover {
+            transform: rotate(2000deg);
+        }
+        button {
+            background-color: rgb(255, 255, 255);
+            border: 1px dotted rgb(77, 66, 80);
+            font-family: calibri;
+            font-size: 1.1em;
+            transition: background-color 0.5s, border 0.2s;
+        }
+        button:hover {
+            background-color: #bba9d1;
+            transform: skew(-20deg, -10deg);
+            border: 4px solid #8e7fa0;
+            transition: background-color 0.2s, border 0.2s, transform 0.5s;
+        }
+        #floatFooter {
+            position: fixed;
+            top: 90vh;
+        }
+    </style>
+<script src="script.js" defer></script>
+</head>
+<body>
+    <ul class="minlistfan" id="listFan">
+        <li>lista 1</li>
+        <li>lista 2</li>
+        <li>lista 3</li>
+        </ul>
+    <div id="floatFooter">
+        <button id="add">Lägg till</button>
+        <button onclick="RemoveFromList();">Ta bort</button>
+    </div>
+</body>
+</html>

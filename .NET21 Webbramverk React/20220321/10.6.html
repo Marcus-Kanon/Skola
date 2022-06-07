@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <button id="btn">Go go go!</button>
+    <div id="divresults"></div>
+
+    <script>
+        let btn = document.querySelector("#btn");
+        let divresults = document.querySelector("#divresults");
+    
+        btn.addEventListener("click", async () => {
+            let response = await fetch("https://forverkliga.se/JavaScript/api/unreliable.php?mode=live")
+            .then(response => {
+                if(response.ok)
+                {
+                    let data = response.json()
+                    .then(obj => divresults.innerHTML = `status: ${obj.status}<br>data: ${obj.data}`)
+                    .catch(error => divresults.innerHTML = error)
+                }
+            })
+            .catch(error => {
+                divresults.innerHTML = "Error fetching respons.";
+            })
+            
+        });
+        
+        
+    </script>
+</body>
+</html>
